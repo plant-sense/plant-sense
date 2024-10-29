@@ -1,3 +1,4 @@
+import 'package:app/radial_gauge.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Plant Sense',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -28,10 +29,10 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Plant Sense Home Page'),
     );
   }
 }
@@ -105,12 +106,29 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            RadialGauge(
+              name: "Soil humidity",
+              value: _counter * 1.0,
+              minimum: 0.0,
+              maximum: 100.0,
+              idealMinimum: 25.0,
+              idealMaximum: 75.0,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            RadialGauge(
+              name: "Light intensity",
+              value: _counter * 25.0,
+              minimum: 0.0,
+              maximum: 1000.0,
+              idealMinimum: 600.0,
+              idealMaximum: 900.0,
+            ),
+            RadialGauge(
+              name: "Temperature",
+              value: _counter * 2.0,
+              minimum: 0.0,
+              maximum: 50.0,
+              idealMinimum: 20.0,
+              idealMaximum: 25.0,
             ),
           ],
         ),
