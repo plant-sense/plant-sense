@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Plants Database service
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /plants/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: plant ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plant"
+        '500': 
+          description: "Internal server error"
+  /plants:
+    get:
+      responses:
+        '200': 
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/plant"
+        '500': 
+          description: "Internal server error"
+components:
+  schemas:
+    plant:
+      properties:
+        id: 
+          type: string
+          format: uuid
+        common_name:
+          type: string
+        scientific_name:
+          type: string
+      required:
+        - id
+        - common_name
+        - scientific_name
