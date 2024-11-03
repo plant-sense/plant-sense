@@ -23,13 +23,17 @@ class RadialGauge extends StatelessWidget {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(minimum: minimum, maximum: maximum, ranges: <GaugeRange>[
         GaugeRange(
-            startValue: minimum, endValue: idealMinimum, color: Colors.red),
+            startValue: minimum,
+            endValue: idealMinimum,
+            color: Colors.red.shade300),
         GaugeRange(
             startValue: idealMinimum,
             endValue: idealMaximum,
-            color: Colors.green),
+            color: Colors.green.shade400),
         GaugeRange(
-            startValue: idealMaximum, endValue: maximum, color: Colors.red)
+            startValue: idealMaximum,
+            endValue: maximum,
+            color: Colors.red.shade300)
       ], pointers: <GaugePointer>[
         NeedlePointer(value: value),
       ], annotations: <GaugeAnnotation>[
