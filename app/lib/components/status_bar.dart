@@ -1,3 +1,4 @@
+import 'package:app/components/status.dart';
 import 'package:flutter/material.dart';
 
 class StatusBar extends StatelessWidget {
@@ -5,7 +6,7 @@ class StatusBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final crossAxisCount = constraints.maxWidth > 600 ? 2 : 1;
+        final crossAxisCount = constraints.maxWidth > 1000 ? 2 : 1;
         return GridView(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -15,7 +16,7 @@ class StatusBar extends StatelessWidget {
               crossAxisSpacing: 8,
             ),
             padding: EdgeInsets.all(8),
-            children: [StatusBar(), StatusBar()]);
+            children: [StatusWidget(), StatusWidget()]);
       },
     );
   }

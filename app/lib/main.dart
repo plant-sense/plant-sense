@@ -1,7 +1,7 @@
 import 'package:app/home.dart';
 import 'package:app/plant_gauges.dart';
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
           useMaterial3: true,
-          //  textTheme: GoogleFonts.notoSansTextTheme().copyWith().copyWith(),
+          textTheme: GoogleFonts.notoSansTextTheme(),
         ),
         home: DefaultTabController(
           initialIndex: 1,

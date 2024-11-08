@@ -35,7 +35,7 @@ class _StatusWidgetState extends State<StatusWidget> {
             style: TextStyle(
                 color: alerts ? Colors.red : Colors.green,
                 fontWeight: FontWeight.bold,
-                fontSize: 30),
+                fontSize: 20),
           ),
         ],
       ),
