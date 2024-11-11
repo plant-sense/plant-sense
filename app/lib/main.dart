@@ -1,6 +1,11 @@
-import 'package:app/home.dart';
-import 'package:app/plant_gauges.dart';
+import 'package:app/app_scaffold.dart';
+import 'package:app/pages/details.dart';
+import 'package:app/pages/garden.dart';
+import 'package:app/pages/home.dart';
+import 'package:app/pages/plant.dart';
+import 'package:app/pages/plant_gauges.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -12,36 +17,61 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Plant Sense',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
-          useMaterial3: true,
-          textTheme: GoogleFonts.notoSansTextTheme(),
-        ),
-        home: DefaultTabController(
-          initialIndex: 1,
-          length: 3,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text("Plant Sense"),
-              backgroundColor: Colors.green.shade100,
-            ),
-            body: TabBarView(
-              children: [
-                PlantGaugesPage(title: "Plant [details]"),
-                HomePage(),
-                Icon(Icons.add_rounded)
-              ],
-            ),
-            bottomNavigationBar: const TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.bar_chart_rounded)),
-                Tab(icon: Icon(Icons.home_rounded)),
-                Tab(icon: Icon(Icons.add_rounded))
-              ],
-            ),
+    return MaterialApp.router(
+      title: 'Plant Sense',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
+        useMaterial3: true,
+        textTheme: GoogleFonts.notoSansTextTheme(),
+      ),
+      routerConfig: GoRouter(
+        routes: [
+          ShellRoute(
+            builder: (context, state, child) {
+              return AppScaffold(child: child);
+            },
+            routes: [
+              GoRoute(
+                path: "/home",
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: HomePage(),
+                ),
+              ),
+              GoRoute(
+                path: "/gauges",
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: PlantGaugesPage(title: "Plant [details]"),
+                ),
+              ),
+              GoRoute(
+                path: "/details/:id",
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: DetailsPage(
+                    id: state.pathParameters['id']!,
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: "/gardens/:id",
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: GardenPage(
+                    id: state.pathParameters['id']!,
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: "/plant/:id",
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: PlantPage(
+                    id: state.pathParameters['id']!,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ));
+        ],
+        initialLocation: "/home",
+      ),
+    );
   }
 }

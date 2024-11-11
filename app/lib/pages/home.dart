@@ -1,5 +1,6 @@
 import 'package:app/components/card.dart';
 import 'package:app/components/status_bar.dart';
+import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,9 +11,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 1536),
+    return Scaffold(
+      body: BreakpointContainer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,22 +23,24 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200, // Maximum width of each card
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1, // Square cards
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) => CardWidget(),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200, // Maximum width of each card
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1, // Square cards
                 ),
+                itemCount: 10,
+                itemBuilder: (context, index) => CardWidget(
+                    name: "Garden $index", redirectTo: "/gardens/$index"),
               ),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {},
+        child: Icon(Icons.add_rounded),
       ),
     );
   }
