@@ -18,7 +18,7 @@ class BreakpointContainer extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: xxlBreakpoint),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(16.0),
             child: child,
           ),
         ),

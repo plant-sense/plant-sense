@@ -21,11 +21,9 @@ class _StatusWidgetState extends State<StatusWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            alerts
-                ? Icons.sentiment_dissatisfied_rounded
-                : Icons.sentiment_satisfied_rounded,
+            alerts ? Icons.warning_rounded : Icons.sentiment_satisfied_rounded,
             color: alerts ? Colors.red : Colors.green,
-            size: 60,
+            size: 30,
           ),
           SizedBox(width: 8),
           Text(

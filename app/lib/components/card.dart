@@ -1,12 +1,17 @@
+import 'package:app/components/network_loading_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CardWidget extends StatelessWidget {
   final String name;
   final String redirectTo;
+  final String imageUrl;
 
-  const CardWidget({required this.name, required this.redirectTo, super.key});
+  const CardWidget(
+      {required this.name,
+      required this.redirectTo,
+      required this.imageUrl,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +27,12 @@ class CardWidget extends StatelessWidget {
                 Stack(
                   children: [
                     SizedBox(
-                        width: 200,
-                        height: 100,
-                        child: Image.network(
-                          "https://images.unsplash.com/photo-1529313780224-1a12b68bed16?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(
-                                width: 200,
-                                height: 100,
-                                color: Colors.white,
-                              ),
-                            );
-                          },
-                        )),
+                      width: 200,
+                      height: 100,
+                      child: NetworkLoadingImage(
+                        url: imageUrl,
+                      ),
+                    ),
                   ],
                 ),
                 Padding(
