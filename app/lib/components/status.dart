@@ -26,14 +26,18 @@ class _StatusWidgetState extends State<StatusWidget> {
             size: 30,
           ),
           SizedBox(width: 8),
-          Text(
-            alerts
-                ? 'You need to take care of your plants!'
-                : 'Your plants are growing wonderfully!',
-            style: TextStyle(
+          Flexible(
+            child: Text(
+              alerts
+                  ? 'You need to take care of your plants!'
+                  : 'Your plants are growing wonderfully!',
+              style: TextStyle(
                 color: alerts ? Colors.red : Colors.green,
                 fontWeight: FontWeight.bold,
-                fontSize: 20),
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
