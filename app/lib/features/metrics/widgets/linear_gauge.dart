@@ -39,7 +39,7 @@ class LinearGauge extends StatelessWidget {
             LinearGaugeRange(
               startValue: minimum,
               endValue: idealMinimum,
-              color: Colors.red.shade400,
+              color: Colors.blue.shade400,
             ),
             LinearGaugeRange(
               startValue: idealMinimum,
