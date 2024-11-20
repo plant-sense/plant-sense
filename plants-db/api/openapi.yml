@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:8080
 paths:
-  /facts:
+  /plants:
     get:
       responses:
         "200":
@@ -15,10 +15,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/plant_requirements"
+                  $ref: "#/components/schemas/plant"
         "500":
           description: "Internal server error"
-  /facts/{id}:
+  /plants/{id}:
     get:
       parameters:
         - name: id
@@ -34,12 +34,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/plant"
+                $ref: "#/components/schemas/factsheet"
         "404":
           description: "Not found"
         "500":
           description: "Internal server error"
-  /requirements/{id}:
+  /plants/{id}/taxonomy:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/taxonomy"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /plants/{id}/requirements:
     get:
       parameters:
         - name: id
@@ -86,18 +106,27 @@ components:
         id:
           type: string
           format: uuid
+        taxonomy:
+          $ref: "#/components/schemas/taxonomy"
+      required:
+        - id
+        - taxonomy
+    taxonomy:
+      properties:
         common_name:
           type: string
         scientific_name:
           type: string
       required:
-        - id
         - common_name
         - scientific_name
-    plant_requirements:
+    factsheet:
       properties:
-        plant:
-          $ref: "#/components/schemas/plant"
+        id:
+          type: string
+          format: uuid
+        taxonomy:
+          $ref: "#/components/schemas/taxonomy"
         requirements:
           $ref: "#/components/schemas/requirements"
       required:
