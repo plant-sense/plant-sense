@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Plant facts service
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /plants:
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/plant"
+        "500":
+          description: "Internal server error"
+  /plants/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: plant ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/factsheet"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /plants/{id}/taxonomy:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/taxonomy"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /plants/{id}/requirements:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/requirements"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /search:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/search_request"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/plant"
+        "400":
+          description: "Bad request - invalid query"
+        "500":
+          description: "Internal server error"
+components:
+  schemas:
+    plant:
+      properties:
+        id:
+          type: string
+          format: uuid
+        taxonomy:
+          $ref: "#/components/schemas/taxonomy"
+      required:
+        - id
+        - taxonomy
+    taxonomy:
+      properties:
+        common_name:
+          type: string
+        scientific_name:
+          type: string
+      required:
+        - common_name
+        - scientific_name
+    factsheet:
+      properties:
+        id:
+          type: string
+          format: uuid
+        taxonomy:
+          $ref: "#/components/schemas/taxonomy"
+        requirements:
+          $ref: "#/components/schemas/requirements"
+      required:
+        - id
+        - taxonomy
+        - requirements
+    requirements:
+      properties:
+        temperature:
+          $ref: "#/components/schemas/requirement"
+        soil_moisture:
+          $ref: "#/components/schemas/requirement"
+        light_intensity:
+          $ref: "#/components/schemas/requirement"
+      required:
+        - temperature
+        - soil_moisture
+        - light_intensity
+    requirement:
+      properties:
+        min:
+          type: number
+          format: double
+        max:
+          type: number
+          format: double
+        unit:
+          type: string
+      required:
+        - min
+        - max
+        - unit
+    search_request:
+      properties:
+        name:
+          type: string
