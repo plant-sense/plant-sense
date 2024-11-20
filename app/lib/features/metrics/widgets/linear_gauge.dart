@@ -29,7 +29,7 @@ class LinearGauge extends StatelessWidget {
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           SizedBox(width: 30),
-          Text(value.toString(),
+          Text(value.toStringAsFixed(1),
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900)),
         ]),
         SizedBox(height: 10),
@@ -39,7 +39,7 @@ class LinearGauge extends StatelessWidget {
             LinearGaugeRange(
               startValue: minimum,
               endValue: idealMinimum,
-              color: Colors.red.shade400,
+              color: Colors.blue.shade400,
             ),
             LinearGaugeRange(
               startValue: idealMinimum,

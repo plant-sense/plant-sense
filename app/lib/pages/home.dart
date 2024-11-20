@@ -1,7 +1,8 @@
-import 'package:app/components/card.dart';
 import 'package:app/components/status.dart';
 import 'package:app/components/status_bar.dart';
 import 'package:app/components/status_placeholder.dart';
+import 'package:app/features/garden/widgets/garden_add_sheet.dart';
+import 'package:app/features/garden/widgets/garden_card_grid_with_provider.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,28 +33,16 @@ class _HomePageState extends State<HomePage> {
               "Gardens",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200, // Maximum width of each card
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1, // Square cards
-                ),
-                itemCount: 10,
-                itemBuilder: (context, index) => CardWidget(
-                  name: "Garden $index",
-                  imageUrl:
-                      "https://images.unsplash.com/photo-1529313780224-1a12b68bed16?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  redirectTo: "/gardens/$index",
-                ),
-              ),
-            ),
+            GardenCardGridWithProvider(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) =>
+              GardenAddSheet(nameController: _nameController),
+        ),
         child: Icon(Icons.add_rounded),
       ),
     );
