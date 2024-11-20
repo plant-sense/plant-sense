@@ -1,5 +1,4 @@
-import 'package:app/components/card.dart';
-import 'package:app/components/garden_status_bar.dart';
+import 'package:app/features/garden/widgets/garden_status_bar.dart';
 import 'package:app/components/title.dart';
 import 'package:app/features/metrics/widgets/live_spark_chart.dart';
 import 'package:app/features/plant/widgets/plant_add_sheet.dart';
@@ -7,19 +6,10 @@ import 'package:app/features/plant/widgets/plant_card_grid.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
-import 'package:app/features/plant/providers/mock_plant_provider.dart';
 import '../providers/mock_garden_provider.dart';
 
 class GardenPage extends StatelessWidget {
   final String id;
-  final images = const [
-    "https://images.unsplash.com/photo-1545165375-1b744b9ed444?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1515595967223-f9fa59af5a3b?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1498612753354-772a30629934?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1518130242561-edb760734bee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?q=80&w=2186&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ];
 
   const GardenPage({required this.id, super.key});
 

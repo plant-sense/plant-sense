@@ -1,11 +1,10 @@
 import 'package:app/components/status.dart';
 import 'package:app/components/status_bar.dart';
 import 'package:app/components/status_placeholder.dart';
-import 'package:app/features/garden/providers/mock_garden_provider.dart';
+import 'package:app/features/garden/widgets/garden_add_sheet.dart';
 import 'package:app/features/garden/widgets/garden_card_grid_with_provider.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -41,38 +40,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet<void>(
           context: context,
-          builder: (BuildContext context) => Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Garden Name',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    child: const Text('Add Garden'),
-                    onPressed: () {
-                      if (_nameController.text.isNotEmpty) {
-                        context
-                            .read<MockGardenProvider>()
-                            .addGarden(_nameController.text);
-                        _nameController.clear();
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+          builder: (BuildContext context) =>
+              GardenAddSheet(nameController: _nameController),
         ),
         child: Icon(Icons.add_rounded),
       ),

@@ -7,20 +7,25 @@ class MockPlantProvider extends ChangeNotifier {
   factory MockPlantProvider() => _instance;
 
   MockPlantProvider._internal() {
-    // Initialize static list of plants
     final factSheets = _factSheetProvider.factSheets;
-    _allPlants = List.generate(10, (index) {
-      return Plant(
-        id: '$index',
-        name: 'Plant $index',
-        gardenId: '${index % 3}', // Distribute plants across 3 gardens
-        factsheetId: factSheets[index % factSheets.length].uuid,
-      );
-    });
+    // Create 10 gardens with increasing number of plants
+    for (int gardenId = 0; gardenId < 10; gardenId++) {
+      final numberOfPlants = gardenId + 1;
+      final gardenPlants = List.generate(numberOfPlants, (plantIndex) {
+        return Plant(
+          id: '${gardenId}_$plantIndex',
+          name: 'Plant $plantIndex',
+          gardenId: '$gardenId',
+          factsheetId: factSheets[plantIndex % factSheets.length].uuid,
+        );
+      });
+      _plantsByGarden['$gardenId'] = gardenPlants;
+      _allPlants.addAll(gardenPlants);
+    }
   }
 
   final _factSheetProvider = MockPlantFactSheetProvider();
-  late final List<Plant> _allPlants;
+  final List<Plant> _allPlants = [];
   final Map<String, List<Plant>> _plantsByGarden = {};
 
   Plant? getPlantById(String plantId) {
@@ -32,34 +37,21 @@ class MockPlantProvider extends ChangeNotifier {
   }
 
   List<Plant> getPlantsByGardenId(String gardenId) {
-    if (!_plantsByGarden.containsKey(gardenId)) {
-      // Return id+1 plants for each garden
-      final numberOfPlants = (int.tryParse(gardenId) ?? 0) + 1;
-      _plantsByGarden[gardenId] = _allPlants
-          .where((p) => _allPlants.indexOf(p) < numberOfPlants)
-          .map((p) => Plant(
-                id: p.id,
-                name: p.name,
-                gardenId: gardenId,
-                factsheetId: p.factsheetId,
-              ))
-          .toList();
-    }
-
-    return List.unmodifiable(_plantsByGarden[gardenId]!);
+    return List.unmodifiable(_plantsByGarden[gardenId] ?? []);
   }
 
   void addPlant(String gardenId, String name, String factsheetId) {
-    debugPrint("add plant $name to garden $gardenId");
     final plants = _plantsByGarden[gardenId] ?? [];
     final newPlant = Plant(
-      id: '${plants.length}',
+      id: '${gardenId}_${plants.length}',
       name: name,
       gardenId: gardenId,
       factsheetId: factsheetId,
     );
+    debugPrint("add plant ${newPlant.id}, $name to garden $gardenId");
 
     _plantsByGarden[gardenId] = [...plants, newPlant];
+    _allPlants.add(newPlant);
     notifyListeners();
   }
 

@@ -1,4 +1,4 @@
-import 'package:app/components/radial_gauge.dart';
+import 'package:app/features/metrics/widgets/radial_gauge.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
 

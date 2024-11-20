@@ -1,4 +1,3 @@
-import 'package:app/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
@@ -14,7 +13,7 @@ class SparkChart extends StatelessWidget {
     required this.title,
     required this.color,
     required this.timeSeries,
-    this.maxPoints = 20,
+    this.maxPoints = 2,
     super.key,
   });
 
