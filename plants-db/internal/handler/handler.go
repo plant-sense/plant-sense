@@ -11,8 +11,8 @@ type handler struct {
 	plantRepo repository.PlantRepository
 }
 
-func NewHandler() api.StrictServerInterface {
+func NewHandler(plantRepo repository.PlantRepository) api.StrictServerInterface {
 	return &handler{
-		plantRepo: repository.NewPlantRepository(),
+		plantRepo: plantRepo,
 	}
 }

@@ -130,7 +130,8 @@ components:
         requirements:
           $ref: "#/components/schemas/requirements"
       required:
-        - plant
+        - id
+        - taxonomy
         - requirements
     requirements:
       properties:

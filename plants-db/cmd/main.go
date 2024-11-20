@@ -10,12 +10,16 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
+	"github.com/ironstar-io/chizerolog"
 	"github.com/plant-sense/plants-db/internal/api"
 	"github.com/plant-sense/plants-db/internal/config"
 	"github.com/plant-sense/plants-db/internal/handler"
-	custLog "github.com/plant-sense/plants-db/internal/log"
+	"github.com/plant-sense/plants-db/internal/repository"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -24,10 +28,31 @@ func main() {
 	}
 
 	r := chi.NewRouter()
-	r.Use(custLog.RequestLogger)
+	r.Use(chizerolog.LoggerMiddleware(&log.Logger))
 	r.Use(middleware.Recoverer)
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodPut, http.MethodDelete},
+		AllowedHeaders:   []string{"*"},
+		ExposedHeaders:   []string{"*"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}))
 
-	handler := handler.NewHandler()
+	db, err := gorm.Open(sqlite.Open("plants.db"), &gorm.Config{})
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
+	db.AutoMigrate(&repository.PlantSchema{})
+
+	// err = seed.SeedPlants(db, "./datasets/watchflower_plantdb.csv")
+	// if err != nil {
+	// 	log.Error().Err(err).Msg("Failed to seed database")
+	// }
+
+	plantRepository := repository.NewPlantRepository(db)
+	handler := handler.NewHandler(plantRepository)
+
 	sh := api.NewStrictHandler(handler, nil)
 	r.Mount("/", api.Handler(sh))
 
@@ -61,7 +86,7 @@ func main() {
 		serverStopCtx()
 	}()
 
-	err := server.ListenAndServe()
+	err = server.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatal().Msg(err.Error())
 	}

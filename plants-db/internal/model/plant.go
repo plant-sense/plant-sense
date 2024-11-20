@@ -6,4 +6,7 @@ type Plant struct {
 	ID             uuid.UUID
 	CommonName     string
 	ScientificName string
+	Temperature    Requirement
+	SoilMoisture   Requirement
+	LightIntensity Requirement
 }
