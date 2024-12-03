@@ -1,0 +1,26 @@
+
+syntax = "proto3";
+
+package plant_sense.internal;
+
+message ActuatorState {
+  string device_id = 1;
+  bool state = 2;
+  optional double intensity = 3;  // For dimmable devices (0.0 - 1.0)
+}
+
+message SetActuatorStateRequest {
+  string device_id = 1;
+  bool state = 2;
+  optional double intensity = 3;
+}
+
+message GetActuatorStateRequest {
+  string device_id = 1;
+}
+
+service ActuatorService {
+  rpc GetState(GetActuatorStateRequest) returns (ActuatorState);
+  rpc SetState(SetActuatorStateRequest) returns (ActuatorState);
+  rpc StreamState(GetActuatorStateRequest) returns (stream ActuatorState);
+}
