@@ -32,7 +32,7 @@ class TimeSeriesMetricProvider extends ChangeNotifier {
       timeSeries.addPoint(point);
     }
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
       final newPoint = DataPoint<double>(
         timestamp: DateTime.now(),
         value: minValue + _random.nextDouble() * (maxValue - minValue),

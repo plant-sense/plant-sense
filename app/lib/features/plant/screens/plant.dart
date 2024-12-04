@@ -77,6 +77,43 @@ class PlantPage extends StatelessWidget {
                     ),
                   ),
                   Text(factSheet.commonName),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      FilledButton.tonalIcon(
+                        icon: Icon(Icons.edit_outlined),
+                        onPressed: () {
+                          // TODO
+                        },
+                        label: Text(
+                          "Edit",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      FilledButton.tonalIcon(
+                        icon: Icon(Icons.line_axis_rounded),
+                        onPressed: () {
+                          // TODO
+                        },
+                        label: Text(
+                          "History",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      FilledButton.tonalIcon(
+                        icon: Icon(Icons.notifications_active_outlined),
+                        onPressed: () {
+                          // TODO
+                        },
+                        label: Text(
+                          "Alerts",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ],

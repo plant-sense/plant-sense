@@ -1,11 +1,14 @@
+import 'package:app/features/devices/models/device_type.dart';
+import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:flutter/material.dart';
 import '../models/garden.dart';
 
-class MockGardenProvider extends ChangeNotifier {
+class MockGardenProvider extends GardenProvider {
   final List<Garden> _gardens;
 
   MockGardenProvider() : _gardens = _initializeGardens();
 
+  @override
   List<Garden> get gardens => List.unmodifiable(_gardens);
 
   static const _staticIds = [
@@ -31,6 +34,12 @@ class MockGardenProvider extends ChangeNotifier {
         id: _staticIds[index],
         name: 'Garden $index',
         imageUrl: imageUrl,
+        sensors: {
+          SensorType(SensorKind.temperature): 'A1:B2:C3:D4:E5:F6',
+          SensorType(SensorKind.soilMoisture): 'F7:E8:D9:C0:B1:A2',
+          SensorType(SensorKind.lightIntensity): '12:34:56:78:9A:BC',
+        },
+        actuators: ['4', '5', '6'],
       ),
     );
   }
@@ -46,9 +55,26 @@ class MockGardenProvider extends ChangeNotifier {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
       imageUrl: imageUrl,
+      sensors: {
+        SensorType(SensorKind.temperature): '1',
+        SensorType(SensorKind.soilMoisture): '2',
+        SensorType(SensorKind.lightIntensity): '3',
+      },
+      actuators: ['4', '5', '6'],
     );
 
     _gardens.add(newGarden);
     notifyListeners();
+  }
+
+  @override
+  void addDevice(String gardenId, String deviceId, DeviceType deviceType) {
+    var garden = _gardens.firstWhere((garden) => garden.id == gardenId);
+
+    if (deviceId is SensorType) {
+      garden.sensors[deviceType as SensorType] = deviceId;
+    } else {
+      garden.actuators.add(deviceId);
+    }
   }
 }

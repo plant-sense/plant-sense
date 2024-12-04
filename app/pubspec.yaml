@@ -41,10 +41,14 @@ dependencies:
   syncfusion_flutter_charts: ^21.2.10
   provider: ^6.1.2
   uuid: ^4.5.1
+  protobuf: ^3.1.0
+  openapi_generator_annotations: ^6.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  openapi_generator: ^6.0.0
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -52,6 +56,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  build_runner: ^2.4.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
