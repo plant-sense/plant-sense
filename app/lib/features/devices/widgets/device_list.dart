@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../models/device.dart';
-import '../providers/device_provider.dart';
 import 'device_icon.dart';
 
 class DeviceList extends StatelessWidget {

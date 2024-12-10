@@ -12,6 +12,7 @@ class DeviceDropdown extends StatefulWidget {
   final bool additionalFormatting;
 
   const DeviceDropdown({
+    super.key,
     required this.predicate,
     this.current,
     this.onDeviceChanged,
@@ -26,9 +27,6 @@ class DeviceDropdown extends StatefulWidget {
 class _DeviceDropdownState extends State<DeviceDropdown> {
   Device? selectedDevice;
 
-  // Widget Function(Device) get _builder =>
-  //     widget.builder ?? ((device) => Text(device.id));
-
   @override
   void initState() {
     super.initState();
@@ -37,8 +35,11 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    var filteredDevices =
-        Provider.of<DeviceProvider>(context).devices.where(widget.predicate);
+    var filteredDevices = context
+        .watch<DeviceProvider>()
+        .devices
+        .where(widget.predicate)
+        .toList();
 
     return DropdownMenu<Device>(
       initialSelection: selectedDevice,

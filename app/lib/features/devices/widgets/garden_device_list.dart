@@ -1,11 +1,9 @@
 import 'package:app/features/devices/widgets/device_icon.dart';
 import 'package:app/features/devices/widgets/device_list.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
-import 'package:app/features/garden/providers/mock_garden_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/device_provider.dart';
-import '../models/device.dart';
 import 'package:app/features/devices/widgets/device_dropdown.dart';
 
 class GardenDeviceList extends StatelessWidget {
@@ -15,20 +13,17 @@ class GardenDeviceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final garden = Provider.of<GardenProvider>(context).getGardenById(gardenId);
-
-    final all_devices = context.watch<DeviceProvider>().devices;
-    final garden_devices = all_devices
+    final garden = context.watch<GardenProvider>().getGardenById(gardenId);
+    final deviceProvider = context.watch<DeviceProvider>();
+    final gardenDevices = deviceProvider.devices
         .where((device) => garden!.allDevices().contains(device.id))
         .toList();
 
-    debugPrint(garden_devices.length.toString());
-
-    // Device? selectedDevice = context.watch<DeviceProvider>().devices.first;
-
     return DeviceList(
+      key: ValueKey(
+          '${garden!.hashCode}-${deviceProvider.devices.length}'), // Force rebuild
       title: "Garden Devices",
-      devices: garden_devices,
+      devices: gardenDevices,
       listTileBuilder: (device) => ListTile(
         minVerticalPadding: 16.0,
         leading: DeviceIcon(
@@ -38,9 +33,6 @@ class GardenDeviceList extends StatelessWidget {
         trailing: DeviceDropdown(
           predicate: (d) => d.deviceType == device.deviceType,
           current: device,
-          onDeviceChanged: (Device newDevice) {
-            debugPrint('Selected device: ${newDevice.id}');
-          },
         ),
       ),
     );

@@ -2,7 +2,6 @@ import 'package:app/components/card.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/mock_garden_provider.dart';
 
 class GardenCardGrid extends StatelessWidget {
   @override

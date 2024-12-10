@@ -1,6 +1,5 @@
 import 'package:app/features/devices/models/device_type.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
-import 'package:flutter/material.dart';
 import '../models/garden.dart';
 
 class MockGardenProvider extends GardenProvider {
@@ -44,10 +43,12 @@ class MockGardenProvider extends GardenProvider {
     );
   }
 
+  @override
   Garden? getGardenById(String id) => _gardens.firstWhere(
         (garden) => garden.id == id,
       );
 
+  @override
   void addGarden(String name) {
     const imageUrl =
         'https://images.unsplash.com/photo-1529313780224-1a12b68bed16?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';

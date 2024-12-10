@@ -9,7 +9,6 @@ import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../providers/mock_garden_provider.dart';
 
 class GardenPage extends StatelessWidget {
   final String id;
