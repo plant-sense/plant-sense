@@ -1,4 +1,4 @@
-FROM instrumentisto/flutter:3.24.4 as builder
+FROM ghcr.io/cirruslabs/flutter:3.24.4 AS builder
 COPY . ./app
 WORKDIR /app
 RUN flutter clean
