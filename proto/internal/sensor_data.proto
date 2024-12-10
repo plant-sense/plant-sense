@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package plant_sense.internal;
+
+message Reading {
+  double value = 1;
+  string unit = 2;
+}
+
+message SensorReading {
+  string device_id = 1;
+  int64 timestamp = 2;
+  Reading reading = 3;
+}
+
+message SensorReadingStream {
+  repeated SensorReading readings = 1;
+}
+
+message GetReadingRequest {
+  string device_id = 1;
+}
+
+message StreamReadingsRequest {
+  repeated string device_ids = 1;
+}
+
+service SensorService {
+  rpc GetReading(GetReadingRequest) returns (SensorReading);
+  rpc StreamDeviceReadings(GetReadingRequest) returns (stream SensorReading);
+  rpc StreamAllReadings(StreamReadingsRequest) returns (stream SensorReading);
+}

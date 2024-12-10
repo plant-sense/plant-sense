@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package plant_sense.internal;
+
+enum DeviceStatus {
+  DEVICE_STATUS_UNSPECIFIED = 0;
+  DEVICE_STATUS_ONLINE = 1;
+  DEVICE_STATUS_OFFLINE = 2;
+  DEVICE_STATUS_ERROR = 3;
+}
+
+enum SensorKind {
+  SENSOR_KIND_UNSPECIFIED = 0;
+  SENSOR_KIND_TEMPERATURE = 1;
+  SENSOR_KIND_SOIL_HUMIDITY = 2;
+  SENSOR_KIND_LIGHT = 3;
+}
+
+enum ActuatorKind {
+  ACTUATOR_KIND_UNSPECIFIED = 0;
+  ACTUATOR_KIND_LIGHT = 1;
+  ACTUATOR_KIND_OUTLET = 2;
+  ACTUATOR_KIND_IRRIGATION = 3;
+}
+
+message Device {
+  string id = 1;
+  DeviceStatus status = 2;
+  DeviceType type = 3;
+}
+
+message DeviceType {
+  oneof type {
+    SensorKind sensor = 1;
+    ActuatorKind actuator = 2;
+  }
+}
+
+message GetDeviceRequest {
+  string device_id = 1;
+}
+
+message ListDevicesRequest {
+}
+
+message ListDevicesResponse {
+  repeated Device devices = 1;
+}
+
+service DeviceService {
+  rpc GetDevice(GetDeviceRequest) returns (Device);
+  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package plant_sense.internal;
+
+enum AlertCondition {
+  ALERT_CONDITION_UNSPECIFIED = 0;
+  ALERT_CONDITION_ABOVE = 1;
+  ALERT_CONDITION_BELOW = 2;
+}
+
+message NotificationAction {
+  string title = 1;
+  string message = 2;
+}
+
+message ActuatorAction {
+  string actuator_id = 1;
+  bool state = 2;
+  optional double intensity = 3;
+}
+
+message AlertAction {
+  oneof action {
+    NotificationAction notification = 1;
+    ActuatorAction actuator = 2;
+  }
+}
+
+message SetAlertRequest {
+  string device_id = 1;
+  double threshold = 2;
+  AlertCondition condition = 3;
+  AlertAction action = 4;
+}
+
+message SetAlertResponse {
+  string alert_id = 1;
+}
+
+message Alert {
+  string alert_id = 1;
+  string device_id = 2;
+  double threshold = 3;
+  double value = 4;
+  int64 timestamp = 5;
+  AlertCondition condition = 6;
+  AlertAction action = 7;
+}
+
+service AlertService {
+  rpc SetAlert(SetAlertRequest) returns (SetAlertResponse);
+  rpc ReceiveAlerts(SetAlertRequest) returns (stream Alert);
+}

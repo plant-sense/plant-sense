@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GardenAddSheet extends StatelessWidget {
-  const GardenAddSheet({
+  GardenAddSheet({
     super.key,
-    required TextEditingController nameController,
-  }) : _nameController = nameController;
+  });
 
-  final TextEditingController _nameController;
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
