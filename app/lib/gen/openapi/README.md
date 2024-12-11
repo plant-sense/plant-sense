@@ -59,10 +59,10 @@ All URIs are relative to *http://localhost:9090*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**gardensGet**](doc//DefaultApi.md#gardensget) | **GET** /gardens | 
+*DefaultApi* | [**gardensIdDevicesGet**](doc//DefaultApi.md#gardensiddevicesget) | **GET** /gardens/{id}/devices | 
+*DefaultApi* | [**gardensIdDevicesPatch**](doc//DefaultApi.md#gardensiddevicespatch) | **PATCH** /gardens/{id}/devices | 
 *DefaultApi* | [**gardensIdPlantsGet**](doc//DefaultApi.md#gardensidplantsget) | **GET** /gardens/{id}/plants | 
 *DefaultApi* | [**gardensIdPlantsPost**](doc//DefaultApi.md#gardensidplantspost) | **POST** /gardens/{id}/plants | 
-*DefaultApi* | [**gardensIdSensorsGet**](doc//DefaultApi.md#gardensidsensorsget) | **GET** /gardens/{id}/sensors | 
-*DefaultApi* | [**gardensIdSensorsPatch**](doc//DefaultApi.md#gardensidsensorspatch) | **PATCH** /gardens/{id}/sensors | 
 *DefaultApi* | [**gardensPost**](doc//DefaultApi.md#gardenspost) | **POST** /gardens | 
 *DefaultApi* | [**plantsIdGet**](doc//DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
 *DefaultApi* | [**plantsIdPut**](doc//DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 

@@ -6,6 +6,7 @@ require (
 	github.com/getkin/kin-openapi v0.128.0
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/go-chi/cors v1.2.1
+	github.com/google/uuid v1.5.0
 	github.com/ironstar-io/chizerolog v0.0.0-20190729084312-7eaca6bf60e6
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/rs/zerolog v1.33.0
@@ -18,7 +19,6 @@ require (
 	github.com/go-chi/chi v1.5.5 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

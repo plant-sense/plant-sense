@@ -1,5 +1,6 @@
 import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
 import 'package:app/features/plant/providers/mock_plant_provider.dart';
+import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,7 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
                     'Name: ${nameController.text}, FactSheetId: $selectedFactSheetId');
                 if (nameController.text.isNotEmpty &&
                     selectedFactSheetId != null) {
-                  context.read<MockPlantProvider>().addPlant(
+                  context.read<PlantProvider>().addPlant(
                         widget.gardenId,
                         nameController.text,
                         selectedFactSheetId!,

@@ -1,11 +1,11 @@
 import 'package:app/components/network_loading_image.dart';
 import 'package:app/features/metrics/widgets/live_linear_gauge.dart';
+import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:app/layout/breakpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../facts/providers/mock_plant_fact_sheet_provider.dart';
-import '../providers/mock_plant_provider.dart';
 
 class PlantPage extends StatelessWidget {
   final String id;
@@ -14,7 +14,7 @@ class PlantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final plantProvider = Provider.of<MockPlantProvider>(context);
+    final plantProvider = Provider.of<PlantProvider>(context);
     final factSheetProvider = Provider.of<MockPlantFactSheetProvider>(context);
 
     final plant = plantProvider.getPlantById(id);

@@ -8,6 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**gardenId** | **String** |  | 
 **factsheetId** | **String** |  | 
 **name** | **String** |  | 
 **imageUrl** | **String** |  | [optional] 

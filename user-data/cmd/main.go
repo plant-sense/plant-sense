@@ -21,6 +21,7 @@ import (
 	"github.com/plant-sense/user-data/internal/config"
 	"github.com/plant-sense/user-data/internal/handler"
 	"github.com/plant-sense/user-data/internal/repository"
+	"github.com/plant-sense/user-data/internal/repository/schema"
 	"github.com/plant-sense/user-data/internal/service"
 )
 
@@ -45,13 +46,14 @@ func main() {
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
-	db.AutoMigrate(&repository.PlantSchema{}, &repository.GardenSchema{})
+	db.AutoMigrate(&schema.Plant{}, &schema.Garden{})
 
 	gardenRepo := repository.NewGardenRepository(db)
 	plantRepo := repository.NewPlantRepository(db)
 
 	gardenService := service.NewGardenService(gardenRepo, plantRepo)
-	handler := handler.NewHandler(gardenService)
+	plantService := service.NewPlantService(plantRepo)
+	handler := handler.NewHandler(gardenService, plantService)
 
 	sh := api.NewStrictHandler(handler, nil)
 	r.Mount("/", api.Handler(sh))

@@ -1,4 +1,4 @@
-// Openapi Generator last run: : 2024-12-11T10:06:33.990884
+// Openapi Generator last run: : 2024-12-11T12:38:03.011266
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/mock_device_provider.dart';
@@ -8,9 +8,9 @@ import 'package:app/features/devices/widgets/garden_edit_devices_sheet.dart';
 import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/providers/api_garden.provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
-import 'package:app/features/garden/providers/mock_garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_add_sheet.dart';
-import 'package:app/features/plant/providers/mock_plant_provider.dart';
+import 'package:app/features/plant/providers/api_plant_provider.dart';
+import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/features/plant/widgets/plant_add_sheet.dart';
 import 'package:app/features/garden/screens/garden.dart';
 import 'package:app/pages/home.dart';
@@ -33,8 +33,8 @@ void main() {
         ChangeNotifierProvider<GardenProvider>(
           create: (_) => ApiGardenProvider(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => MockPlantProvider(),
+        ChangeNotifierProvider<PlantProvider>(
+          create: (_) => ApiPlantProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => MockPlantFactSheetProvider(),
@@ -51,7 +51,7 @@ void main() {
 @Openapi(
   inputSpec: InputSpec(path: "../user-data/api/openapi.yml"),
   generatorName: Generator.dart,
-  outputDirectory: "openapi",
+  outputDirectory: "lib/gen/openapi",
 )
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
