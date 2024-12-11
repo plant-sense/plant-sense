@@ -10,10 +10,10 @@ All URIs are relative to *http://localhost:9090*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**gardensGet**](DefaultApi.md#gardensget) | **GET** /gardens | 
+[**gardensIdDevicesGet**](DefaultApi.md#gardensiddevicesget) | **GET** /gardens/{id}/devices | 
+[**gardensIdDevicesPatch**](DefaultApi.md#gardensiddevicespatch) | **PATCH** /gardens/{id}/devices | 
 [**gardensIdPlantsGet**](DefaultApi.md#gardensidplantsget) | **GET** /gardens/{id}/plants | 
 [**gardensIdPlantsPost**](DefaultApi.md#gardensidplantspost) | **POST** /gardens/{id}/plants | 
-[**gardensIdSensorsGet**](DefaultApi.md#gardensidsensorsget) | **GET** /gardens/{id}/sensors | 
-[**gardensIdSensorsPatch**](DefaultApi.md#gardensidsensorspatch) | **PATCH** /gardens/{id}/sensors | 
 [**gardensPost**](DefaultApi.md#gardenspost) | **POST** /gardens | 
 [**plantsIdGet**](DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
 [**plantsIdPut**](DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 
@@ -52,6 +52,90 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gardensIdDevicesGet**
+> Map<String, String> gardensIdDevicesGet(id)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+
+try {
+    final result = api_instance.gardensIdDevicesGet(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdDevicesGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+
+### Return type
+
+**Map<String, String>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gardensIdDevicesPatch**
+> Map<String, String> gardensIdDevicesPatch(id, requestBody)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+final requestBody = Map<String, String>(); // Map<String, String> | 
+
+try {
+    final result = api_instance.gardensIdDevicesPatch(id, requestBody);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdDevicesPatch: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+ **requestBody** | [**Map<String, String>**](String.md)|  | [optional] 
+
+### Return type
+
+**Map<String, String>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -128,90 +212,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**List<Plant>**](Plant.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **gardensIdSensorsGet**
-> Map<String, String> gardensIdSensorsGet(id)
-
-
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-
-final api_instance = DefaultApi();
-final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
-
-try {
-    final result = api_instance.gardensIdSensorsGet(id);
-    print(result);
-} catch (e) {
-    print('Exception when calling DefaultApi->gardensIdSensorsGet: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **String**| Garden ID | 
-
-### Return type
-
-**Map<String, String>**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **gardensIdSensorsPatch**
-> Map<String, String> gardensIdSensorsPatch(id, requestBody)
-
-
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-
-final api_instance = DefaultApi();
-final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
-final requestBody = Map<String, String>(); // Map<String, String> | 
-
-try {
-    final result = api_instance.gardensIdSensorsPatch(id, requestBody);
-    print(result);
-} catch (e) {
-    print('Exception when calling DefaultApi->gardensIdSensorsPatch: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **String**| Garden ID | 
- **requestBody** | [**Map<String, String>**](String.md)|  | [optional] 
-
-### Return type
-
-**Map<String, String>**
 
 ### Authorization
 

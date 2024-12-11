@@ -1,8 +1,8 @@
 import 'package:app/components/card.dart';
+import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../facts/providers/mock_plant_fact_sheet_provider.dart';
-import '../providers/mock_plant_provider.dart';
 
 class PlantCardGrid extends StatelessWidget {
   final String gardenId;
@@ -11,7 +11,7 @@ class PlantCardGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final plantProvider = Provider.of<MockPlantProvider>(context);
+    final plantProvider = Provider.of<PlantProvider>(context);
     final factSheetProvider = Provider.of<MockPlantFactSheetProvider>(context);
 
     final plants = plantProvider.getPlantsByGardenId(gardenId);

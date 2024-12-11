@@ -33,7 +33,7 @@ paths:
                 $ref: "#/components/schemas/garden"
         "500":
           description: "Internal server error"
-  /gardens/{id}/sensors:
+  /gardens/{id}/devices:
     parameters:
       - name: id
         in: path
@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/sensors"
+                $ref: "#/components/schemas/devices"
         "404":
           description: "Not found"
         "500":
@@ -59,14 +59,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/sensors"
+              $ref: "#/components/schemas/devices"
       responses:
         "200":
           description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/sensors"
+                $ref: "#/components/schemas/devices"
         "404":
           description: "Not found"
         "500":
@@ -172,13 +172,16 @@ components:
           type: string
       required:
         - name
-    sensors:
+    devices:
       type: object
       additionalProperties:
         type: string
     plant:
       properties:
         id:
+          type: string
+          format: uuid
+        garden_id:
           type: string
           format: uuid
         factsheet_id:
@@ -190,10 +193,14 @@ components:
           type: string
       required:
         - id
+        - garden_id
         - factsheet_id
         - name
     plant_create:
       properties:
+        garden_id:
+          type: string
+          format: uuid
         factsheet_id:
           type: string
           format: uuid
@@ -202,5 +209,6 @@ components:
         image_url:
           type: string
       required:
+        - garden_id
         - factsheet_id
         - name

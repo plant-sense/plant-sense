@@ -14,12 +14,15 @@ class Plant {
   /// Returns a new [Plant] instance.
   Plant({
     required this.id,
+    required this.gardenId,
     required this.factsheetId,
     required this.name,
     this.imageUrl,
   });
 
   String id;
+
+  String gardenId;
 
   String factsheetId;
 
@@ -38,6 +41,7 @@ class Plant {
       identical(this, other) ||
       other is Plant &&
           other.id == id &&
+          other.gardenId == gardenId &&
           other.factsheetId == factsheetId &&
           other.name == name &&
           other.imageUrl == imageUrl;
@@ -46,17 +50,19 @@ class Plant {
   int get hashCode =>
       // ignore: unnecessary_parenthesis
       (id.hashCode) +
+      (gardenId.hashCode) +
       (factsheetId.hashCode) +
       (name.hashCode) +
       (imageUrl == null ? 0 : imageUrl!.hashCode);
 
   @override
   String toString() =>
-      'Plant[id=$id, factsheetId=$factsheetId, name=$name, imageUrl=$imageUrl]';
+      'Plant[id=$id, gardenId=$gardenId, factsheetId=$factsheetId, name=$name, imageUrl=$imageUrl]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     json[r'id'] = this.id;
+    json[r'garden_id'] = this.gardenId;
     json[r'factsheet_id'] = this.factsheetId;
     json[r'name'] = this.name;
     if (this.imageUrl != null) {
@@ -89,6 +95,7 @@ class Plant {
 
       return Plant(
         id: mapValueOfType<String>(json, r'id')!,
+        gardenId: mapValueOfType<String>(json, r'garden_id')!,
         factsheetId: mapValueOfType<String>(json, r'factsheet_id')!,
         name: mapValueOfType<String>(json, r'name')!,
         imageUrl: mapValueOfType<String>(json, r'image_url'),
@@ -149,6 +156,7 @@ class Plant {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'id',
+    'garden_id',
     'factsheet_id',
     'name',
   };

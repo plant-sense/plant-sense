@@ -24,5 +24,7 @@ build:
 test:
 	ginkgo -r -v
 
-gen:
+gen: gen_openapi
+
+gen_openapi: 
 	oapi-codegen --config ./.oapi-codegen.yml -o ./internal/api/api.gen.go ./api/openapi.yml

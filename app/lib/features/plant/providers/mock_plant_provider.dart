@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import '../../facts/providers/mock_plant_fact_sheet_provider.dart';
 import '../models/plant.dart';
+import './plant_provider.dart';
 
-class MockPlantProvider extends ChangeNotifier {
+class MockPlantProvider extends PlantProvider {
   static final MockPlantProvider _instance = MockPlantProvider._internal();
   factory MockPlantProvider() => _instance;
 

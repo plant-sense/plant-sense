@@ -6,11 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type GardenSchema struct {
-	ID   uuid.UUID `gorm:"primaryKey"`
-	Name string
-}
-
 type GardenRepository interface {
 	GetGardens() []model.Garden
 	CreateGarden(garden model.Garden) (model.Garden, error)

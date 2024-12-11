@@ -8,19 +8,23 @@ class NetworkLoadingImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[200]!,
-          child: Container(
-            color: Colors.white,
-          ),
-        );
-      },
-    );
+    if (url != "") {
+      return Image.network(
+        url,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[200]!,
+            child: Container(
+              color: Colors.white,
+            ),
+          );
+        },
+      );
+    } else {
+      return Container(color: Colors.green.shade300);
+    }
   }
 }
