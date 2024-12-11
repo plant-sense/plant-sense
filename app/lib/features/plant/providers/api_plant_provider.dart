@@ -31,6 +31,11 @@ class ApiPlantProvider extends PlantProvider {
     notifyListeners();
   }
 
+  Future<void> _reloadPlants(String gardenId) async {
+    _plantsByGarden.remove(gardenId);
+    await _fetchPlantsForGarden(gardenId);
+  }
+
   @override
   Plant? getPlantById(String plantId) {
     return _plantsById[plantId];
@@ -51,19 +56,22 @@ class ApiPlantProvider extends PlantProvider {
       factsheetId: factsheetId,
     );
 
+    debugPrint("Adding plant ${plantCreate.toString()}");
+
     final apiPlants = await _api.gardensIdPlantsPost(
       gardenId,
       plantCreate: plantCreate,
     );
 
-    if (apiPlants != null) {
-      final plants = apiPlants.map(_mapApiPlant).toList();
-      _plantsByGarden[gardenId] = plants;
-      for (var plant in plants) {
-        _plantsById[plant.id] = plant;
-      }
-      notifyListeners();
-    }
+    await _reloadPlants(gardenId);
+    // if (apiPlants != null) {
+    //   final plants = apiPlants.map(_mapApiPlant).toList();
+    //   _plantsByGarden[gardenId] = plants;
+    //   for (var plant in plants) {
+    //     _plantsById[plant.id] = plant;
+    //   }
+    //   notifyListeners();
+    // }
   }
 
   @override

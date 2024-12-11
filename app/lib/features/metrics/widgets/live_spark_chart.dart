@@ -1,5 +1,6 @@
 import 'package:app/features/metrics/providers/grpc_metrics_provider.dart';
 import 'package:app/features/metrics/providers/metrics_provider.dart';
+import 'package:app/features/metrics/providers/mock_metrics_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'spark_chart.dart';
@@ -22,8 +23,9 @@ class LiveSparkChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MetricsProvider>(
       create: (_) {
-        var provider =
-            GrpcMetricsProvider(deviceId: "", host: "localhost", port: 50052);
+        // var provider =
+        //     GrpcMetricsProvider(deviceId: "", host: "localhost", port: 50052);
+        var provider = MockMetricsProvider();
         provider.startGenerating();
         return provider;
       },

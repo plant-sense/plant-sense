@@ -10,7 +10,7 @@ type GardenService interface {
 	GetGardens() []model.Garden
 	CreateGarden(name string) (model.Garden, error)
 	GetGardenPlants(gardenID uuid.UUID) ([]model.Plant, error)
-	AddPlantToGarden(gardenID uuid.UUID, name string, factsheetID uuid.UUID) (model.Plant, error)
+	AddPlantToGarden(gardenID uuid.UUID, name string, factsheetID string) (model.Plant, error)
 }
 
 type gardenService struct {
@@ -34,7 +34,7 @@ func (s *gardenService) GetGardenPlants(gardenID uuid.UUID) ([]model.Plant, erro
 	return s.plantRepo.GetPlantsByGardenID(gardenID)
 }
 
-func (s *gardenService) AddPlantToGarden(gardenID uuid.UUID, name string, factsheetID uuid.UUID) (model.Plant, error) {
+func (s *gardenService) AddPlantToGarden(gardenID uuid.UUID, name string, factsheetID string) (model.Plant, error) {
 	plant := model.Plant{
 		ID:          uuid.New(),
 		GardenID:    gardenID,

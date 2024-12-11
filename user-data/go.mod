@@ -17,6 +17,7 @@ require (
 require (
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/go-chi/chi v1.5.5 // indirect
+	github.com/go-chi/httplog/v2 v2.1.1 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect

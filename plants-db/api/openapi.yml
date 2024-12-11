@@ -3,7 +3,7 @@ info:
   title: Plant facts service
   version: 0.1.0
 servers:
-  - url: http://localhost:8080
+  - url: http://plants-db:8080
 paths:
   /plants:
     get:

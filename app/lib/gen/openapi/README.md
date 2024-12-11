@@ -54,7 +54,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost:9090*
+All URIs are relative to *http://user-data:9090*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

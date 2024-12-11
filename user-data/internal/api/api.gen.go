@@ -39,7 +39,7 @@ type GardenCreate struct {
 
 // Plant defines model for plant.
 type Plant struct {
-	FactsheetId openapi_types.UUID `json:"factsheet_id"`
+	FactsheetId string             `json:"factsheet_id"`
 	GardenId    openapi_types.UUID `json:"garden_id"`
 	Id          openapi_types.UUID `json:"id"`
 	ImageUrl    *string            `json:"image_url,omitempty"`
@@ -48,7 +48,7 @@ type Plant struct {
 
 // PlantCreate defines model for plant_create.
 type PlantCreate struct {
-	FactsheetId openapi_types.UUID `json:"factsheet_id"`
+	FactsheetId string             `json:"factsheet_id"`
 	GardenId    openapi_types.UUID `json:"garden_id"`
 	ImageUrl    *string            `json:"image_url,omitempty"`
 	Name        string             `json:"name"`
@@ -1016,17 +1016,17 @@ func (sh *strictHandler) PutPlantsId(w http.ResponseWriter, r *http.Request, id 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9xWwW7bMAz9lYDb0Yi9rTtUx6FAEQzYetmpKArNYmIVtqRSdIGi8L8PkpwmbtzF25Ki",
-	"6yURZIrie3yP9gOUtnHWoGEP4gF8WWEj41LhnS4xLqVSmrU1sr4g65BYp32+dwgCPJM2K+iy9Yb9eYMl",
-	"h42VJIUmxLrBSa3C79JSIxkEtK1WkO3m041c4XVL9ehtRjY48qDLgPC21YQKxCXEzDH06rGg65JQMu7W",
-	"NS3lYzZXS8O7WZayZF8h8vVEnH1VU1l5YfI21WVDaNkTJp6l9diEHADpfpDhhDZLG3NprkOyHx5ppiTL",
-	"mUcKfoEM7pC8tgYEFPMP8yKUYB0a6TQI+DQv5gVk4CRXkZo8XRzXK4xiCszJ4LeFAgHnyOd9SKjYO2t8",
-	"YvVjUYS/0hrGJEPpXK3LeDa/8dZsLB1Nx9jEg+8JlyDgXb4xf947vy9ny8ySSN5DRK/Ql6QdJ3Tfv4ao",
-	"z6mI4aOFYSQj68gK0gyJLKUczvoRkBfWD1Detuj5i1X3fwRwP661Qrsu9f8f2JxC4mFI67JHleQPWnX5",
-	"1mjeI5mFOutjj4h2Xc6zcE+Kk1243yzPlrY16q9UJEk2yEgexOXTcwn7bHEGwbAgotnWPhZppm2sz9Ri",
-	"toV0z7TprqJ5y2pExGF7lPjDy3mL8+4ttXZH6/HFMk3qFyn0JaZkevFPHpJvzgD7hvigGYdX/+Br4wAW",
-	"+B96HpyRzBCN8TtHJO4X6phDv2fjlSg+Ij6m4NsxvbdDpl+/zl9RQ8M9aS/1M369Q8XsRJ7XtpR1ZT2L",
-	"0+K0gO6q+xUAAP//XWMAaKkOAAA=",
+	"H4sIAAAAAAAC/9xWQW/bPAz9KwG/7+jF3tYdquNQoAgGbL3sVBSFZjGJCltSKbpAUfi/D5KcJq7dJdvc",
+	"IuslMWSK4nt8j9YDlLZ21qBhD+IBfLnGWsZHhXe6xPgoldKsrZHVBVmHxDqt871DEOCZtFlBm20W7I8b",
+	"LDksrCQpNCHW9XZqFX6XlmrJIKBptIJsmE/XcoXXDVWjpxlZ48iLNgPC20YTKhCXEDPH0KvHgq5LQsk4",
+	"rOuwlI/ZXCUND7MsZcl+jcjXCeeg8q6KQ1l4ZbK21WV9KNkT5M/SODUBEyDbDyrs0GZpYy7NVUj23SPN",
+	"lGQ580jBD5DBHZLX1oCAYv5+XoQSrEMjnQYBH+fFvIAMnOR1pCJPB8fnFUaxBKZk8NNCgYBz5PMuJFTs",
+	"nTU+sfihKMJfaQ1jkpl0rtJl3JvfeGu2lo2mYqzjxv8JlyDgv3xr7rxzdlfOjlklkbyHiF6hL0k7Tui+",
+	"fQlRn1IR/VcLw0hGVpEVpBkSWUo5nPUjIC+s76G8bdDzZ6vufwvgflwbRbZt6v9fsHkIidOQ1maPKskf",
+	"tGrzndG7RzILddbFviDaTTnPwj0pToZwv1qeLW1j1B+pSJKskZE8iMun+xL22eIMgmFBRLNtfCzSDNta",
+	"n6nBbAfpnmnTXkXzlusREYflUeKnl/MO5+1bau1A6/FDcpjUL1Loa0zJ9GE/eEi+OQPsG+K9Zkyv/t7t",
+	"YgIL/As9D85IZojG+JUjEvcL9ZJDv2PjSBQfEb+k4JsxvTd9po9f50fU0HBOWkv9jLd3WDM7keeNR3oX",
+	"rtXitDgtoL1qfwYAAP//elq8mYkOAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

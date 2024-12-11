@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,6 +14,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/httplog/v2"
 	"github.com/ironstar-io/chizerolog"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -25,12 +29,64 @@ import (
 	"github.com/plant-sense/user-data/internal/service"
 )
 
+// RequestLogger is a middleware that logs the request body
+func RequestLogger(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Don't log bodies for GET, HEAD, DELETE requests
+		if r.Method == "GET" || r.Method == "HEAD" || r.Method == "DELETE" {
+			log.Printf("REQUEST: %s %s", r.Method, r.URL.Path)
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		// Read the request body
+		var bodyBytes []byte
+		if r.Body != nil {
+			bodyBytes, _ = io.ReadAll(r.Body)
+		}
+
+		// Restore the request body for later use
+		r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+
+		// Log the request details
+		log.Printf("REQUEST: %s %s\nBody: %s",
+			r.Method,
+			r.URL.Path,
+			string(bodyBytes),
+		)
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	if config.DefaultConfig.PrettyLog {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 
 	r := chi.NewRouter()
+
+	logger := httplog.NewLogger("httplog-example", httplog.Options{
+		// JSON:             true,
+		LogLevel:         slog.LevelDebug,
+		Concise:          true,
+		RequestHeaders:   true,
+		MessageFieldName: "message",
+		// TimeFieldFormat: time.RFC850,
+		Tags: map[string]string{
+			"version": "v1.0-81aa4244d9fc8076a",
+			"env":     "dev",
+		},
+		QuietDownRoutes: []string{
+			"/",
+			"/ping",
+		},
+		QuietDownPeriod: 10 * time.Second,
+		// SourceFieldName: "source",
+	})
+
+	r.Use(httplog.RequestLogger(logger))
+	r.Use(RequestLogger)
 	r.Use(chizerolog.LoggerMiddleware(&log.Logger))
 	r.Use(middleware.Recoverer)
 	r.Use(cors.Handler(cors.Options{
@@ -41,7 +97,6 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           300,
 	}))
-
 	db, err := gorm.Open(sqlite.Open("user-data.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatal().Msg(err.Error())
