@@ -19,11 +19,13 @@ class SparkChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final windowedPoints =
-        timeSeries.getWindowedPoints(const Duration(hours: 1));
-    final downsampledPoints = TimeSeries<num>()
-      ..addPoints(windowedPoints)
-      ..downsample(maxPoints);
+    // final windowedPoints =
+    //     timeSeries.getWindowedPoints(const Duration(hours: 10));
+    // final downsampledPoints = TimeSeries<num>()
+    //   ..addPoints(windowedPoints)
+    //   ..downsample(maxPoints);
+
+    final downsampledPoints = timeSeries;
 
     return Card.outlined(
       shape: RoundedRectangleBorder(

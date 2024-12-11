@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/plant-sense/mock-monitoring-agent/internal/gen/pb";
+
 package plant_sense.internal;
 
 message Reading {
@@ -21,12 +23,19 @@ message GetReadingRequest {
   string device_id = 1;
 }
 
+message GetHistoricalReadingsRequest {
+  string device_id = 1;
+  optional int64 start_time = 2;
+  optional int64 end_time = 3;
+}
+
 message StreamReadingsRequest {
   repeated string device_ids = 1;
 }
 
 service SensorService {
   rpc GetReading(GetReadingRequest) returns (SensorReading);
+  rpc GetHistoricalReadings(GetHistoricalReadingsRequest) returns (SensorReadingStream);
   rpc StreamDeviceReadings(GetReadingRequest) returns (stream SensorReading);
   rpc StreamAllReadings(StreamReadingsRequest) returns (stream SensorReading);
 }

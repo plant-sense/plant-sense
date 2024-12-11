@@ -1,0 +1,15 @@
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.31-latest
+    ports:
+      - "50052:50052"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+  mock-monitoring-agent:
+    image: cosmtrek/air:v1.61.1
+    working_dir: /app
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./mock-monitoring-agent/:/app/

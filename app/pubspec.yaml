@@ -43,6 +43,7 @@ dependencies:
   uuid: ^4.5.1
   protobuf: ^3.1.0
   openapi_generator_annotations: ^6.0.0
+  grpc: ^4.0.1
 
 dev_dependencies:
   flutter_test:
