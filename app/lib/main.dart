@@ -16,14 +16,13 @@ import 'package:app/features/plant/screens/plant.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:openapi_generator_annotations/openapi_generator_annotations.dart';
 import 'package:provider/provider.dart';
 
-@Openapi(
-  inputSpec: InputSpec(path: "../../plants-db/api/openapi.yml"),
-  generatorName: Generator.dart,
-  outputDirectory: "lib/gen/openapi",
-)
+// @Openapi(
+//   inputSpec: InputSpec(path: "../../plants-db/api/openapi.yml"),
+//   generatorName: Generator.dart,
+//   outputDirectory: "lib/gen/openapi",
+// )
 void main() {
   runApp(
     MultiProvider(

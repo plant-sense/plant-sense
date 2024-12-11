@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/plant-sense/mock-monitoring-agent/internal/gen/pb";
+
 package plant_sense.internal;
 
 enum DeviceStatus {
