@@ -31,6 +31,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/garden"
+        "500":
+          description: "Internal server error"
   /gardens/{id}/sensors:
     parameters:
       - name: id

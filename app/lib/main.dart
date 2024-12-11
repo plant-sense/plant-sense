@@ -1,3 +1,4 @@
+// Openapi Generator last run: : 2024-12-11T10:06:33.990884
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/mock_device_provider.dart';
@@ -5,6 +6,7 @@ import 'package:app/components/modal_bottom_sheet_page.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
 import 'package:app/features/devices/widgets/garden_edit_devices_sheet.dart';
 import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
+import 'package:app/features/garden/providers/api_garden.provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/providers/mock_garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_add_sheet.dart';
@@ -16,6 +18,7 @@ import 'package:app/features/plant/screens/plant.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:openapi_generator_annotations/openapi_generator_annotations.dart';
 import 'package:provider/provider.dart';
 
 // @Openapi(
@@ -28,7 +31,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<GardenProvider>(
-          create: (_) => MockGardenProvider(),
+          create: (_) => ApiGardenProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => MockPlantProvider(),
@@ -45,6 +48,11 @@ void main() {
   );
 }
 
+@Openapi(
+  inputSpec: InputSpec(path: "../user-data/api/openapi.yml"),
+  generatorName: Generator.dart,
+  outputDirectory: "openapi",
+)
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

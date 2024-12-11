@@ -19,6 +19,9 @@ import (
 
 	"github.com/plant-sense/user-data/internal/api"
 	"github.com/plant-sense/user-data/internal/config"
+	"github.com/plant-sense/user-data/internal/handler"
+	"github.com/plant-sense/user-data/internal/repository"
+	"github.com/plant-sense/user-data/internal/service"
 )
 
 func main() {
@@ -38,17 +41,24 @@ func main() {
 		MaxAge:           300,
 	}))
 
-	_, err := gorm.Open(sqlite.Open("plants.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("user-data.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
+	db.AutoMigrate(&repository.PlantSchema{}, &repository.GardenSchema{})
+
+	gardenRepo := repository.NewGardenRepository(db)
+	plantRepo := repository.NewPlantRepository(db)
+
+	gardenService := service.NewGardenService(gardenRepo, plantRepo)
+	handler := handler.NewHandler(gardenService)
 
 	sh := api.NewStrictHandler(handler, nil)
 	r.Mount("/", api.Handler(sh))
 
-	log.Info().Msg("Starting server on :8080")
+	log.Info().Msg("Starting server on :9090")
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":9090",
 		Handler: r,
 	}
 
