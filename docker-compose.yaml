@@ -6,10 +6,18 @@ services:
       - "50052:50052"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-  mock-monitoring-agent:
+  monitoring-agent-reader:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     ports:
       - "50051:50051"
     volumes:
-      - ./mock-monitoring-agent/:/app/
+      - ./monitoring-agent-reader/:/app/
+    environment:
+      - REDIS_ADDRESS=host.docker.internal:6379
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "1234:80"
