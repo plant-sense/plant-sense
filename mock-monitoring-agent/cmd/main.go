@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
 
@@ -18,11 +17,8 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// Create a new gRPC server with CORS options
 	server := grpc.NewServer(
 		grpc.Creds(insecure.NewCredentials()),
-		grpc.UnaryInterceptor(allowCORS),
-		grpc.StreamInterceptor(allowCORSStream),
 	)
 
 	pb.RegisterSensorServiceServer(server, service.NewSensorService())
@@ -30,15 +26,4 @@ func main() {
 
 	log.Println("Starting server on port :50051")
 	server.Serve(lis)
-}
-
-func allowCORS(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-	// Add CORS headers here if needed
-	resp, err := handler(ctx, req)
-	return resp, err
-}
-
-func allowCORSStream(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-	// Add CORS headers here if needed
-	return handler(srv, ss)
 }
