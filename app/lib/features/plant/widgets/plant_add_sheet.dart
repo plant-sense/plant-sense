@@ -69,6 +69,7 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
                     'Name: ${nameController.text}, FactSheetId: $selectedFactSheetId');
                 if (nameController.text.isNotEmpty &&
                     selectedFactSheetId != null) {
+                  debugPrint("Adding plant");
                   context.read<PlantProvider>().addPlant(
                         widget.gardenId,
                         nameController.text,

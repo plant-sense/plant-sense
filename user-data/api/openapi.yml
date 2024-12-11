@@ -3,7 +3,7 @@ info:
   title: User data service
   version: 0.1.0
 servers:
-  - url: http://localhost:9090
+  - url: http://user-data:9090
 paths:
   /gardens:
     get:
@@ -186,7 +186,6 @@ components:
           format: uuid
         factsheet_id:
           type: string
-          format: uuid
         name:
           type: string
         image_url:
@@ -203,7 +202,6 @@ components:
           format: uuid
         factsheet_id:
           type: string
-          format: uuid
         name:
           type: string
         image_url:

@@ -1,4 +1,4 @@
-// Openapi Generator last run: : 2024-12-11T12:38:03.011266
+// Openapi Generator last run: : 2024-12-11T14:39:05.200895
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/mock_device_provider.dart';
@@ -131,5 +131,19 @@ class MyApp extends StatelessWidget {
         initialLocation: "/",
       ),
     );
+  }
+}
+
+@Openapi(
+  inputSpec: InputSpec(path: "../plants-db/api/openapi.yml"),
+  generatorName: Generator.dart,
+  outputDirectory: "lib/gen/plants-db-openapi",
+)
+class _Placeholder extends StatelessWidget {
+  const _Placeholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

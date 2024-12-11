@@ -7,5 +7,5 @@ type Plant struct {
 	GardenID    uuid.UUID
 	Garden      Garden
 	Name        string
-	FactsheetID uuid.UUID
+	FactsheetID string
 }

@@ -13,3 +13,17 @@ services:
       - "50051:50051"
     volumes:
       - ./mock-monitoring-agent/:/app/
+  user-data:
+    image: cosmtrek/air:v1.61.1
+    working_dir: /app
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./user-data/:/app/
+  plants-db:
+    image: cosmtrek/air:v1.61.1
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./plants-db/:/app/

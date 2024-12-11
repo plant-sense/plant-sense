@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *http://localhost:9090*
+All URIs are relative to *http://user-data:9090*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

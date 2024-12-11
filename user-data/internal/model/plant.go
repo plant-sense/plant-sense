@@ -5,7 +5,6 @@ import "github.com/google/uuid"
 type Plant struct {
 	ID          uuid.UUID
 	GardenID    uuid.UUID
-	FactsheetID uuid.UUID
+	FactsheetID string
 	Name        string
-	Species     string
 }

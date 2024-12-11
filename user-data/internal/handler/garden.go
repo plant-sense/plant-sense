@@ -5,6 +5,7 @@ import (
 
 	"github.com/plant-sense/user-data/internal/api"
 	"github.com/plant-sense/user-data/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 func (h *handler) GetGardens(ctx context.Context, request api.GetGardensRequestObject) (api.GetGardensResponseObject, error) {
@@ -33,6 +34,7 @@ func (h *handler) PostGardens(ctx context.Context, request api.PostGardensReques
 func (h *handler) PostGardensIdPlants(ctx context.Context, request api.PostGardensIdPlantsRequestObject) (api.PostGardensIdPlantsResponseObject, error) {
 	plant, err := h.gardenService.AddPlantToGarden(request.Id, request.Body.Name, request.Body.FactsheetId)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to add plant to garden")
 		return api.PostGardensIdPlants500Response{}, err
 	}
 	return api.PostGardensIdPlants200JSONResponse(convertPlants([]model.Plant{plant})), nil
