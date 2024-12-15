@@ -38,7 +38,7 @@ class ApiGardenProvider extends GardenProvider {
 
   @override
   void addDevice(String gardenId, String deviceId, DeviceType deviceType) {
-    // TODO: implement addDevice
+    await api.gardensDevices
   }
 
   @override
