@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class AllDevices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var devices = Provider.of<DeviceProvider>(context).devices;
+    var devices = context.watch<DeviceProvider>().devices;
     return DeviceList(
       devices: devices,
     );

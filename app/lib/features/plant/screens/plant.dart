@@ -1,5 +1,8 @@
 import 'package:app/components/network_loading_image.dart';
+import 'package:app/features/facts/models/plant_fact_sheet.dart';
+import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/metrics/widgets/live_linear_gauge.dart';
+import 'package:app/features/plant/models/plant.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:app/layout/breakpoints.dart';
@@ -15,14 +18,43 @@ class PlantPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final plantProvider = Provider.of<PlantProvider>(context);
-    final factSheetProvider = Provider.of<MockPlantFactSheetProvider>(context);
 
-    final plant = plantProvider.getPlantById(id);
+    final plantFuture = plantProvider.getPlantById(id);
+    return FutureBuilder(
+        future: plantFuture,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            default:
+              final plant = snapshot.data;
+              return _buildLoadedPlant(context, plant);
+          }
+        });
+  }
+
+  Widget _buildLoadedPlant(BuildContext context, Plant? plant) {
     if (plant == null) {
       return const Center(child: Text('Plant not found'));
     }
 
+    final factSheetProvider = Provider.of<PlantFactSheetProvider>(context);
     final factSheet = factSheetProvider.getFactSheetById(plant.factsheetId);
+    return FutureBuilder(
+        future: factSheet,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            default:
+              final factSheet = snapshot.data;
+              return _buildLoadedFactSheet(context, plant, factSheet);
+          }
+        });
+  }
+
+  Widget _buildLoadedFactSheet(
+      BuildContext context, Plant plant, PlantFactSheet? factSheet) {
     if (factSheet == null) {
       return const Center(child: Text('Factsheet not found'));
     }
@@ -68,7 +100,7 @@ class PlantPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    factSheet.scientificName,
+                    factSheet.taxonomy.scientificName,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width > lgBreakpoint
                           ? 30
@@ -76,7 +108,7 @@ class PlantPage extends StatelessWidget {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  Text(factSheet.commonName),
+                  Text(factSheet.taxonomy.commonName),
                   SizedBox(height: 10),
                   Row(
                     children: [
@@ -125,28 +157,22 @@ class PlantPage extends StatelessWidget {
                 name: "Soil humidity",
                 minimum: 0.0,
                 maximum: 100.0,
-                idealMinimum:
-                    factSheet.idealConditions.minSoilHumidity.toDouble(),
-                idealMaximum:
-                    factSheet.idealConditions.maxSoilHumidity.toDouble(),
+                idealMinimum: factSheet.requirements.soilMoisture.min,
+                idealMaximum: factSheet.requirements.soilMoisture.max,
               ),
               LiveLinearGauge(
                 name: "Light intensity",
                 minimum: 0.0,
                 maximum: 5000.0,
-                idealMinimum:
-                    factSheet.idealConditions.minLightIntensity.toDouble(),
-                idealMaximum:
-                    factSheet.idealConditions.maxLightIntensity.toDouble(),
+                idealMinimum: factSheet.requirements.lightIntensity.min,
+                idealMaximum: factSheet.requirements.lightIntensity.max,
               ),
               LiveLinearGauge(
                 name: "Temperature",
                 minimum: 0.0,
                 maximum: 50.0,
-                idealMinimum:
-                    factSheet.idealConditions.minTemperature.toDouble(),
-                idealMaximum:
-                    factSheet.idealConditions.maxTemperature.toDouble(),
+                idealMinimum: factSheet.requirements.temperature.min,
+                idealMaximum: factSheet.requirements.temperature.max,
               ),
             ],
           ),

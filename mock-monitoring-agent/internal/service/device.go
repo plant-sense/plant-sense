@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	tempId = "temp"
-	sm     = "sm"
+	tempID  = "temperature_id"
+	smID    = "soil_moisture_id"
+	lightID = "light_intensity_id"
 )
 
 var _ pb.DeviceServiceServer = &deviceService{}
@@ -25,12 +26,12 @@ func (d *deviceService) GetDevice(context.Context, *pb.GetDeviceRequest) (*pb.De
 // ListDevices implements pb.DeviceServiceServer.
 func (d *deviceService) ListDevices(context.Context, *pb.ListDevicesRequest) (*pb.ListDevicesResponse, error) {
 	devices := []*pb.Device{
-		&pb.Device{
-			Id:   sm,
+		{
+			Id:   smID,
 			Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_SOIL_HUMIDITY}},
 		},
-		&pb.Device{
-			Id:   tempId,
+		{
+			Id:   tempID,
 			Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_TEMPERATURE}},
 		},
 	}

@@ -1,11 +1,14 @@
-// Openapi Generator last run: : 2024-12-11T14:39:05.200895
+import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
+import 'package:app/features/devices/providers/grpc_device_provider.dart';
 import 'package:app/features/devices/providers/mock_device_provider.dart';
 import 'package:app/components/modal_bottom_sheet_page.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
 import 'package:app/features/devices/widgets/garden_edit_devices_sheet.dart';
+import 'package:app/features/facts/providers/api_plant_fact_sheet_provider.dart';
 import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
+import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/providers/api_garden.provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_add_sheet.dart';
@@ -21,26 +24,36 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:openapi_generator_annotations/openapi_generator_annotations.dart';
 import 'package:provider/provider.dart';
 
-// @Openapi(
-//   inputSpec: InputSpec(path: "../../plants-db/api/openapi.yml"),
-//   generatorName: Generator.dart,
-//   outputDirectory: "lib/gen/openapi",
-// )
+const String userDataApiBasePath = String.fromEnvironment(
+    "USER_DATA_API_BASE_PATH",
+    defaultValue: "http://localhost:9090");
+const String plantsDbApiBasePath = String.fromEnvironment(
+    "PLANTS_DB_API_BASE_PATH",
+    defaultValue: "http://localhost:8080");
+const String deviceGrpcHost =
+    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "localhost");
+const String deviceGrpcPort =
+    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "50052");
+
 void main() {
+  var userDataApi = UserDataApi.withBasePath(basePath: userDataApiBasePath);
+  var plantDbApi = PlantsDBApi.withBasePath(basePath: plantsDbApiBasePath);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<GardenProvider>(
-          create: (_) => ApiGardenProvider(),
+          create: (_) => ApiGardenProvider(api: userDataApi),
         ),
         ChangeNotifierProvider<PlantProvider>(
-          create: (_) => ApiPlantProvider(),
+          create: (_) => ApiPlantProvider(api: userDataApi),
         ),
-        ChangeNotifierProvider(
-          create: (_) => MockPlantFactSheetProvider(),
+        ChangeNotifierProvider<PlantFactSheetProvider>(
+          create: (_) => ApiPlantFactSheetProvider(api: plantDbApi),
         ),
         ChangeNotifierProvider<DeviceProvider>(
-          create: (_) => MockDeviceProvider(),
+          create: (_) => GrpcDeviceProvider(
+              host: deviceGrpcHost, port: int.parse(deviceGrpcPort)),
         ),
       ],
       child: const MyApp(),
@@ -55,7 +68,6 @@ void main() {
 )
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

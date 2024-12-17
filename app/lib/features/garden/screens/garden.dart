@@ -23,17 +23,29 @@ class GardenPage extends StatelessWidget {
         .map((d) => d.deviceType)
         .toSet();
 
-    if (garden == null) {
-      return Scaffold(
-        body: Center(child: Text('Garden not found')),
-      );
-    }
+    // if (garden == null) {
+    //   return Scaffold(
+    //     body: Center(child: Text('Garden not found')),
+    //   );
+    // }
 
     return Scaffold(
       body: BreakpointContainer(
         child: Scaffold(
           appBar: AppBar(
-            title: TitleText(title: garden.name),
+            title: FutureBuilder(
+              future: garden,
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return CircularProgressIndicator();
+                  default:
+                    return snapshot.data == null
+                        ? Text('Garden not found')
+                        : TitleText(title: snapshot.data!.name);
+                }
+              },
+            ),
             actions: [
               IconButton.filledTonal(
                 icon: Icon(Icons.settings),

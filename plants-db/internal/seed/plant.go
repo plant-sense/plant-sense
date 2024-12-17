@@ -53,8 +53,8 @@ func ReadPlantsCSV(filename string) ([]PlantCSV, error) {
 		soilMoistureMax, _ := strconv.ParseFloat(record[21], 64)
 		tempMin, _ := strconv.ParseFloat(record[26], 64)
 		tempMax, _ := strconv.ParseFloat(record[27], 64)
-		lightMin, _ := strconv.ParseFloat(record[32], 64)
-		lightMax, _ := strconv.ParseFloat(record[33], 64)
+		lightMin, _ := strconv.ParseFloat(record[30], 64)
+		lightMax, _ := strconv.ParseFloat(record[31], 64)
 
 		plant := PlantCSV{
 			PlantName:       record[0],
@@ -90,7 +90,7 @@ func SeedPlants(db *gorm.DB, filename string) error {
 			SoilMoistureUnit:   "%",
 			LightIntensityMin:  p.LightMin,
 			LightIntensityMax:  p.LightMax,
-			LightIntensityUnit: "mmol",
+			LightIntensityUnit: "lux",
 		}
 
 		result := db.Create(&plant)

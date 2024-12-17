@@ -101,14 +101,17 @@ func main() {
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
-	db.AutoMigrate(&schema.Plant{}, &schema.Garden{})
+	db.AutoMigrate(&schema.Plant{}, &schema.Garden{}, &schema.Device{})
 
 	gardenRepo := repository.NewGardenRepository(db)
 	plantRepo := repository.NewPlantRepository(db)
+	deviceRepo := repository.NewDeviceRepository(db)
 
 	gardenService := service.NewGardenService(gardenRepo, plantRepo)
 	plantService := service.NewPlantService(plantRepo)
-	handler := handler.NewHandler(gardenService, plantService)
+	deviceService := service.NewDeviceService(deviceRepo)
+
+	handler := handler.NewHandler(gardenService, plantService, deviceService)
 
 	sh := api.NewStrictHandler(handler, nil)
 	r.Mount("/", api.Handler(sh))

@@ -1,14 +1,18 @@
-import 'package:app/gen/openapi/lib/api.dart' as api;
+import 'package:app/apis.dart';
+import 'package:app/gen/user-data-openapi/lib/api.dart' as api_model;
 import 'package:flutter/foundation.dart';
 import '../models/plant.dart';
 import './plant_provider.dart';
 
 class ApiPlantProvider extends PlantProvider {
-  final api.DefaultApi _api = api.DefaultApi();
+  final UserDataApi api;
+
+  ApiPlantProvider({required this.api});
+
   final Map<String, List<Plant>> _plantsByGarden = {};
   final Map<String, Plant> _plantsById = {};
 
-  Plant _mapApiPlant(api.Plant apiPlant) {
+  Plant _mapApiPlant(api_model.Plant apiPlant) {
     return Plant(
       id: apiPlant.id,
       name: apiPlant.name,
@@ -20,7 +24,7 @@ class ApiPlantProvider extends PlantProvider {
   Future<void> _fetchPlantsForGarden(String gardenId) async {
     if (_plantsByGarden.containsKey(gardenId)) return;
 
-    final apiPlants = await _api.gardensIdPlantsGet(gardenId);
+    final apiPlants = await api.gardensIdPlantsGet(gardenId);
     if (apiPlants == null) return;
 
     final plants = apiPlants.map(_mapApiPlant).toList();
@@ -37,8 +41,14 @@ class ApiPlantProvider extends PlantProvider {
   }
 
   @override
-  Plant? getPlantById(String plantId) {
-    return _plantsById[plantId];
+  Future<Plant?> getPlantById(String plantId) {
+    return api.plantsIdGet(plantId).then((apiPlant) {
+      if (apiPlant == null) return null;
+      final plant = _mapApiPlant(apiPlant);
+      _plantsById[plantId] = plant;
+      return plant;
+    });
+    // return _plantsById[plantId];
   }
 
   @override
@@ -50,7 +60,7 @@ class ApiPlantProvider extends PlantProvider {
   @override
   Future<void> addPlant(
       String gardenId, String name, String factsheetId) async {
-    final plantCreate = api.PlantCreate(
+    final plantCreate = api_model.PlantCreate(
       name: name,
       gardenId: gardenId,
       factsheetId: factsheetId,
@@ -58,7 +68,7 @@ class ApiPlantProvider extends PlantProvider {
 
     debugPrint("Adding plant ${plantCreate.toString()}");
 
-    final apiPlants = await _api.gardensIdPlantsPost(
+    final apiPlants = await api.gardensIdPlantsPost(
       gardenId,
       plantCreate: plantCreate,
     );

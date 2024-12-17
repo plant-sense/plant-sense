@@ -1,4 +1,6 @@
+import 'package:app/features/facts/models/plant_fact_sheet.dart';
 import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
+import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/plant/providers/mock_plant_provider.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,14 @@ class PlantAddSheet extends StatefulWidget {
 
 class _PlantAddSheetState extends State<PlantAddSheet> {
   final nameController = TextEditingController();
+  Future<List<Species>>? speciesFuture;
   String? selectedFactSheetId;
+
+  @override
+  void initState() {
+    super.initState();
+    speciesFuture = context.read<PlantFactSheetProvider>().species;
+  }
 
   @override
   void dispose() {
@@ -25,9 +34,22 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final factSheets =
-        Provider.of<MockPlantFactSheetProvider>(context).factSheets;
+    // final speciesFuture = Provider.of<PlantFactSheetProvider>(context).species;
+    return FutureBuilder(
+      future: speciesFuture,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const CircularProgressIndicator();
+          default:
+            final species = snapshot.data!;
+            return _buildLoaded(species);
+        }
+      },
+    );
+  }
 
+  Widget _buildLoaded(List<Species> species) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
@@ -50,10 +72,10 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
                 border: OutlineInputBorder(),
               ),
               value: selectedFactSheetId,
-              items: factSheets.map((sheet) {
+              items: species.map((sheet) {
                 return DropdownMenuItem(
-                  value: sheet.uuid,
-                  child: Text(sheet.commonName),
+                  value: sheet.id,
+                  child: Text(sheet.taxonomy.scientificName),
                 );
               }).toList(),
               onChanged: (value) {

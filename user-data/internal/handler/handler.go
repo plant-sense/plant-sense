@@ -11,6 +11,7 @@ var _ api.StrictServerInterface = (*handler)(nil)
 type handler struct {
 	gardenService service.GardenService
 	plantService  service.PlantService
+	deviceService service.DeviceService
 }
 
 func convertGardens(gardens_models []model.Garden) []api.Garden {
@@ -36,9 +37,10 @@ func convertPlants(plants []model.Plant) []api.Plant {
 	return result
 }
 
-func NewHandler(gardenService service.GardenService, plantService service.PlantService) api.StrictServerInterface {
+func NewHandler(gardenService service.GardenService, plantService service.PlantService, deviceService service.DeviceService) api.StrictServerInterface {
 	return &handler{
 		gardenService: gardenService,
 		plantService:  plantService,
+		deviceService: deviceService,
 	}
 }

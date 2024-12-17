@@ -1,4 +1,3 @@
-version: '3'
 services:
   envoy:
     image: envoyproxy/envoy:v1.31-latest
@@ -35,3 +34,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "1234:80"
+    depends_on:
+      - envoy
+      - mock-monitoring-agent
+      - user-data
+      - plants-db
+    environment:
+      - USER_DATA_API_BASE_PATH = http://user-data:9090
+      - PLANTS_DB_API_BASE_PATH = http://plants-db:8080
+      - DEVICE_GRPC_HOST = envoy
+      - DEVICE_GRPC_PORT = 50052
+  
+    

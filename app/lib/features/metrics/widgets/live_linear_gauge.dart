@@ -21,21 +21,29 @@ class LiveLinearGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TimeSeriesMetricProvider(
-        minValue: minimum,
-        maxValue: maximum,
-      )..startGenerating(),
-      child: Consumer<TimeSeriesMetricProvider>(
-        builder: (context, metrics, _) => LinearGauge(
+    return LinearGauge(
           name: name,
-          value: metrics.timeSeries.latest?.value.toDouble() ?? minimum,
+          value: minimum,
           minimum: minimum,
           maximum: maximum,
           idealMinimum: idealMinimum,
           idealMaximum: idealMaximum,
-        ),
-      ),
-    );
+        );
+    // return ChangeNotifierProvider(
+    //   create: (_) => TimeSeriesMetricProvider(
+    //     minValue: minimum,
+    //     maxValue: maximum,
+    //   )..startGenerating(),
+    //   child: Consumer<TimeSeriesMetricProvider>(
+    //     builder: (context, metrics, _) => LinearGauge(
+    //       name: name,
+    //       value: metrics.timeSeries.latest?.value.toDouble() ?? minimum,
+    //       minimum: minimum,
+    //       maximum: maximum,
+    //       idealMinimum: idealMinimum,
+    //       idealMaximum: idealMaximum,
+    //     ),
+    //   ),
+    // );
   }
 }

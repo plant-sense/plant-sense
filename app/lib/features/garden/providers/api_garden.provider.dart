@@ -1,12 +1,16 @@
+import 'package:app/apis.dart';
+import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/models/device_type.dart';
 import 'package:app/features/garden/models/garden.dart' as model;
 import 'package:app/features/garden/providers/garden_provider.dart';
-import 'package:app/gen/openapi/lib/api.dart';
+import 'package:app/gen/user-data-openapi/lib/api.dart';
 import 'package:flutter/material.dart';
 
 class ApiGardenProvider extends GardenProvider {
-  final api = DefaultApi();
+  final UserDataApi api;
   List<model.Garden>? _gardens;
+
+  ApiGardenProvider({required this.api});
 
   @override
   List<model.Garden> get gardens {
@@ -18,8 +22,7 @@ class ApiGardenProvider extends GardenProvider {
     return model.Garden(
       id: garden.id,
       name: garden.name,
-      sensors: {},
-      actuators: [],
+      imageUrl: garden.imageUrl,
     );
   }
 
@@ -37,8 +40,12 @@ class ApiGardenProvider extends GardenProvider {
   }
 
   @override
-  void addDevice(String gardenId, String deviceId, DeviceType deviceType) {
-    await api.gardensDevices
+  Future<void> addDevice(
+      String gardenId, String deviceId, DeviceType deviceType) async {
+    await api.gardensIdDevicesPatch(
+      gardenId,
+      {deviceId: deviceType.toString()},
+    );
   }
 
   @override
@@ -48,7 +55,24 @@ class ApiGardenProvider extends GardenProvider {
   }
 
   @override
-  model.Garden? getGardenById(String id) {
+  Future<model.Garden?> getGardenById(String id) async {
+    await _fetchGardens();
     return gardens.firstWhere((g) => g.id == id);
+  }
+
+  @override
+  Future<List<model.DeviceReference>> getDevicesByGardenId(
+      String gardenId) async {
+    var apiDevices = await api.gardensIdDevicesGet(gardenId);
+    var dd = apiDevices!.map(
+      (id, type) => (MapEntry<model.DeviceReference, bool>(
+        model.DeviceReference(
+          id: id,
+          deviceType: SensorType(SensorKind.lightIntensity),
+        ),
+        true,
+      )),
+    );
+    return dd.keys.toList();
   }
 }

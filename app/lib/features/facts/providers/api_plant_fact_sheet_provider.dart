@@ -1,42 +1,53 @@
-import 'package:flutter/foundation.dart';
-import 'package:app/gen/plants-db-openapi/lib/api.dart' as api;
+import 'package:app/apis.dart';
+import 'package:app/gen/plants-db-openapi/lib/api.dart' as api_model;
 import '../models/plant_fact_sheet.dart';
+import '../providers/plant_fact_sheet_provider.dart';
 
-class ApiPlantFactSheetProvider extends ChangeNotifier {
-  static final ApiPlantFactSheetProvider _instance =
-      ApiPlantFactSheetProvider._internal();
-  factory ApiPlantFactSheetProvider() => _instance;
-  ApiPlantFactSheetProvider._internal();
+class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
+  // static final ApiPlantFactSheetProvider _instance =
+  //     ApiPlantFactSheetProvider._internal();
+  // factory ApiPlantFactSheetProvider() => _instance;
+  // ApiPlantFactSheetProvider._internal();
 
-  final api.DefaultApi _api = api.DefaultApi();
+  final PlantsDBApi api;
+
+  ApiPlantFactSheetProvider({required this.api});
+
   final Map<String, PlantFactSheet> _factSheetsById = {};
   List<PlantFactSheet>? _allFactSheets;
 
-  PlantFactSheet _mapApiFactsheet(api.Factsheet apiFactsheet) {
-    // Map the requirements to growing conditions
-    final requirements = apiFactsheet.requirements;
-    final conditions = GrowingConditions(
-      minTemperature: requirements.temperature.min.toDouble(),
-      maxTemperature: requirements.temperature.max.toDouble(),
-      minSoilHumidity: requirements.soilMoisture.min.toDouble(),
-      maxSoilHumidity: requirements.soilMoisture.max.toDouble(),
-      minLightIntensity: requirements.lightIntensity.min.toDouble(),
-      maxLightIntensity: requirements.lightIntensity.max.toDouble(),
-    );
-
+  PlantFactSheet _mapApiFactsheet(api_model.Factsheet apiFactsheet) {
     return PlantFactSheet(
-      uuid: apiFactsheet.id,
-      scientificName: apiFactsheet.taxonomy.scientificName,
-      commonName: apiFactsheet.taxonomy.commonName,
+      id: apiFactsheet.id,
+      taxonomy: Taxonomy(
+        scientificName: apiFactsheet.taxonomy.scientificName,
+        commonName: apiFactsheet.taxonomy.commonName,
+      ),
+      requirements: Requirements(
+        lightIntensity: Requirement(
+          min: apiFactsheet.requirements.lightIntensity.min,
+          max: apiFactsheet.requirements.lightIntensity.max,
+          unit: apiFactsheet.requirements.lightIntensity.unit,
+        ),
+        soilMoisture: Requirement(
+          min: apiFactsheet.requirements.soilMoisture.min,
+          max: apiFactsheet.requirements.soilMoisture.max,
+          unit: apiFactsheet.requirements.soilMoisture.unit,
+        ),
+        temperature: Requirement(
+          min: apiFactsheet.requirements.temperature.min,
+          max: apiFactsheet.requirements.temperature.max,
+          unit: apiFactsheet.requirements.temperature.unit,
+        ),
+      ),
       imageUrl: '',
-      idealConditions: conditions,
     );
   }
 
   Future<void> _fetchFactSheetById(String id) async {
     if (_factSheetsById.containsKey(id)) return;
 
-    final apiFactsheet = await _api.plantsIdGet(id);
+    final apiFactsheet = await api.plantsIdGet(id);
     if (apiFactsheet == null) return;
 
     final factSheet = _mapApiFactsheet(apiFactsheet);
@@ -44,36 +55,59 @@ class ApiPlantFactSheetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _fetchAllFactSheets() async {
-    if (_allFactSheets != null) return;
+  // Future<void> _fetchAllFactSheets() async {
+  //   if (_allFactSheets != null) return;
 
-    final apiPlants = await _api.plantsGet();
-    if (apiPlants == null) return;
+  //   final apiPlants = await api.plantsGet();
+  //   if (apiPlants == null) return;
 
-    // For each plant, fetch its full factsheet
-    // final factSheets = <PlantFactSheet>[];
-    for (final plant in apiPlants) {
-      if (plant.id != null) {
-        final factsheet = await _api.plantsIdGet(plant.id);
-        if (factsheet != null) {
-          final mappedFactsheet = _mapApiFactsheet(factsheet);
-          factSheets.add(mappedFactsheet);
-          _factSheetsById[mappedFactsheet.uuid] = mappedFactsheet;
-        }
-      }
+  //   // For each plant, fetch its full factsheet
+  //   final factSheets = <PlantFactSheet>[];
+  //   for (final plant in apiPlants) {
+  //     if (plant.id != null) {
+  //       final factsheet = await api.plantsIdGet(plant.id);
+  //       if (factsheet != null) {
+  //         final mappedFactsheet = _mapApiFactsheet(factsheet);
+  //         factSheets.add(mappedFactsheet);
+  //         _factSheetsById[mappedFactsheet.id] = mappedFactsheet;
+  //       }
+  //     }
+  //   }
+
+  //   _allFactSheets = factSheets;
+  //   notifyListeners();
+  // }
+
+  // List<PlantFactSheet> get factSheets {
+  //   _fetchAllFactSheets();
+  //   return List.unmodifiable(_allFactSheets ?? []);
+  // }
+
+  Future<PlantFactSheet?> getFactSheetById(String id) async {
+    final apiFactsheet = await api.plantsIdGet(id);
+    if (apiFactsheet == null) {
+      return null;
     }
-
-    _allFactSheets = factSheets;
-    notifyListeners();
+    final factSheet = _mapApiFactsheet(apiFactsheet);
+    return factSheet;
+    // _factSheetsById[id] = factSheet;
+    // notifyListeners();
   }
 
-  List<PlantFactSheet> get factSheets {
-    _fetchAllFactSheets();
-    return List.unmodifiable(_allFactSheets ?? []);
-  }
+  @override
+  Future<List<Species>> get species async {
+    var apiPlants = await api.plantsGet();
 
-  PlantFactSheet? getFactSheetById(String id) {
-    _fetchFactSheetById(id);
-    return _factSheetsById[id];
+    return apiPlants!
+        .map(
+          (e) => Species(
+            id: e.id,
+            taxonomy: Taxonomy(
+              scientificName: e.taxonomy.scientificName,
+              commonName: e.taxonomy.commonName,
+            ),
+          ),
+        )
+        .toList();
   }
 }

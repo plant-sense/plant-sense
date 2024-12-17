@@ -13,28 +13,42 @@ class GardenDeviceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final garden = context.watch<GardenProvider>().getGardenById(gardenId);
-    final deviceProvider = context.watch<DeviceProvider>();
-    final gardenDevices = deviceProvider.devices
-        .where((device) => garden!.allDevices().contains(device.id))
-        .toList();
+    final devicesFuture =
+        context.watch<GardenProvider>().getDevicesByGardenId(gardenId);
+    return FutureBuilder(
+        future: devicesFuture,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return CircularProgressIndicator();
+            default:
+              final deviceProvider = context.watch<DeviceProvider>();
+              final gardenDevices = deviceProvider.devices
+                  .where((device) => snapshot.data!
+                      .map(
+                        (e) => e.id,
+                      )
+                      .contains(device.id))
+                  .toList();
 
-    return DeviceList(
-      key: ValueKey(
-          '${garden!.hashCode}-${deviceProvider.devices.length}'), // Force rebuild
-      title: "Garden Devices",
-      devices: gardenDevices,
-      listTileBuilder: (device) => ListTile(
-        minVerticalPadding: 16.0,
-        leading: DeviceIcon(
-          type: device.deviceType,
-        ),
-        title: Text(device.deviceType.toString()),
-        trailing: DeviceDropdown(
-          predicate: (d) => d.deviceType == device.deviceType,
-          current: device,
-        ),
-      ),
-    );
+              return DeviceList(
+                key: ValueKey(
+                    '$gardenId-${deviceProvider.devices.length}'), // Force rebuild
+                title: "Garden Devices",
+                devices: gardenDevices,
+                listTileBuilder: (device) => ListTile(
+                  minVerticalPadding: 16.0,
+                  leading: DeviceIcon(
+                    type: device.deviceType,
+                  ),
+                  title: Text(device.deviceType.toString()),
+                  trailing: DeviceDropdown(
+                    predicate: (d) => d.deviceType == device.deviceType,
+                    current: device,
+                  ),
+                ),
+              );
+          }
+        });
   }
 }
