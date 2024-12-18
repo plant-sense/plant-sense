@@ -36,7 +36,7 @@ services:
       - "1234:80"
     depends_on:
       - envoy
-      - mock-monitoring-agent
+      - monitoring-agent-reader
       - user-data
       - plants-db
     environment:
