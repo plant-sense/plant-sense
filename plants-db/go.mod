@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-chi/chi v1.5.5 // indirect
 	github.com/go-chi/cors v1.2.1 // indirect
 	github.com/go-chi/httplog/v2 v2.1.1 // indirect
@@ -27,7 +28,9 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.24 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.33.0 // indirect
+	github.com/stretchr/testify v1.10.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
