@@ -1,11 +1,13 @@
 import 'package:app/components/title.dart';
 import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/models/device_type.dart';
+import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/widgets/device_dropdown.dart';
 import 'package:app/features/devices/widgets/garden_device_list.dart';
 import 'package:app/features/garden/models/garden.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class GardenEditDevices extends StatefulWidget {
@@ -18,17 +20,22 @@ class GardenEditDevices extends StatefulWidget {
 }
 
 class _GardenEditDevicesState extends State<GardenEditDevices> {
-  Device? selectedDevice;
+  final _deviceController = ValueNotifier<Device?>(null);
+
+  @override
+  void dispose() {
+    _deviceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Use watch when you need the UI to update when data changes
-    // var garden = context.watch<GardenProvider>().getGardenById(widget.gardenId);
-    var devicesFuture =
+    var devicesReferenceFuture =
         context.watch<GardenProvider>().getDevicesByGardenId(widget.gardenId);
+    var devicesFuture = context.read<DeviceProvider>().getDevices();
 
     return FutureBuilder(
-        future: devicesFuture,
+        future: Future.wait([devicesReferenceFuture, devicesFuture]),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -36,22 +43,32 @@ class _GardenEditDevicesState extends State<GardenEditDevices> {
             default:
               return snapshot.data == null
                   ? Center(child: Text('Garden not found'))
-                  : _buildFound(context, snapshot.data!);
+                  : _buildFound(
+                      context,
+                      snapshot.data![0] as List<DeviceReference>,
+                      snapshot.data![1] as List<Device>,
+                    );
           }
         });
   }
 
-  Widget _buildFound(BuildContext context, List<DeviceReference> devices) {
+  Widget _buildFound(BuildContext context,
+      List<DeviceReference> deviceReferences, List<Device> devices) {
+    debugPrint(devices.length.toString());
     // var devicesInGarden = garden.allDevices();
-    var deviceIds = devices.map((d) => d.id).toSet();
+    var deviceIds = deviceReferences.map((d) => d.id).toSet();
 
-    containsSensorType(DeviceType type) =>
-        devices.any((d) => d.deviceType is SensorType && d.deviceType == type);
+    containsSensorType(DeviceType type) => deviceReferences
+        .any((d) => d.deviceType is SensorType && d.deviceType == type);
 
     return Column(
+      key: ValueKey("${deviceReferences.length}-${devices.length}"),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GardenDeviceList(gardenId: widget.gardenId),
+        GardenDeviceList(
+          deviceReferences: deviceReferences,
+          devices: devices,
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
           child: TitleText(title: "Connect new devices"),
@@ -64,30 +81,33 @@ class _GardenEditDevicesState extends State<GardenEditDevices> {
               DeviceDropdown(
                 key: ValueKey(
                     widget.gardenId), // Force recreation when garden changes
-                current: selectedDevice,
+                current: _deviceController.value,
                 predicate: (p) =>
                     !deviceIds.contains(p.id) &&
                     !containsSensorType(p.deviceType),
                 additionalFormatting: true,
-                onDeviceChanged: (device) =>
-                    setState(() => selectedDevice = device),
+                controller: _deviceController,
+                devices: devices,
               ),
               SizedBox(width: 16),
-              FilledButton.icon(
-                onPressed: () {
-                  if (selectedDevice != null) {
-                    context.read<GardenProvider>().addDevice(
-                          widget.gardenId,
-                          selectedDevice!.id,
-                          selectedDevice!.deviceType,
-                        );
-                    setState(() {
-                      selectedDevice = null; // Reset selection after adding
-                    });
-                  }
+              ValueListenableBuilder<Device?>(
+                valueListenable: _deviceController,
+                builder: (context, selectedDevice, _) {
+                  return FilledButton.icon(
+                    onPressed: selectedDevice == null
+                        ? null
+                        : () {
+                            context.read<GardenProvider>().addDevice(
+                                  widget.gardenId,
+                                  selectedDevice.id,
+                                  selectedDevice.deviceType,
+                                );
+                            _deviceController.value = null;
+                          },
+                    label: Text("Connect"),
+                    icon: Icon(Icons.add),
+                  );
                 },
-                label: Text("Connect"),
-                icon: Icon(Icons.add),
               )
             ],
           ),

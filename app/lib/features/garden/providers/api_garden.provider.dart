@@ -44,8 +44,23 @@ class ApiGardenProvider extends GardenProvider {
       String gardenId, String deviceId, DeviceType deviceType) async {
     await api.gardensIdDevicesPatch(
       gardenId,
-      {deviceId: deviceType.toString()},
+      null,
+      requestBody: {deviceId: getAPIType(deviceType)},
     );
+  }
+
+  String getAPIType(DeviceType deviceType) {
+    if (deviceType is SensorType) {
+      switch (deviceType.kind) {
+        case SensorKind.soilMoisture:
+          return "soil_moisture_sensor";
+        case SensorKind.temperature:
+          return "temperature_sensor";
+        case SensorKind.lightIntensity:
+          return "light_sensor";
+      }
+    }
+    return "actuator";
   }
 
   @override

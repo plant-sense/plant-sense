@@ -3,6 +3,7 @@ package seed
 import (
 	"encoding/csv"
 	"io"
+	"math"
 	"os"
 	"strconv"
 
@@ -59,12 +60,12 @@ func ReadPlantsCSV(filename string) ([]PlantCSV, error) {
 		plant := PlantCSV{
 			PlantName:       record[0],
 			CommonName:      record[1],
-			SoilMoistureMin: soilMoistureMin,
-			SoilMoistureMax: soilMoistureMax,
-			TemperatureMin:  tempMin,
-			TemperatureMax:  tempMax,
-			LightMin:        lightMin,
-			LightMax:        lightMax,
+			SoilMoistureMin: math.Min(soilMoistureMin, soilMoistureMax),
+			SoilMoistureMax: math.Max(soilMoistureMin, soilMoistureMax),
+			TemperatureMin:  math.Min(tempMin, tempMax),
+			TemperatureMax:  math.Max(tempMin, tempMax),
+			LightMin:        math.Min(lightMin, lightMax),
+			LightMax:        math.Max(lightMin, lightMax),
 		}
 		plants = append(plants, plant)
 	}

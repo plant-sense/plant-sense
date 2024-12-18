@@ -97,9 +97,8 @@ class MyApp extends StatelessWidget {
                     ),
                     GoRoute(
                       path: "/devices",
-                      pageBuilder: (context, state) => ModalBottomSheetPage(
-                        builder: (context) => AllDevices(),
-                      ),
+                      pageBuilder: (context, state) =>
+                          NoTransitionPage(child: AllDevices()),
                     )
                   ]),
               GoRoute(
@@ -114,9 +113,10 @@ class MyApp extends StatelessWidget {
                 routes: [
                   GoRoute(
                     path: "/devices",
-                    pageBuilder: (context, state) => ModalBottomSheetPage(
-                      builder: (context) => GardenEditDevices(
-                          gardenId: state.pathParameters['id']!),
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      child: GardenEditDevices(
+                        gardenId: state.pathParameters['id']!,
+                      ),
                     ),
                   ),
                   GoRoute(

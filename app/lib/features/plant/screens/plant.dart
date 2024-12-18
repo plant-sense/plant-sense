@@ -1,6 +1,11 @@
 import 'package:app/components/network_loading_image.dart';
+import 'package:app/features/devices/models/device.dart';
+import 'package:app/features/devices/models/device_type.dart';
+import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/facts/models/plant_fact_sheet.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
+import 'package:app/features/garden/models/garden.dart';
+import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/metrics/widgets/live_linear_gauge.dart';
 import 'package:app/features/plant/models/plant.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
@@ -8,7 +13,6 @@ import 'package:app/layout/breakpoint_container.dart';
 import 'package:app/layout/breakpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../facts/providers/mock_plant_fact_sheet_provider.dart';
 
 class PlantPage extends StatelessWidget {
   final String id;
@@ -18,7 +22,6 @@ class PlantPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final plantProvider = Provider.of<PlantProvider>(context);
-
     final plantFuture = plantProvider.getPlantById(id);
     return FutureBuilder(
         future: plantFuture,
@@ -39,25 +42,54 @@ class PlantPage extends StatelessWidget {
     }
 
     final factSheetProvider = Provider.of<PlantFactSheetProvider>(context);
-    final factSheet = factSheetProvider.getFactSheetById(plant.factsheetId);
+    final factSheetFuture =
+        factSheetProvider.getFactSheetById(plant.factsheetId);
+
+    final gardenDeviceReferences_Future = Provider.of<GardenProvider>(context)
+        .getDevicesByGardenId(plant.gardenId);
+    final devicesFuture = Provider.of<DeviceProvider>(context).getDevices();
+
     return FutureBuilder(
-        future: factSheet,
+        future: Future.wait(
+            [factSheetFuture, gardenDeviceReferences_Future, devicesFuture]),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return const Center(child: CircularProgressIndicator());
             default:
-              final factSheet = snapshot.data;
-              return _buildLoadedFactSheet(context, plant, factSheet);
+              final factSheet = snapshot.data![0] as PlantFactSheet?;
+              final gardenDeviceReferences =
+                  snapshot.data![1] as List<DeviceReference>;
+              final devices = snapshot.data![2] as List<Device>;
+
+              return _buildLoadedFactSheet(
+                context,
+                plant,
+                factSheet,
+                gardenDeviceReferences,
+                devices,
+              );
           }
         });
   }
 
   Widget _buildLoadedFactSheet(
-      BuildContext context, Plant plant, PlantFactSheet? factSheet) {
+      BuildContext context,
+      Plant plant,
+      PlantFactSheet? factSheet,
+      List<DeviceReference> gardenDeviceReferences,
+      List<Device> devices) {
     if (factSheet == null) {
       return const Center(child: Text('Factsheet not found'));
     }
+
+    final deviceTypes = devices.map((d) => d.deviceType).toSet();
+    final devices_in_garden = devices
+        .where((d) =>
+            gardenDeviceReferences.any((deviceRef) => d.id == deviceRef.id))
+        .toList();
+
+    debugPrint(factSheet.requirements.toString());
 
     return BreakpointContainer(
       child: Column(
@@ -110,74 +142,94 @@ class PlantPage extends StatelessWidget {
                   ),
                   Text(factSheet.taxonomy.commonName),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      FilledButton.tonalIcon(
-                        icon: Icon(Icons.edit_outlined),
-                        onPressed: () {
-                          // TODO
-                        },
-                        label: Text(
-                          "Edit",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      FilledButton.tonalIcon(
-                        icon: Icon(Icons.line_axis_rounded),
-                        onPressed: () {
-                          // TODO
-                        },
-                        label: Text(
-                          "History",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      FilledButton.tonalIcon(
-                        icon: Icon(Icons.notifications_active_outlined),
-                        onPressed: () {
-                          // TODO
-                        },
-                        label: Text(
-                          "Alerts",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     FilledButton.tonalIcon(
+                  //       icon: Icon(Icons.edit_outlined),
+                  //       onPressed: () {
+                  //         // TODO
+                  //       },
+                  //       label: Text(
+                  //         "Edit",
+                  //         style: TextStyle(fontWeight: FontWeight.bold),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 5),
+                  //     FilledButton.tonalIcon(
+                  //       icon: Icon(Icons.line_axis_rounded),
+                  //       onPressed: () {
+                  //         // TODO
+                  //       },
+                  //       label: Text(
+                  //         "History",
+                  //         style: TextStyle(fontWeight: FontWeight.bold),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 5),
+                  //     FilledButton.tonalIcon(
+                  //       icon: Icon(Icons.notifications_active_outlined),
+                  //       onPressed: () {
+                  //         // TODO
+                  //       },
+                  //       label: Text(
+                  //         "Alerts",
+                  //         style: TextStyle(fontWeight: FontWeight.bold),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 10),
           Column(
-            children: [
-              LiveLinearGauge(
-                name: "Soil humidity",
-                minimum: 0.0,
-                maximum: 100.0,
-                idealMinimum: factSheet.requirements.soilMoisture.min,
-                idealMaximum: factSheet.requirements.soilMoisture.max,
-              ),
-              LiveLinearGauge(
-                name: "Light intensity",
-                minimum: 0.0,
-                maximum: 5000.0,
-                idealMinimum: factSheet.requirements.lightIntensity.min,
-                idealMaximum: factSheet.requirements.lightIntensity.max,
-              ),
-              LiveLinearGauge(
-                name: "Temperature",
-                minimum: 0.0,
-                maximum: 50.0,
-                idealMinimum: factSheet.requirements.temperature.min,
-                idealMaximum: factSheet.requirements.temperature.max,
-              ),
-            ],
+            children: [...sensorCharts(devices_in_garden, factSheet)],
           ),
         ],
       ),
     );
+  }
+
+  Iterable<Widget> sensorCharts(
+      List<Device> devices, PlantFactSheet factsheet) sync* {
+    for (var device in devices) {
+      var r =
+          requirementsForDeviceType(device.deviceType as SensorType, factsheet);
+      yield LiveLinearGauge(
+        deviceId: device.id,
+        name: device.deviceType.toString(),
+        minimum: 0,
+        maximum: maximumForDeviceType(device.deviceType),
+        idealMinimum: r?.min ?? 0,
+        idealMaximum: r?.max ?? maximumForDeviceType(device.deviceType),
+      );
+    }
+  }
+
+  Requirement? requirementsForDeviceType(
+      SensorType type, PlantFactSheet factsheet) {
+    switch (type) {
+      case SensorType(kind: SensorKind.lightIntensity):
+        return factsheet.requirements.lightIntensity;
+      case SensorType(kind: SensorKind.temperature):
+        return factsheet.requirements.temperature;
+      case SensorType(kind: SensorKind.soilMoisture):
+        return factsheet.requirements.soilMoisture;
+    }
+    return null;
+  }
+
+  double maximumForDeviceType(DeviceType type) {
+    switch (type) {
+      case SensorType(kind: SensorKind.lightIntensity):
+        return 10000;
+      case SensorType(kind: SensorKind.temperature):
+        return 50;
+      case SensorType(kind: SensorKind.soilMoisture):
+        return 100;
+      default:
+        return 100;
+    }
   }
 }

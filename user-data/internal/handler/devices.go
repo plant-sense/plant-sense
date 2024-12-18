@@ -22,6 +22,10 @@ func (h *handler) GetGardensIdDevices(ctx context.Context, request api.GetGarden
 
 // PatchGardensIdDevices implements api.StrictServerInterface.
 func (h *handler) PatchGardensIdDevices(ctx context.Context, request api.PatchGardensIdDevicesRequestObject) (api.PatchGardensIdDevicesResponseObject, error) {
+	if request.Body == nil {
+		return api.PatchGardensIdDevices200JSONResponse{}, nil
+	}
+
 	var d api.Devices = api.Devices(*request.Body)
 	devices_created := make([]model.Device, len(d))
 

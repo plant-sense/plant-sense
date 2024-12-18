@@ -6,7 +6,7 @@ import (
 )
 
 type Device struct {
-	ID       string `gorm:"primaryKey"`
+	DeviceID string
 	GardenID uuid.UUID
 	Garden   Garden
 	Type     model.DeviceType

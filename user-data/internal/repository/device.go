@@ -25,7 +25,7 @@ func (d *deviceRepository) GetDevices(gardenID uuid.UUID) []model.Device {
 	var result []model.Device
 	for _, device := range devices {
 		result = append(result, model.Device{
-			ID:   device.ID,
+			ID:   device.DeviceID,
 			Type: device.Type,
 		})
 	}
@@ -35,13 +35,13 @@ func (d *deviceRepository) GetDevices(gardenID uuid.UUID) []model.Device {
 // AddDevice implements DeviceRepository.
 func (d *deviceRepository) AddDevice(gardenID uuid.UUID, device model.Device) (model.Device, error) {
 	schemaDevice := schema.Device{
-		ID:       device.ID,
+		DeviceID: device.ID,
 		GardenID: gardenID,
 		Type:     device.Type,
 	}
 	result := d.db.Create(&schemaDevice)
 	return model.Device{
-		ID:   schemaDevice.ID,
+		ID:   schemaDevice.DeviceID,
 		Type: schemaDevice.Type,
 	}, result.Error
 }
