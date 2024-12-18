@@ -5,21 +5,19 @@ class Garden {
   final String name;
   final String? imageUrl;
 
-  final Map<SensorType, String> sensors;
-  final List<String> actuators;
-
   const Garden({
     required this.id,
     required this.name,
-    required this.sensors,
-    required this.actuators,
     this.imageUrl,
   });
+}
 
-  Set<String> allDevices() {
-    return {
-      ...sensors.values,
-      ...actuators,
-    };
-  }
+class DeviceReference {
+  final String id;
+  final DeviceType deviceType;
+
+  const DeviceReference({
+    required this.id,
+    required this.deviceType,
+  });
 }

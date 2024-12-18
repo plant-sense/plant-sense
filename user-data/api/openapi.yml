@@ -1,0 +1,212 @@
+openapi: 3.0.0
+info:
+  title: User data service
+  version: 0.1.0
+servers:
+  - url: http://user-data:9090
+paths:
+  /gardens:
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/garden"
+        "500":
+          description: "Internal server error"
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/garden_create"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/garden"
+        "500":
+          description: "Internal server error"
+  /gardens/{id}/devices:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Garden ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/devices"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/devices"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/devices"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /gardens/{id}/plants:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Garden ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/plant"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/plant_create"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/plant"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /plants/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Plant ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plant"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/plant_create"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plant"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+
+components:
+  schemas:
+    garden:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        image_url:
+          type: string
+      required:
+        - id
+        - name
+    garden_create:
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    devices:
+      type: object
+      additionalProperties:
+        type: string
+    plant:
+      properties:
+        id:
+          type: string
+          format: uuid
+        garden_id:
+          type: string
+          format: uuid
+        factsheet_id:
+          type: string
+        name:
+          type: string
+        image_url:
+          type: string
+      required:
+        - id
+        - garden_id
+        - factsheet_id
+        - name
+    plant_create:
+      properties:
+        garden_id:
+          type: string
+          format: uuid
+        factsheet_id:
+          type: string
+        name:
+          type: string
+        image_url:
+          type: string
+      required:
+        - garden_id
+        - factsheet_id
+        - name

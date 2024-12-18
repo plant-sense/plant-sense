@@ -16,12 +16,21 @@ type sensorService struct {
 }
 
 func generateRandomReading(deviceID string, t time.Time) *pb.SensorReading {
+	scale := 0.0
+	if deviceID == tempID {
+		scale = 30.0
+	} else if deviceID == smID {
+		scale = 100.0
+	} else if deviceID == lightID {
+		scale = 1000.0
+	}
+
 	return &pb.SensorReading{
 		DeviceId:  deviceID,
 		Timestamp: t.Unix(),
 		Reading: &pb.Reading{
-			Value: rand.Float64() * 100,
-			Unit:  "celsius",
+			Value: rand.Float64() * scale,
+			Unit:  "",
 		},
 	}
 }

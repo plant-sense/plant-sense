@@ -1,5 +1,7 @@
+import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/models/device_type.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
+import 'package:app/features/garden/models/garden.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_status_bar.dart';
 import 'package:app/components/title.dart';
@@ -18,16 +20,41 @@ class GardenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final garden = Provider.of<GardenProvider>(context).getGardenById(id);
-    final deviceTypes = Provider.of<DeviceProvider>(context)
-        .devices
-        .map((d) => d.deviceType)
-        .toSet();
+    final gardenDeviceReferences =
+        Provider.of<GardenProvider>(context).getDevicesByGardenId(id);
+    final devicesFuture = Provider.of<DeviceProvider>(context).getDevices();
 
+    final futures =
+        Future.wait([garden, gardenDeviceReferences, devicesFuture]);
+
+    return FutureBuilder(
+        future: futures,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            default:
+              final garden = snapshot.data![0] as Garden?;
+              final gardenDeviceReferences =
+                  snapshot.data![1] as List<DeviceReference>;
+              final devices = snapshot.data![2] as List<Device>;
+              return _build_loaded(
+                  context, garden, gardenDeviceReferences, devices);
+          }
+        });
+  }
+
+  Widget _build_loaded(BuildContext context, Garden? garden,
+      List<DeviceReference> gardenDeviceReferences, List<Device> devices) {
+    // TODO list can be optimized to set
     if (garden == null) {
-      return Scaffold(
-        body: Center(child: Text('Garden not found')),
-      );
+      return const Center(child: Text('Garden not found'));
     }
+    final deviceTypes = devices.map((d) => d.deviceType).toSet();
+    final devices_in_garden = devices
+        .where((d) =>
+            gardenDeviceReferences.any((deviceRef) => d.id == deviceRef.id))
+        .toList();
 
     return Scaffold(
       body: BreakpointContainer(
@@ -73,28 +100,7 @@ class GardenPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (deviceTypes.contains(SensorType(SensorKind.temperature)))
-                    LiveSparkChart(
-                      title: "Temperature",
-                      color: Colors.red,
-                      minValue: 0,
-                      maxValue: 50,
-                    ),
-                  if (deviceTypes.contains(SensorType(SensorKind.soilMoisture)))
-                    LiveSparkChart(
-                      title: "Soil moisture",
-                      color: Colors.green,
-                      minValue: 0,
-                      maxValue: 100,
-                    ),
-                  if (deviceTypes
-                      .contains(SensorType(SensorKind.lightIntensity)))
-                    LiveSparkChart(
-                      title: "Light intensity",
-                      color: Colors.blue,
-                      minValue: 0,
-                      maxValue: 1000,
-                    ),
+                  ...sensorCharts(devices_in_garden),
                 ],
               ),
               TitleText(title: "Plants"),
@@ -111,4 +117,51 @@ class GardenPage extends StatelessWidget {
       ),
     );
   }
+
+  Iterable<Widget> sensorCharts(List<Device> devices) sync* {
+    for (var device in devices) {
+      yield LiveSparkChart(
+        deviceId: device.id,
+        title: device.deviceType.toString(),
+        color: colorForDeviceType(device.deviceType),
+        minValue: 0,
+        maxValue: 1000,
+      );
+    }
+  }
+
+  MaterialColor colorForDeviceType(DeviceType type) {
+    switch (type) {
+      case SensorType(kind: SensorKind.lightIntensity):
+        return Colors.green;
+      case SensorType(kind: SensorKind.temperature):
+        return Colors.red;
+      case SensorType(kind: SensorKind.soilMoisture):
+        return Colors.blue;
+      default:
+        return Colors.grey;
+    }
+  }
+//  if (deviceTypes.contains(SensorType(SensorKind.temperature)))
+//                     LiveSparkChart(
+//                       title: "Temperature",
+//                       color: Colors.red,
+//                       minValue: 0,
+//                       maxValue: 50,
+//                     ),
+//                   if (deviceTypes.contains(SensorType(SensorKind.soilMoisture)))
+//                     LiveSparkChart(
+//                       title: "Soil moisture",
+//                       color: Colors.green,
+//                       minValue: 0,
+//                       maxValue: 100,
+//                     ),
+//                   if (deviceTypes
+//                       .contains(SensorType(SensorKind.lightIntensity)))
+//                     LiveSparkChart(
+//                       title: "Light intensity",
+//                       color: Colors.blue,
+//                       minValue: 0,
+//                       maxValue: 1000,
+//                     ),
 }

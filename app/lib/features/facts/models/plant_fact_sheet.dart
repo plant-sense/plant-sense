@@ -1,35 +1,73 @@
-import 'package:uuid/uuid.dart';
+class Species {
+  final String id;
+  final Taxonomy taxonomy;
 
-class GrowingConditions {
-  final double minTemperature;
-  final double maxTemperature;
-  final double minSoilHumidity;
-  final double maxSoilHumidity;
-  final double minLightIntensity;
-  final double maxLightIntensity;
-
-  const GrowingConditions({
-    required this.minTemperature,
-    required this.maxTemperature,
-    required this.minSoilHumidity,
-    required this.maxSoilHumidity,
-    required this.minLightIntensity,
-    required this.maxLightIntensity,
+  Species({
+    required this.id,
+    required this.taxonomy,
   });
 }
 
 class PlantFactSheet {
-  final String uuid;
-  final String scientificName;
-  final String commonName;
+  final String id;
+  final Taxonomy taxonomy;
   final String imageUrl;
-  final GrowingConditions idealConditions;
+  final Requirements requirements;
 
   PlantFactSheet({
-    String? uuid,
+    required this.id,
+    required this.taxonomy,
+    required this.requirements,
+    required this.imageUrl,
+  });
+}
+
+class Taxonomy {
+  final String scientificName;
+  final String commonName;
+
+  Taxonomy({
     required this.scientificName,
     required this.commonName,
-    required this.idealConditions,
-    required this.imageUrl,
-  }) : uuid = uuid ?? const Uuid().v4();
+  });
+}
+
+class Requirements {
+  final Requirement temperature;
+  final Requirement soilMoisture;
+  final Requirement lightIntensity;
+
+  Requirements({
+    required this.temperature,
+    required this.soilMoisture,
+    required this.lightIntensity,
+  });
+
+  @override
+  String toString() {
+    return 'Requirements(temperature: $temperature, soilMoisture: $soilMoisture, lightIntensity: $lightIntensity)';
+  }
+}
+
+class Requirement {
+  final double min;
+  final double max;
+  final String unit;
+
+  Requirement({
+    required this.min,
+    required this.max,
+    required this.unit,
+  });
+
+  @override
+  String toString() {
+    return '(min: $min, max: $max, unit: $unit)';
+  }
+}
+
+class Assets {
+  final String imageUrl;
+
+  Assets({required this.imageUrl});
 }

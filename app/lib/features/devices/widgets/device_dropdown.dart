@@ -8,16 +8,18 @@ class DeviceDropdown extends StatefulWidget {
   final bool Function(Device) predicate;
   final Device? current;
   final void Function(Device)? onDeviceChanged;
-  // final Widget Function(Device)? builder;
+  final ValueNotifier<Device?>? controller;
   final bool additionalFormatting;
+  final List<Device> devices;
 
   const DeviceDropdown({
     super.key,
     required this.predicate,
     this.current,
     this.onDeviceChanged,
-    // this.builder,
     this.additionalFormatting = false,
+    this.controller,
+    required this.devices,
   });
 
   @override
@@ -30,16 +32,30 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
   @override
   void initState() {
     super.initState();
-    selectedDevice = widget.current;
+    selectedDevice = widget.controller?.value ?? widget.current;
+    widget.controller?.addListener(_onControllerChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_onControllerChanged);
+    super.dispose();
+  }
+
+  void _onControllerChanged() {
+    if (mounted && selectedDevice != widget.controller?.value) {
+      setState(() => selectedDevice = widget.controller?.value);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var filteredDevices = context
-        .watch<DeviceProvider>()
-        .devices
-        .where(widget.predicate)
-        .toList();
+    var filteredDevices = widget.devices.where(widget.predicate).toList();
+    // var filteredDevices = context
+    //     .watch<DeviceProvider>()
+    //     .devices
+    //     .where(widget.predicate)
+    //     .toList();
 
     return DropdownMenu<Device>(
       initialSelection: selectedDevice,
@@ -74,6 +90,7 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
       onSelected: (Device? newDevice) {
         setState(() => selectedDevice = newDevice);
         if (newDevice != null) {
+          widget.controller?.value = newDevice;
           widget.onDeviceChanged?.call(newDevice);
         }
       },

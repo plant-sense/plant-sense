@@ -1,3 +1,4 @@
+import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/providers/mock_garden_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class GardenAddSheet extends StatelessWidget {
               onPressed: () {
                 if (_nameController.text.isNotEmpty) {
                   context
-                      .read<MockGardenProvider>()
+                      .read<GardenProvider>()
                       .addGarden(_nameController.text);
                   _nameController.clear();
                   Navigator.pop(context);
