@@ -5,3 +5,4 @@ gen_openapi:
 
 test:
 	cd ./plants-db && go test -v ./internal/repository
+	cd ./user-data && go test -v ./internal/repository

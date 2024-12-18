@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/plant-sense/user-data/internal/model"
 	"github.com/plant-sense/user-data/internal/repository"
+	"github.com/plant-sense/user-data/internal/repository/schema"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -14,7 +15,7 @@ import (
 func setupTestDBDevice(t *testing.T) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	assert.NoError(t, err)
-	err = db.AutoMigrate(&model.Device{})
+	err = db.AutoMigrate(&schema.Device{})
 	assert.NoError(t, err)
 	return db
 }
