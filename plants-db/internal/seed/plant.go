@@ -50,12 +50,12 @@ func ReadPlantsCSV(filename string) ([]PlantCSV, error) {
 			return nil, err
 		}
 
-		soilMoistureMin, _ := strconv.ParseFloat(record[20], 64)
-		soilMoistureMax, _ := strconv.ParseFloat(record[21], 64)
-		tempMin, _ := strconv.ParseFloat(record[26], 64)
-		tempMax, _ := strconv.ParseFloat(record[27], 64)
-		lightMin, _ := strconv.ParseFloat(record[30], 64)
-		lightMax, _ := strconv.ParseFloat(record[31], 64)
+		soilMoistureMin, _ := strconv.ParseFloat(record[21], 64)
+		soilMoistureMax, _ := strconv.ParseFloat(record[22], 64)
+		tempMin, _ := strconv.ParseFloat(record[27], 64)
+		tempMax, _ := strconv.ParseFloat(record[28], 64)
+		lightMin, _ := strconv.ParseFloat(record[31], 64)
+		lightMax, _ := strconv.ParseFloat(record[32], 64)
 
 		plant := PlantCSV{
 			PlantName:       record[0],
