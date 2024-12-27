@@ -1,8 +1,7 @@
 import 'package:app/features/facts/models/plant_fact_sheet.dart';
-import 'package:app/features/facts/providers/mock_plant_fact_sheet_provider.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
-import 'package:app/features/plant/providers/mock_plant_provider.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
+import 'package:app/features/plant/widgets/plant_species_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,22 +33,6 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // final speciesFuture = Provider.of<PlantFactSheetProvider>(context).species;
-    return FutureBuilder(
-      future: speciesFuture,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const CircularProgressIndicator();
-          default:
-            final species = snapshot.data!;
-            return _buildLoaded(species);
-        }
-      },
-    );
-  }
-
-  Widget _buildLoaded(List<Species> species) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
@@ -66,21 +49,10 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
               ),
             ),
             SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Plant Type',
-                border: OutlineInputBorder(),
-              ),
-              value: selectedFactSheetId,
-              items: species.map((sheet) {
-                return DropdownMenuItem(
-                  value: sheet.id,
-                  child: Text(sheet.taxonomy.scientificName),
-                );
-              }).toList(),
-              onChanged: (value) {
-                debugPrint('Selected FactSheetId: $value');
-                setState(() => selectedFactSheetId = value);
+            PlantSpeciesSearch(
+              onSelectCallback: (factsheetId) {
+                debugPrint("f $factsheetId");
+                setState(() => selectedFactSheetId = factsheetId);
               },
             ),
             SizedBox(height: 16),

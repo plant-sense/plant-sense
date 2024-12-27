@@ -5,4 +5,5 @@ abstract class PlantFactSheetProvider extends ChangeNotifier {
   // List<PlantFactSheet> get factSheets;
   Future<List<Species>> get species;
   Future<PlantFactSheet?> getFactSheetById(String id);
+  Future<List<Species>> searchByName(String name);
 }

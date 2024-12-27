@@ -110,4 +110,22 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
         )
         .toList();
   }
+
+  @override
+  Future<List<Species>> searchByName(String name) async {
+    var apiPlants = await api.searchPost(
+        searchRequest: api_model.SearchRequest(name: name));
+
+    return apiPlants!
+        .map(
+          (e) => Species(
+            id: e.id,
+            taxonomy: Taxonomy(
+              scientificName: e.taxonomy.scientificName,
+              commonName: e.taxonomy.commonName,
+            ),
+          ),
+        )
+        .toList();
+  }
 }
