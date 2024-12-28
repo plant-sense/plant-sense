@@ -158,8 +158,7 @@ class DefaultApi {
   ///
   /// * [Map<String, String>] requestBody:
   Future<Map<String, String>?> gardensIdDevicesPatch(
-    String id,
-    devicePatch, {
+    String id, {
     Map<String, String>? requestBody,
   }) async {
     final response = await gardensIdDevicesPatchWithHttpInfo(

@@ -1,8 +1,6 @@
 import 'package:app/features/devices/models/device.dart';
-import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/widgets/device_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DeviceDropdown extends StatefulWidget {
   final bool Function(Device) predicate;

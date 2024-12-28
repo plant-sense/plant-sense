@@ -16,6 +16,7 @@ import (
 	"github.com/plant-sense/plants-db/internal/config"
 	"github.com/plant-sense/plants-db/internal/handler"
 	"github.com/plant-sense/plants-db/internal/repository"
+	"github.com/plant-sense/plants-db/internal/seed"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gorm.io/driver/sqlite"
@@ -45,13 +46,16 @@ func main() {
 	}
 	db.AutoMigrate(&repository.PlantSchema{})
 
+	plantRepository := repository.NewPlantRepository(db)
+	handler := handler.NewHandler(plantRepository)
+
 	// err = seed.SeedPlants(db, "./datasets/watchflower_plantdb.csv")
 	// if err != nil {
 	// 	log.Error().Err(err).Msg("Failed to seed database")
 	// }
 
-	plantRepository := repository.NewPlantRepository(db)
-	handler := handler.NewHandler(plantRepository)
+	// seed.SeedPlantImages("./datasets/plant_images_metadata.csv", db)
+	seed.SeedPlantImages("./datasets/plant_images_manual_overrides.csv", db)
 
 	sh := api.NewStrictHandler(handler, nil)
 	r.Mount("/", api.Handler(sh))

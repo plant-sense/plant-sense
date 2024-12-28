@@ -129,10 +129,13 @@ components:
           $ref: "#/components/schemas/taxonomy"
         requirements:
           $ref: "#/components/schemas/requirements"
+        assets:
+          $ref: "#/components/schemas/assets"
       required:
         - id
         - taxonomy
         - requirements
+        - assets
     requirements:
       properties:
         temperature:
@@ -162,4 +165,8 @@ components:
     search_request:
       properties:
         name:
+          type: string
+    assets:
+      properties:
+        default_image_url:
           type: string

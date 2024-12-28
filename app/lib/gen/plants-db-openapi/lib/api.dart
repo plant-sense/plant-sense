@@ -30,6 +30,7 @@ part 'auth/http_bearer_auth.dart';
 
 part 'api/default_api.dart';
 
+part 'model/assets.dart';
 part 'model/factsheet.dart';
 part 'model/plant.dart';
 part 'model/requirement.dart';

@@ -1,7 +1,6 @@
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/metrics/providers/grpc_metrics_provider.dart';
 import 'package:app/features/metrics/providers/metrics_provider.dart';
-import 'package:app/features/metrics/providers/mock_metrics_provider.dart';
 import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

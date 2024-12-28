@@ -2,7 +2,6 @@ import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/widgets/device_icon.dart';
 import 'package:app/features/devices/widgets/device_list.dart';
 import 'package:app/features/garden/models/garden.dart';
-import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/device_provider.dart';

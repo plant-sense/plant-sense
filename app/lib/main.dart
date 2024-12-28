@@ -1,3 +1,4 @@
+// Openapi Generator last run: : 2024-12-28T22:50:29.199330
 import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
@@ -62,7 +63,7 @@ void main() {
 @Openapi(
   inputSpec: InputSpec(path: "../user-data/api/openapi.yml"),
   generatorName: Generator.dart,
-  outputDirectory: "lib/gen/openapi",
+  outputDirectory: "lib/gen/user-data-openapi",
 )
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

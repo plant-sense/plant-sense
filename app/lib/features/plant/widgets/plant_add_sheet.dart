@@ -56,7 +56,7 @@ class _PlantAddSheetState extends State<PlantAddSheet> {
               },
             ),
             SizedBox(height: 16),
-            ElevatedButton(
+            FilledButton(
               child: const Text('Add Plant'),
               onPressed: () {
                 debugPrint(

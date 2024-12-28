@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Assets](doc//Assets.md)
  - [Factsheet](doc//Factsheet.md)
  - [Plant](doc//Plant.md)
  - [Requirement](doc//Requirement.md)

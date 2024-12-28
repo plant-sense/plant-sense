@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 class CardWidget extends StatelessWidget {
   final String name;
   final String redirectTo;
-  final String imageUrl;
+  final String? imageUrl;
   final int count;
 
   const CardWidget(
