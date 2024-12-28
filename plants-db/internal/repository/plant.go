@@ -20,6 +20,7 @@ type PlantSchema struct {
 	LightIntensityMin  float64
 	LightIntensityMax  float64
 	LightIntensityUnit string
+	ImageURL           *string
 }
 
 type PlantRepository interface {
@@ -58,6 +59,7 @@ func (p *plantRepository) schemaToModel(schema PlantSchema) model.Plant {
 			Max:  schema.LightIntensityMax,
 			Unit: schema.LightIntensityUnit,
 		},
+		DefaultImageURL: schema.ImageURL,
 	}
 }
 

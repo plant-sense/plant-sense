@@ -1,10 +1,8 @@
 import 'package:app/apis.dart';
-import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/models/device_type.dart';
 import 'package:app/features/garden/models/garden.dart' as model;
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/gen/user-data-openapi/lib/api.dart';
-import 'package:flutter/material.dart';
 
 class ApiGardenProvider extends GardenProvider {
   final UserDataApi api;
@@ -44,7 +42,6 @@ class ApiGardenProvider extends GardenProvider {
       String gardenId, String deviceId, DeviceType deviceType) async {
     await api.gardensIdDevicesPatch(
       gardenId,
-      null,
       requestBody: {deviceId: getAPIType(deviceType)},
     );
   }

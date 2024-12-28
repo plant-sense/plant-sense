@@ -40,7 +40,7 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
           unit: apiFactsheet.requirements.temperature.unit,
         ),
       ),
-      imageUrl: '',
+      imageUrl: apiFactsheet.assets.defaultImageUrl,
     );
   }
 

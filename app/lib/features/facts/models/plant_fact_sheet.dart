@@ -11,7 +11,7 @@ class Species {
 class PlantFactSheet {
   final String id;
   final Taxonomy taxonomy;
-  final String imageUrl;
+  final String? imageUrl;
   final Requirements requirements;
 
   PlantFactSheet({

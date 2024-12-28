@@ -10,57 +10,47 @@
 
 part of openapi.api;
 
-class Factsheet {
-  /// Returns a new [Factsheet] instance.
-  Factsheet({
-    required this.id,
-    required this.taxonomy,
-    required this.requirements,
-    required this.assets,
+class Assets {
+  /// Returns a new [Assets] instance.
+  Assets({
+    this.defaultImageUrl,
   });
 
-  String id;
-
-  Taxonomy taxonomy;
-
-  Requirements requirements;
-
-  Assets assets;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? defaultImageUrl;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Factsheet &&
-          other.id == id &&
-          other.taxonomy == taxonomy &&
-          other.requirements == requirements &&
-          other.assets == assets;
+      other is Assets && other.defaultImageUrl == defaultImageUrl;
 
   @override
   int get hashCode =>
       // ignore: unnecessary_parenthesis
-      (id.hashCode) +
-      (taxonomy.hashCode) +
-      (requirements.hashCode) +
-      (assets.hashCode);
+      (defaultImageUrl == null ? 0 : defaultImageUrl!.hashCode);
 
   @override
-  String toString() =>
-      'Factsheet[id=$id, taxonomy=$taxonomy, requirements=$requirements, assets=$assets]';
+  String toString() => 'Assets[defaultImageUrl=$defaultImageUrl]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'id'] = this.id;
-    json[r'taxonomy'] = this.taxonomy;
-    json[r'requirements'] = this.requirements;
-    json[r'assets'] = this.assets;
+    if (this.defaultImageUrl != null) {
+      json[r'default_image_url'] = this.defaultImageUrl;
+    } else {
+      json[r'default_image_url'] = null;
+    }
     return json;
   }
 
-  /// Returns a new [Factsheet] instance and imports its values from
+  /// Returns a new [Assets] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Factsheet? fromJson(dynamic value) {
+  static Assets? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -70,31 +60,28 @@ class Factsheet {
       assert(() {
         requiredKeys.forEach((key) {
           assert(json.containsKey(key),
-              'Required key "Factsheet[$key]" is missing from JSON.');
+              'Required key "Assets[$key]" is missing from JSON.');
           assert(json[key] != null,
-              'Required key "Factsheet[$key]" has a null value in JSON.');
+              'Required key "Assets[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return Factsheet(
-        id: mapValueOfType<String>(json, r'id')!,
-        taxonomy: Taxonomy.fromJson(json[r'taxonomy'])!,
-        requirements: Requirements.fromJson(json[r'requirements'])!,
-        assets: Assets.fromJson(json[r'assets'])!,
+      return Assets(
+        defaultImageUrl: mapValueOfType<String>(json, r'default_image_url'),
       );
     }
     return null;
   }
 
-  static List<Factsheet> listFromJson(
+  static List<Assets> listFromJson(
     dynamic json, {
     bool growable = false,
   }) {
-    final result = <Factsheet>[];
+    final result = <Assets>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = Factsheet.fromJson(row);
+        final value = Assets.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -103,12 +90,12 @@ class Factsheet {
     return result.toList(growable: growable);
   }
 
-  static Map<String, Factsheet> mapFromJson(dynamic json) {
-    final map = <String, Factsheet>{};
+  static Map<String, Assets> mapFromJson(dynamic json) {
+    final map = <String, Assets>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = Factsheet.fromJson(entry.value);
+        final value = Assets.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -117,17 +104,17 @@ class Factsheet {
     return map;
   }
 
-  // maps a json object with a list of Factsheet-objects as value to a dart map
-  static Map<String, List<Factsheet>> mapListFromJson(
+  // maps a json object with a list of Assets-objects as value to a dart map
+  static Map<String, List<Assets>> mapListFromJson(
     dynamic json, {
     bool growable = false,
   }) {
-    final map = <String, List<Factsheet>>{};
+    final map = <String, List<Assets>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = Factsheet.listFromJson(
+        map[entry.key] = Assets.listFromJson(
           entry.value,
           growable: growable,
         );
@@ -137,10 +124,5 @@ class Factsheet {
   }
 
   /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'id',
-    'taxonomy',
-    'requirements',
-    'assets',
-  };
+  static const requiredKeys = <String>{};
 }

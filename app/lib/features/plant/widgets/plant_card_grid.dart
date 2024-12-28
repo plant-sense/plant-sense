@@ -27,13 +27,19 @@ class PlantCardGrid extends StatelessWidget {
         itemCount: plants.length,
         itemBuilder: (context, index) {
           final plant = plants[index];
-          // final factSheet =
-          //     factSheetProvider.getFactSheetById(plant.factsheetId);
+          final factSheetFuture =
+              factSheetProvider.getFactSheetById(plant.factsheetId);
 
-          return CardWidget(
-            name: plant.name,
-            imageUrl: '' /*factSheet?.imageUrl ??*/,
-            redirectTo: "/plant/${plant.id}",
+          return FutureBuilder(
+            future: factSheetFuture,
+            builder: (context, snapshot) {
+              final factsheet = snapshot.data;
+              return CardWidget(
+                name: plant.name,
+                imageUrl: factsheet?.imageUrl,
+                redirectTo: "/plant/${plant.id}",
+              );
+            },
           );
         },
       ),

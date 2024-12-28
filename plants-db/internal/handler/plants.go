@@ -60,6 +60,9 @@ func (h *handler) GetPlantsId(ctx context.Context, request api.GetPlantsIdReques
 				Unit: plant.LightIntensity.Unit,
 			},
 		},
+		Assets: api.Assets{
+			DefaultImageUrl: plant.DefaultImageURL,
+		},
 	}, nil
 }
 

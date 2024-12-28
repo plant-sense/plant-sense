@@ -7,7 +7,6 @@ import 'package:app/features/devices/widgets/garden_device_list.dart';
 import 'package:app/features/garden/models/garden.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class GardenEditDevices extends StatefulWidget {

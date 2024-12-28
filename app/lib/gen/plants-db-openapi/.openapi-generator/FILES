@@ -2,6 +2,7 @@
 .travis.yml
 README.md
 analysis_options.yaml
+doc/Assets.md
 doc/DefaultApi.md
 doc/Factsheet.md
 doc/Plant.md
@@ -20,6 +21,7 @@ lib/auth/authentication.dart
 lib/auth/http_basic_auth.dart
 lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
+lib/model/assets.dart
 lib/model/factsheet.dart
 lib/model/plant.dart
 lib/model/requirement.dart
