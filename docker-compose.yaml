@@ -11,9 +11,17 @@ services:
     ports:
       - "50051:50051"
     volumes:
-      - ./monitoring-agent-reader/:/app/
+      - ./mock-monitoring-agent/:/app/
+      # - ./monitoring-agent-reader/:/app/
     environment:
       - REDIS_ADDRESS=host.docker.internal:6379
+  monitoring-agent-alert-service:
+    image: cosmtrek/air:v1.61.1
+    working_dir: /app
+    ports:
+      - "50053:50053"
+    volumes:
+      - ./monitoring-agent-alert-service/:/app/
   user-data:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
