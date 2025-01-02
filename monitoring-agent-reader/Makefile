@@ -10,4 +10,4 @@ run:
 	air
 
 build:
-	go build ./tmp/main.exe ./cmd/main.go
+	go build -o ./tmp/main.exe ./cmd/main.go

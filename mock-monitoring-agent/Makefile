@@ -1,3 +1,5 @@
+export PATH := $(PATH):$(HOME)/.pub-cache/bin
+
 gen:
 	protoc --go_out=internal/gen/pb --go_opt=paths=source_relative \
 	--go-grpc_out=internal/gen/pb --go-grpc_opt=paths=source_relative \

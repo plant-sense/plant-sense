@@ -1,3 +1,4 @@
+// Openapi Generator last run: : 2024-12-29T16:32:54.482226
 import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
