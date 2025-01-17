@@ -1,6 +1,7 @@
 // Openapi Generator last run: : 2024-12-28T22:50:29.199330
 import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
+import 'package:app/components/dialog_page.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/grpc_device_provider.dart';
 import 'package:app/components/modal_bottom_sheet_page.dart';
@@ -11,6 +12,7 @@ import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/providers/api_garden.provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_add_sheet.dart';
+import 'package:app/features/metrics/screens/history.dart';
 import 'package:app/features/plant/providers/api_plant_provider.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/features/plant/widgets/plant_add_sheet.dart';
@@ -129,13 +131,21 @@ class MyApp extends StatelessWidget {
                 ],
               ),
               GoRoute(
-                path: "/plant/:id",
-                pageBuilder: (context, state) => NoTransitionPage(
-                  child: PlantPage(
-                    id: state.pathParameters['id']!,
-                  ),
-                ),
-              ),
+                  path: "/plant/:id",
+                  pageBuilder: (context, state) => NoTransitionPage(
+                        child: PlantPage(
+                          id: state.pathParameters['id']!,
+                        ),
+                      ),
+                  routes: [
+                    // GoRoute(
+                    //     path: "/history",
+                    //     pageBuilder: (context, state) {
+                    //       return DialogPage(
+                    //         builder: (context) => HistoryPage(),
+                    //       );
+                    //     })
+                  ]),
             ],
           ),
         ],

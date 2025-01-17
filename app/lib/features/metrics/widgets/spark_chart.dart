@@ -25,7 +25,7 @@ class SparkChart extends StatelessWidget {
     //   ..addPoints(windowedPoints)
     //   ..downsample(maxPoints);
 
-    final downsampledPoints = timeSeries;
+    final points = timeSeries;
 
     return Card.outlined(
       shape: RoundedRectangleBorder(
@@ -49,7 +49,7 @@ class SparkChart extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
                 color: color,
-                data: downsampledPoints.points
+                data: points.points
                     .map((point) => point.value.toDouble())
                     .toList(),
               ),

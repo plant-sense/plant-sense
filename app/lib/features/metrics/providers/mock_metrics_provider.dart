@@ -57,4 +57,9 @@ class MockMetricsProvider extends MetricsProvider {
     stopGenerating();
     super.dispose();
   }
+
+  @override
+  void getHistoricalReadings(DateTime? start, DateTime? end) {
+    // TODO: implement getHistoricalReadings
+  }
 }

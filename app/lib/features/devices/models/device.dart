@@ -8,4 +8,8 @@ class Device {
     required this.id,
     required this.deviceType,
   });
+
+  bool isSensor() {
+    return deviceType is SensorType;
+  }
 }

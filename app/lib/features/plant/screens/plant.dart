@@ -6,11 +6,16 @@ import 'package:app/features/facts/models/plant_fact_sheet.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/models/garden.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
+import 'package:app/features/metrics/providers/grpc_metrics_provider.dart';
+import 'package:app/features/metrics/providers/metrics_provider.dart';
+import 'package:app/features/metrics/screens/history.dart';
+import 'package:app/features/metrics/widgets/history_chart.dart';
 import 'package:app/features/metrics/widgets/live_linear_gauge.dart';
 import 'package:app/features/plant/models/plant.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:app/layout/breakpoints.dart';
+import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -142,42 +147,49 @@ class PlantPage extends StatelessWidget {
                   ),
                   Text(factSheet.taxonomy.commonName),
                   SizedBox(height: 10),
-                  // Row(
-                  //   children: [
-                  //     FilledButton.tonalIcon(
-                  //       icon: Icon(Icons.edit_outlined),
-                  //       onPressed: () {
-                  //         // TODO
-                  //       },
-                  //       label: Text(
-                  //         "Edit",
-                  //         style: TextStyle(fontWeight: FontWeight.bold),
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 5),
-                  //     FilledButton.tonalIcon(
-                  //       icon: Icon(Icons.line_axis_rounded),
-                  //       onPressed: () {
-                  //         // TODO
-                  //       },
-                  //       label: Text(
-                  //         "History",
-                  //         style: TextStyle(fontWeight: FontWeight.bold),
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 5),
-                  //     FilledButton.tonalIcon(
-                  //       icon: Icon(Icons.notifications_active_outlined),
-                  //       onPressed: () {
-                  //         // TODO
-                  //       },
-                  //       label: Text(
-                  //         "Alerts",
-                  //         style: TextStyle(fontWeight: FontWeight.bold),
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
+                  Row(
+                    children: [
+                      // FilledButton.tonalIcon(
+                      //   icon: Icon(Icons.edit_outlined),
+                      //   onPressed: () {
+                      //     // TODO
+                      //   },
+                      //   label: Text(
+                      //     "Edit",
+                      //     style: TextStyle(fontWeight: FontWeight.bold),
+                      //   ),
+                      // ),
+                      // SizedBox(width: 5),
+                      FilledButton.tonalIcon(
+                        icon: Icon(Icons.line_axis_rounded),
+                        onPressed: () {
+                          showDialog<void>(
+                            context: context,
+                            builder: (context) {
+                              return HistoryPage(
+                                devices: devices_in_garden,
+                              );
+                            },
+                          );
+                        },
+                        label: Text(
+                          "History",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      // SizedBox(width: 5),
+                      // FilledButton.tonalIcon(
+                      //   icon: Icon(Icons.notifications_active_outlined),
+                      //   onPressed: () {
+                      //     // TODO
+                      //   },
+                      //   label: Text(
+                      //     "Alerts",
+                      //     style: TextStyle(fontWeight: FontWeight.bold),
+                      //   ),
+                      // )
+                    ],
+                  ),
                 ],
               ),
             ],

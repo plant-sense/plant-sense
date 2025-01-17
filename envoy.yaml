@@ -63,5 +63,5 @@ static_resources:
             - endpoint:
                 address:
                   socket_address:
-                    address: monitoring-agent-reader
+                    address: mock-monitoring-agent
                     port_value: 50051
