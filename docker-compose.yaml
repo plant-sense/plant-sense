@@ -5,13 +5,13 @@ services:
       - "50052:50052"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-  mock-monitoring-agent:
+  monitoring-agent-reader:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     ports:
       - "50051:50051"
     volumes:
-      - ./mock-monitoring-agent/:/app/
+      - ./monitoring-agent-reader/:/app/
     environment:
       - REDIS_ADDRESS=host.docker.internal:6379
   user-data:
@@ -28,21 +28,21 @@ services:
       - "8080:8080"
     volumes:
       - ./plants-db/:/app/
-  # app:
-  #   build:
-  #     context: ./app
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "1234:80"
-  #   depends_on:
-  #     - envoy
-  #     - mock-monitoring-agent
-  #     - user-data
-  #     - plants-db
-  #   environment:
-  #     - USER_DATA_API_BASE_PATH = http://user-data:9090
-  #     - PLANTS_DB_API_BASE_PATH = http://plants-db:8080
-  #     - DEVICE_GRPC_HOST = envoy
-  #     - DEVICE_GRPC_PORT = 50052
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "1234:80"
+    depends_on:
+      - envoy
+      - monitoring-agent-reader
+      - user-data
+      - plants-db
+    environment:
+      - USER_DATA_API_BASE_PATH = http://user-data:9090
+      - PLANTS_DB_API_BASE_PATH = http://plants-db:8080
+      - DEVICE_GRPC_HOST = envoy
+      - DEVICE_GRPC_PORT = 50052
   
     
