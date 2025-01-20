@@ -1,10 +1,12 @@
 class Species {
   final String id;
   final Taxonomy taxonomy;
+  final Assets assets;
 
   Species({
     required this.id,
     required this.taxonomy,
+    required this.assets,
   });
 }
 

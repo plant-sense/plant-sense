@@ -15,10 +15,10 @@ class BreakpointContainer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: xxlBreakpoint),
+          constraints: BoxConstraints(maxWidth: xlBreakpoint - 20),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: child,
           ),
         ),

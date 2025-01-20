@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"math/rand"
+	"math"
 	"time"
 
 	"github.com/plant-sense/mock-monitoring-agent/internal/gen/pb"
@@ -18,7 +18,7 @@ type sensorService struct {
 func generateRandomReading(deviceID string, t time.Time) *pb.SensorReading {
 	scale := 0.0
 	if deviceID == tempID {
-		scale = 30.0
+		scale = 21.0
 	} else if deviceID == smID {
 		scale = 100.0
 	} else if deviceID == lightID {
@@ -27,9 +27,9 @@ func generateRandomReading(deviceID string, t time.Time) *pb.SensorReading {
 
 	return &pb.SensorReading{
 		DeviceId:  deviceID,
-		Timestamp: t.Unix(),
+		Timestamp: t.UnixMilli(),
 		Reading: &pb.Reading{
-			Value: rand.Float64() * scale,
+			Value: scale * (0.5*math.Sin(float64(t.Unix())/1000.0) + 0.5),
 			Unit:  "",
 		},
 	}
@@ -83,19 +83,20 @@ func (s *sensorService) GetHistoricalReadings(_ context.Context, req *pb.GetHist
 		startTime = *req.StartTime
 	} else {
 		// Default to an hour ago if start time not specified
-		startTime = time.Now().Add(-1 * time.Hour).Unix()
+		startTime = time.Now().Add(-24 * time.Hour).UnixMilli()
 	}
 	if req.EndTime != nil {
 		endTime = *req.EndTime
 	} else {
-		endTime = time.Now().Unix()
+		endTime = time.Now().UnixMilli()
 	}
 
 	// Generate readings at 1-minute intervals
 	var readings []*pb.SensorReading
-	for t := startTime; t <= endTime; t += 60 {
-		readings = append(readings, generateRandomReading(req.DeviceId, time.Unix(t, 0)))
+	for t := startTime; t <= endTime; t += 10 * 60 * 1000 {
+		readings = append(readings, generateRandomReading(req.DeviceId, time.UnixMilli(t)))
 	}
+	// todo add latest reading maybe for larger intervals
 
 	return &pb.SensorReadingStream{
 		Readings: readings,

@@ -1,3 +1,5 @@
+import 'package:app/features/devices/models/device_type.dart';
+import 'package:app/features/devices/widgets/device_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -9,6 +11,7 @@ class LinearGauge extends StatelessWidget {
   final double maximum;
   final double idealMinimum;
   final double idealMaximum;
+  final DeviceType deviceType;
 
   LinearGauge({
     required this.name,
@@ -17,6 +20,7 @@ class LinearGauge extends StatelessWidget {
     required this.maximum,
     required this.idealMinimum,
     required this.idealMaximum,
+    required this.deviceType,
   });
 
   @override
@@ -24,6 +28,8 @@ class LinearGauge extends StatelessWidget {
     return Column(
       children: [
         Row(children: [
+          DeviceIcon(type: deviceType),
+          SizedBox(width: 10),
           Text(
             name,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

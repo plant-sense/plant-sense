@@ -1,3 +1,4 @@
+import 'package:app/components/network_loading_image.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -76,7 +77,20 @@ class PlantSpeciesSearch extends StatelessWidget {
         var list = List<ListTile>.generate(plants.length, (int index) {
           final item = plants[index];
           return ListTile(
+            visualDensity: VisualDensity.comfortable,
+            leading: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              clipBehavior: Clip.hardEdge,
+              height: 50,
+              width: 50,
+              child: NetworkLoadingImage(url: item.assets.imageUrl),
+            ),
             title: Text(item.taxonomy.scientificName),
+            subtitle: item.taxonomy.commonName.isNotEmpty
+                ? Text(item.taxonomy.commonName)
+                : null,
             onTap: () {
               onSelectCallback(item.id);
               controller.closeView(item.taxonomy.scientificName);

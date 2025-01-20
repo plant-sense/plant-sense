@@ -23,10 +23,10 @@ var devices = []*pb.Device{
 		Id:   tempID,
 		Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_TEMPERATURE}},
 	},
-	{
-		Id:   lightID,
-		Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_LIGHT}},
-	},
+	// {
+	// 	Id:   lightID,
+	// 	Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_LIGHT}},
+	// },
 }
 
 type deviceService struct {

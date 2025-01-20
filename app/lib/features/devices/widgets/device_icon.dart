@@ -16,15 +16,15 @@ class DeviceIcon extends StatelessWidget {
   IconData _getIconData() {
     return switch (type) {
       SensorType(kind: final kind) => switch (kind) {
-          SensorKind.temperature => Icons.thermostat,
-          SensorKind.soilMoisture => Icons.water_drop,
-          SensorKind.lightIntensity => Icons.light_mode,
+          SensorKind.temperature => Icons.thermostat_outlined,
+          SensorKind.soilMoisture => Icons.water_drop_outlined,
+          SensorKind.lightIntensity => Icons.light_mode_outlined,
         },
       ActuatorType(kind: final kind) => switch (kind) {
-          ActuatorKind.light => Icons.lightbulb,
-          ActuatorKind.outlet => Icons.power,
-          ActuatorKind.irrigation => Icons.shower,
-          ActuatorKind.other => Icons.rss_feed_rounded,
+          ActuatorKind.light => Icons.lightbulb_outlined,
+          ActuatorKind.outlet => Icons.power_outlined,
+          ActuatorKind.irrigation => Icons.shower_outlined,
+          ActuatorKind.other => Icons.rss_feed_outlined,
         },
     };
   }

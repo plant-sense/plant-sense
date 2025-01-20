@@ -9,6 +9,7 @@ class DeviceDropdown extends StatefulWidget {
   final ValueNotifier<Device?>? controller;
   final bool additionalFormatting;
   final List<Device> devices;
+  final bool keyboardEnabled;
 
   const DeviceDropdown({
     super.key,
@@ -16,6 +17,7 @@ class DeviceDropdown extends StatefulWidget {
     this.current,
     this.onDeviceChanged,
     this.additionalFormatting = false,
+    this.keyboardEnabled = true,
     this.controller,
     required this.devices,
   });
@@ -49,15 +51,21 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
   @override
   Widget build(BuildContext context) {
     var filteredDevices = widget.devices.where(widget.predicate).toList();
-    // var filteredDevices = context
-    //     .watch<DeviceProvider>()
-    //     .devices
-    //     .where(widget.predicate)
-    //     .toList();
 
     return DropdownMenu<Device>(
+      inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Theme.of(context).cardTheme.color,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.all(8)
+          // outlineBorder: Border.all(),
+          // outlineBorder: BorderSide.none,
+          ),
       initialSelection: selectedDevice,
-      requestFocusOnTap: true,
+      requestFocusOnTap: widget.keyboardEnabled,
       leadingIcon: widget.additionalFormatting && selectedDevice != null
           ? DeviceIcon(type: selectedDevice!.deviceType)
           : null,
