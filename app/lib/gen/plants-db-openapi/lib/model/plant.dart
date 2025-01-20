@@ -15,29 +15,36 @@ class Plant {
   Plant({
     required this.id,
     required this.taxonomy,
+    required this.assets,
   });
 
   String id;
 
   Taxonomy taxonomy;
 
+  Assets assets;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Plant && other.id == id && other.taxonomy == taxonomy;
+      other is Plant &&
+          other.id == id &&
+          other.taxonomy == taxonomy &&
+          other.assets == assets;
 
   @override
   int get hashCode =>
       // ignore: unnecessary_parenthesis
-      (id.hashCode) + (taxonomy.hashCode);
+      (id.hashCode) + (taxonomy.hashCode) + (assets.hashCode);
 
   @override
-  String toString() => 'Plant[id=$id, taxonomy=$taxonomy]';
+  String toString() => 'Plant[id=$id, taxonomy=$taxonomy, assets=$assets]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     json[r'id'] = this.id;
     json[r'taxonomy'] = this.taxonomy;
+    json[r'assets'] = this.assets;
     return json;
   }
 
@@ -64,6 +71,7 @@ class Plant {
       return Plant(
         id: mapValueOfType<String>(json, r'id')!,
         taxonomy: Taxonomy.fromJson(json[r'taxonomy'])!,
+        assets: Assets.fromJson(json[r'assets'])!,
       );
     }
     return null;
@@ -122,5 +130,6 @@ class Plant {
   static const requiredKeys = <String>{
     'id',
     'taxonomy',
+    'assets',
   };
 }

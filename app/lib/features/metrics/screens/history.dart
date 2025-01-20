@@ -34,13 +34,6 @@ enum HistoryChartTimeRange {
     }
   }
 
-  // IconData get icon {
-  //   switch (this) {
-  //     case HistoryChartTimeRange.hour:
-  //       return Icons.hour
-  //   }
-  // }
-
   Duration? get duration {
     switch (this) {
       case HistoryChartTimeRange.hour:
@@ -56,6 +49,14 @@ enum HistoryChartTimeRange {
       case HistoryChartTimeRange.allTime:
         return null;
     }
+  }
+
+  DateTime getStartDate() {
+    if (duration == null) {
+      return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+
+    return DateTime.now().subtract(duration!);
   }
 }
 
@@ -126,7 +127,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         setState(() {
                           var first = newTimeRange.first;
                           timeRange = first;
-                          startDate = getStartDate(first);
+                          startDate = first.getStartDate();
                         });
                       },
                       showSelectedIcon: false,
@@ -143,21 +144,18 @@ class _HistoryPageState extends State<HistoryPage> {
                   from: startDate,
                 )..startGenerating(),
                 child: Consumer<MetricsProvider>(
-                    builder: (context, metrics, _) =>
-                        Expanded(child: HistoryChart())),
+                    builder: (context, metrics, _) => Expanded(
+                        child: HistoryChart(
+                            deviceType: widget.devices[0].deviceType,
+                            minimum: 0,
+                            maximum: 100,
+                            idealMinimum: 50,
+                            idealMaximum: 100))),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  DateTime getStartDate(HistoryChartTimeRange t) {
-    if (t.duration == null) {
-      return DateTime.fromMillisecondsSinceEpoch(0);
-    }
-
-    return DateTime.now().subtract(timeRange.duration!);
   }
 }

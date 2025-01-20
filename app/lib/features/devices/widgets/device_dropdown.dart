@@ -54,9 +54,16 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
 
     return DropdownMenu<Device>(
       inputDecorationTheme: InputDecorationTheme(
-        outlineBorder: BorderSide.none,
-        border: InputBorder.none,
-      ),
+          filled: true,
+          fillColor: Theme.of(context).cardTheme.color,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.all(8)
+          // outlineBorder: Border.all(),
+          // outlineBorder: BorderSide.none,
+          ),
       initialSelection: selectedDevice,
       requestFocusOnTap: widget.keyboardEnabled,
       leadingIcon: widget.additionalFormatting && selectedDevice != null

@@ -11,7 +11,7 @@ final class SensorType extends DeviceType {
   const SensorType(this.kind);
 
   @override
-  String toString() => kind.name;
+  String toString() => kind.displayName;
 
   @override
   bool operator ==(Object other) =>
@@ -30,7 +30,7 @@ final class ActuatorType extends DeviceType {
   const ActuatorType(this.kind);
 
   @override
-  String toString() => kind.name;
+  String toString() => kind.displayName;
 
   @override
   bool operator ==(Object other) =>
@@ -44,14 +44,26 @@ final class ActuatorType extends DeviceType {
 }
 
 enum SensorKind {
-  temperature,
-  soilMoisture,
-  lightIntensity,
+  temperature('Temperature'),
+  soilMoisture('Soil moisture'),
+  lightIntensity('Light intensity');
+
+  final String displayName;
+  const SensorKind(this.displayName);
+
+  @override
+  String toString() => displayName;
 }
 
 enum ActuatorKind {
-  light,
-  outlet,
-  irrigation,
-  other,
+  light('Light'),
+  outlet('Outlet'),
+  irrigation('Irrigation'),
+  other('Other');
+
+  final String displayName;
+  const ActuatorKind(this.displayName);
+
+  @override
+  String toString() => displayName;
 }

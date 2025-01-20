@@ -1,4 +1,4 @@
-// Openapi Generator last run: : 2024-12-28T22:50:29.199330
+// Openapi Generator last run: : 2025-01-19T23:34:25.070384
 import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
 import 'package:app/components/dialog_page.dart';
@@ -6,10 +6,12 @@ import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/grpc_device_provider.dart';
 import 'package:app/components/modal_bottom_sheet_page.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
-import 'package:app/features/devices/widgets/garden_edit_devices_sheet.dart';
+import 'package:app/features/devices/screens/garden_edit_devices_sheet.dart';
 import 'package:app/features/facts/providers/api_plant_fact_sheet_provider.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/providers/api_garden.provider.dart';
+import 'package:app/features/garden/providers/api_garden_images_provider.dart';
+import 'package:app/features/garden/providers/garden_images_provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_add_sheet.dart';
 import 'package:app/features/metrics/screens/history.dart';
@@ -44,17 +46,31 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<GardenProvider>(
-          create: (_) => ApiGardenProvider(api: userDataApi),
+          create: (_) => ApiGardenProvider(
+            api: userDataApi,
+          ),
         ),
         ChangeNotifierProvider<PlantProvider>(
-          create: (_) => ApiPlantProvider(api: userDataApi),
+          create: (_) => ApiPlantProvider(
+            api: userDataApi,
+          ),
         ),
         ChangeNotifierProvider<PlantFactSheetProvider>(
-          create: (_) => ApiPlantFactSheetProvider(api: plantDbApi),
+          create: (_) => ApiPlantFactSheetProvider(
+            api: plantDbApi,
+          ),
         ),
         ChangeNotifierProvider<DeviceProvider>(
           create: (_) => GrpcDeviceProvider(
-              host: deviceGrpcHost, port: int.parse(deviceGrpcPort)),
+            host: deviceGrpcHost,
+            port: int.parse(deviceGrpcPort),
+          ),
+        ),
+        ChangeNotifierProvider<GardenImagesProvider>(
+          create: (_) => ApiGardenImagesProvider(
+            userDataApi: userDataApi,
+            plantsDbApi: plantDbApi,
+          ),
         ),
       ],
       child: const MyApp(),
@@ -72,11 +88,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Plant Sense',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
-        textTheme: GoogleFonts.aboretoTextTheme(),
+        textTheme: GoogleFonts.rubikTextTheme(),
+        // textTheme: GoogleFonts.aboretoTextTheme(),
       ),
       routerConfig: GoRouter(
         routes: [
@@ -121,13 +139,12 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                   GoRoute(
-                      path: "/plants/add",
-                      pageBuilder: (context, state) {
-                        return ModalBottomSheetPage(
-                            builder: (context) => PlantAddSheet(
-                                  gardenId: state.pathParameters['id']!,
-                                ));
-                      }),
+                    path: "/plants/add",
+                    pageBuilder: (context, state) => ModalBottomSheetPage(
+                        builder: (context) => PlantAddSheet(
+                              gardenId: state.pathParameters['id']!,
+                            )),
+                  ),
                 ],
               ),
               GoRoute(

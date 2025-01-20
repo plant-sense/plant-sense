@@ -131,6 +131,9 @@ func (h *handler) PostSearch(ctx context.Context, request api.PostSearchRequestO
 				CommonName:     plant.CommonName,
 				ScientificName: plant.ScientificName,
 			},
+			Assets: api.Assets{
+				DefaultImageUrl: plant.DefaultImageURL,
+			},
 		})
 	}
 

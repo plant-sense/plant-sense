@@ -9,7 +9,13 @@ class NetworkLoadingImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url == null || url == "") {
-      return Container(color: Colors.green.shade300);
+      return Container(
+        color: Colors.green.shade300,
+        child: Icon(
+          Icons.question_mark,
+          color: Colors.green.shade800,
+        ),
+      );
     }
     return Image.network(
       url!,

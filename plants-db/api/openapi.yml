@@ -108,9 +108,12 @@ components:
           format: uuid
         taxonomy:
           $ref: "#/components/schemas/taxonomy"
+        assets:
+          $ref: "#/components/schemas/assets"
       required:
         - id
         - taxonomy
+        - assets
     taxonomy:
       properties:
         common_name:

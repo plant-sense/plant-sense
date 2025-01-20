@@ -8,22 +8,37 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      initialIndex: 1,
-      child: Scaffold(
-        appBar: AppBar(
-          title: TextButton(
-            onPressed: () => context.go("/"),
-            child: Text(
-              "Plant Sense",
-              style: TextStyle(color: Colors.black, fontSize: 24),
+    return Scaffold(
+      appBar: AppBar(
+        title: TextButton(
+          onPressed: () => context.go("/"),
+          child: Text(
+            "Plant Sense",
+            style: TextStyle(
+              color: Colors.green.shade900,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors.green.shade100,
         ),
-        body: child,
+        actions: [
+          IconButton(
+            onPressed: () => context.go("/devices"),
+            icon: Icon(Icons.hub_outlined),
+          ),
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(Icons.notifications),
+          ),
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(Icons.settings),
+          ),
+          SizedBox(width: 16),
+        ],
+        // backgroundColor: Colors.green.shade100,
       ),
+      body: child,
     );
   }
 }

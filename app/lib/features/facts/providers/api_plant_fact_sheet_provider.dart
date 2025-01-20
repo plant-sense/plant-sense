@@ -106,6 +106,9 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
               scientificName: e.taxonomy.scientificName,
               commonName: e.taxonomy.commonName,
             ),
+            assets: Assets(
+              imageUrl: e.assets.defaultImageUrl ?? "",
+            ),
           ),
         )
         .toList();
@@ -123,6 +126,9 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
             taxonomy: Taxonomy(
               scientificName: e.taxonomy.scientificName,
               commonName: e.taxonomy.commonName,
+            ),
+            assets: Assets(
+              imageUrl: e.assets.defaultImageUrl ?? "",
             ),
           ),
         )

@@ -48,9 +48,9 @@ class DeviceList extends StatelessWidget {
     // final devices = context.watch<DeviceProvider>().devices;
     final builder = listTileBuilder ?? _buildDeviceTile;
 
-    if (devices.isEmpty) {
-      return const Center(child: Text('No devices found'));
-    }
+    // if (devices.isEmpty) {
+    //   return const Center(child: Text('No devices found'));
+    // }
 
     final sensors = _getSensors(devices);
     final actuators = _getActuators(devices);
