@@ -11,11 +11,10 @@ import (
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/redis/go-redis/v9"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 
 	"monitoring-agent/internal/common"
 	"monitoring-agent/internal/listener"
+	"monitoring-agent/internal/relay"
 )
 
 func setIfNone(envvar *string, defval string) {
@@ -46,10 +45,6 @@ func main() {
 		log.Fatalf("failed to listen on port 50051: %v", err)
 	}
 
-	grpc_server := grpc.NewServer(
-		grpc.Creds(insecure.NewCredentials()),
-	)
-
 	r_opts := redis.Options{
 		Network:  "tcp",
 		Addr:     r_addr,
@@ -79,7 +74,7 @@ func main() {
 	// Setup IPC
 
 	sig_chan := make(chan os.Signal, 1)
-	dev_chan := make(chan common.DeviceInfo)
+	dev_chan := make(chan []common.Device)
 	relay_ctrl := common.Control{
 		Parent: make(chan int, 1),
 		Child:  make(chan int, 1),
@@ -90,7 +85,7 @@ func main() {
 	}
 
 	go listener.Listener_routine(mbroker, rdb, dev_chan, &listener_ctrl)
-	//go relay.Relay_routine()
+	go relay.Relay_routine(rdb, lis, mbroker, dev_chan, &relay_ctrl)
 
 	signal.Notify(sig_chan, syscall.SIGINT, syscall.SIGTERM)
 
@@ -124,7 +119,6 @@ func main() {
 
 cleanup:
 	mbroker.Disconnect(10)
-	grpc_server.Stop()
 	rdb.Close()
 	lis.Close()
 

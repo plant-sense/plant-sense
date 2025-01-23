@@ -12,14 +12,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type Device struct {
-	Ieee_addr     string
-	Friendly_name string
-	Sensors       int
-	Actuators     int
-}
-
-func MakeDevAction(dev Device, action int) common.DeviceInfo {
+func MakeDevAction(dev common.Device, action int) common.DeviceInfo {
 	return common.DeviceInfo{
 		Ieee_addr:     dev.Ieee_addr,
 		Friendly_name: dev.Friendly_name,
@@ -60,7 +53,7 @@ func CreateAggregation(rdb *redis.Client, basename string) bool {
 	return true
 }
 
-func CreateDeviceSeries(device Device, rdb *redis.Client) {
+func CreateDeviceSeries(device common.Device, rdb *redis.Client) {
 	if device.Sensors&common.SENSOR_TEMP != 0 {
 		common.RedisCreateObject(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
 		CreateAggregation(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
@@ -75,33 +68,95 @@ func CreateDeviceSeries(device Device, rdb *redis.Client) {
 	}
 }
 
-func WriteToDb() {
-
+func WriteToDb(rdb *redis.Client, key string, value float64) bool {
+	repl := rdb.TSAdd(context.Background(), key, "*", value)
+	if repl.Err() != nil {
+		log.Println(repl.Err())
+		return false
+	}
+	return true
 }
 
-func SubToDevice(mbroker mqtt.Client, dev Device) bool {
+func ParseWriteSensorMessage(rdb *redis.Client, dev common.Device, msg map[string]interface{}) {
+
+	if dev.Sensors&common.SENSOR_TEMP != 0 {
+		WriteToDb(rdb,
+			dev.Ieee_addr+common.RBD_TEMP_SUFFIX,
+			msg["temperature"].(float64),
+		)
+	}
+	if dev.Sensors&common.SENSOR_LIGHT != 0 {
+		WriteToDb(rdb,
+			dev.Ieee_addr+common.RBD_LIGHT_SUFFIX,
+			msg["light_intensity"].(float64),
+		)
+	}
+	if dev.Sensors&common.SENSOR_SOIL_MOIST != 0 {
+		WriteToDb(rdb,
+			dev.Ieee_addr+common.RBD_SOIL_SUFFIX,
+			msg["soil_moisture"].(float64),
+		)
+	}
+}
+
+func SubToDevice(mbroker mqtt.Client, dev common.Device, rdb *redis.Client) bool {
 
 	mh := func(c mqtt.Client, m mqtt.Message) {
-
+		var msgobj map[string]interface{}
+		json.Unmarshal(m.Payload(), &msgobj)
+		ParseWriteSensorMessage(rdb, dev, msgobj)
 	}
 
-	mbroker.Subscribe("zigbee2mqtt/"+dev.Friendly_name, 1)
-
-	mbroker
+	token := mbroker.Subscribe("zigbee2mqtt/"+dev.Friendly_name, 1, mh)
+	token.WaitTimeout(1 * time.Second)
+	return token.Error() != nil
+	// if token.Error() != nil {
+	// 	return false
+	// }
+	// return true
 }
 
-func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- common.DeviceInfo, ctrl *common.Control) {
+func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- []common.Device, ctrl *common.Control) {
 
 	def_timeout := 2 * time.Second
 
 	//get existing devices on network
 
-	var dev_msg []interface{}
-
 	cb_ch := make(chan []byte)
 
 	cb_f := func(_ mqtt.Client, m mqtt.Message) {
+		var dev_msg []interface{}
 		cb_ch <- m.Payload()
+		if err := json.Unmarshal(m.Payload(), &dev_msg); err != nil {
+			log.Println(err)
+			ctrl.Child <- 1
+			return
+		}
+
+		devices := []common.Device{}
+
+		for _, v := range dev_msg {
+			val := v.(map[string]interface{})
+
+			exposes := val["definition"].(map[string]interface{})["exposes"].([]interface{})
+
+			sens, act := parseDevExposes(exposes)
+
+			dev_info := common.Device{
+				Ieee_addr:     val["ieee_address"].(string),
+				Friendly_name: val["friendly_name"].(string),
+				Sensors:       sens,
+				Actuators:     act,
+			}
+
+			devices = append(devices, dev_info)
+		}
+
+		for _, d := range devices {
+			CreateDeviceSeries(d, rdb)
+			SubToDevice(mbroker, d, rdb)
+		}
+		dev_ch <- devices
 	}
 
 	token := mbroker.Subscribe("zigbee2mqtt/bridge/devices", 2, cb_f)
@@ -116,37 +171,7 @@ func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- comm
 		return
 	}
 
-	device_msg_bytes := <-cb_ch
-
-	if err := json.Unmarshal(device_msg_bytes, &dev_msg); err != nil {
-		log.Println(err)
-		ctrl.Child <- 1
-		return
-	}
-
-	devices := []Device{}
-
-	for _, v := range dev_msg {
-		val := v.(map[string]interface{})
-
-		exposes := val["definition"].(map[string]interface{})["exposes"].([]interface{})
-
-		sens, act := parseDevExposes(exposes)
-
-		dev_info := Device{
-			Ieee_addr:     val["ieee_address"].(string),
-			Friendly_name: val["friendly_name"].(string),
-			Sensors:       sens,
-			Actuators:     act,
-		}
-
-		devices = append(devices, dev_info)
-	}
-
-	for _, d := range devices {
-		CreateDeviceSeries(d, rdb)
-		dev_ch <- MakeDevAction(d, common.DEV_REGISTER)
-	}
+	tmp := make(<-chan int)
 
 main_loop:
 	for {
@@ -154,15 +179,12 @@ main_loop:
 		case <-ctrl.Parent:
 			// We're shutting down
 			break main_loop
-		default: //pass
+		case <-tmp:
+			//nop
 		}
-
 	}
-
 	//main handles connections
 
 	ctrl.Child <- 1
-
-	return
 
 }

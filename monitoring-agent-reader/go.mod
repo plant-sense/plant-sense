@@ -4,7 +4,6 @@ go 1.23.2
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0
-	github.com/go-mqtt/mqtt v0.0.0-20210702165922-b33ea0451b0b
 	github.com/redis/go-redis/v9 v9.7.0
 	google.golang.org/grpc v1.68.1
 	google.golang.org/protobuf v1.34.2

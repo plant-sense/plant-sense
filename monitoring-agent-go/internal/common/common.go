@@ -15,10 +15,12 @@ const (
 const (
 	DEV_REGISTER int = 1
 	DEV_DROP     int = 2
+	DEV_CLEAR    int = 3
 )
 
 const (
 	RBD_AGGR_SUFFIX  string = "_comp"
+	RBD_ACT_SUFFIX   string = "_a"
 	RBD_TEMP_SUFFIX  string = "_temp"
 	RBD_SOIL_SUFFIX  string = "_sm"
 	RBD_LIGHT_SUFFIX string = "_light"
@@ -35,4 +37,10 @@ type DeviceInfo struct {
 type Control struct {
 	Parent chan int
 	Child  chan int
+}
+type Device struct {
+	Ieee_addr     string
+	Friendly_name string
+	Sensors       int
+	Actuators     int
 }
