@@ -10,33 +10,35 @@ class GardenStatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var alertsCount = 0;
+
     var children = [
-      Card.filled(
-        color: Colors.grey.shade400.withOpacity(0.2),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.grey.shade800,
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.warning_amber_rounded,
-              size: 50,
-            ),
-            Text(
-              "0",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
+      // Card.filled(
+      //   color: Colors.grey.shade400.withOpacity(0.2),
+      //   shape: RoundedRectangleBorder(
+      //     side: BorderSide(
+      //       color: Colors.grey.shade800,
+      //       width: 0,
+      //     ),
+      //     borderRadius: BorderRadius.circular(8),
+      //   ),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Icon(
+      //         Icons.warning_amber_rounded,
+      //         size: 50,
+      //       ),
+      //       Text(
+      //         "0",
+      //         style: TextStyle(
+      //           fontSize: 20,
+      //           fontWeight: FontWeight.bold,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       ...sensorCharts(devices_in_garden)
     ];
     return LayoutBuilder(

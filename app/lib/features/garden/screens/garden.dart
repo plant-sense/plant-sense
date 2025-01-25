@@ -4,6 +4,7 @@ import 'package:app/features/garden/models/garden.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_page_header.dart';
 import 'package:app/components/title.dart';
+import 'package:app/features/garden/widgets/garden_status_bar.dart';
 import 'package:app/features/plant/widgets/plant_card_grid.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,8 @@ class _GardenPageState extends State<GardenPage> {
                 final gardenDeviceReferences =
                     snapshot.data![1] as List<DeviceReference>;
                 final devices = snapshot.data![2] as List<Device>;
-                return _build_loaded(context, garden!, gardenDeviceReferences);
+                return _build_loaded(
+                    context, garden!, gardenDeviceReferences, devices);
             }
           },
         ),
@@ -68,7 +70,7 @@ class _GardenPageState extends State<GardenPage> {
   }
 
   Widget _build_loaded(BuildContext context, Garden garden,
-      List<DeviceReference> gardenDeviceReferences) {
+      List<DeviceReference> gardenDeviceReferences, List<Device> devices) {
     // TODO list can be optimized to set
     if (garden == null) {
       return const Center(child: Text('Garden not found'));
@@ -76,9 +78,9 @@ class _GardenPageState extends State<GardenPage> {
     return Column(
       children: [
         GardenPageHeader(garden: garden!),
-        // BreakpointContainer(
-        //   child: GardenStatusBar(devices_in_garden: devices_in_garden),
-        // ),
+        BreakpointContainer(
+          child: GardenStatusBar(devices_in_garden: devices),
+        ),
         BreakpointContainer(
           child: TitleText(title: "Plants"),
         ),

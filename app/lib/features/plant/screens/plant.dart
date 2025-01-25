@@ -157,16 +157,16 @@ class PlantPage extends StatelessWidget {
                     Row(
                       spacing: 8,
                       children: [
-                        FilledButton.tonalIcon(
-                          icon: Icon(Icons.edit_outlined),
-                          onPressed: () {
-                            // TODO
-                          },
-                          label: Text(
-                            "Edit",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        // FilledButton.tonalIcon(
+                        //   icon: Icon(Icons.edit_outlined),
+                        //   onPressed: () {
+                        //     // TODO
+                        //   },
+                        //   label: Text(
+                        //     "Edit",
+                        //     style: TextStyle(fontWeight: FontWeight.bold),
+                        //   ),
+                        // ),
                         SizedBox(width: 5),
                         // FilledButton.tonalIcon(
                         //   icon: Icon(Icons.line_axis_rounded),
