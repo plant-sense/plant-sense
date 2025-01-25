@@ -72,12 +72,8 @@ class _GardenPageState extends State<GardenPage> {
     );
   }
 
-  Widget _build_loaded(
-    BuildContext context,
-    Garden garden,
-    List<DeviceReference> gardenDeviceReferences,
-    List<Device> devices_in_garden,
-  ) {
+  Widget _build_loaded(BuildContext context, Garden garden,
+      List<DeviceReference> gardenDeviceReferences, List<Device> devices) {
     // TODO list can be optimized to set
     if (garden == null) {
       return const Center(child: Text('Garden not found'));
@@ -86,7 +82,7 @@ class _GardenPageState extends State<GardenPage> {
       children: [
         GardenPageHeader(garden: garden!),
         BreakpointContainer(
-          child: GardenStatusBar(devices_in_garden: devices_in_garden),
+          child: GardenStatusBar(devices_in_garden: devices),
         ),
         BreakpointContainer(
           child: TitleText(title: "Plants"),
