@@ -25,12 +25,13 @@ func Relay_routine(rdb *redis.Client, lis net.Listener, mbroker mqtt.Client, dev
 	pb.RegisterSensorServiceServer(grpc_server, pbservice.NewSensorService(rdb))
 	pb.RegisterActuatorServiceServer(grpc_server, pbservice.NewActuatorService(mbroker))
 
-	grpc_server.Serve(lis)
+	go grpc_server.Serve(lis)
 
 outer:
 	for {
 		select {
 		case devices = <-dev_chan:
+			log.Printf("Relay: Got Devices: %v", devices)
 			// nil
 		case <-ctrl.Parent:
 			break outer

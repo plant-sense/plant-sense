@@ -102,6 +102,7 @@ func ParseWriteSensorMessage(rdb *redis.Client, dev common.Device, msg map[strin
 func SubToDevice(mbroker mqtt.Client, dev common.Device, rdb *redis.Client) bool {
 
 	mh := func(c mqtt.Client, m mqtt.Message) {
+		log.Println("Got reading")
 		var msgobj map[string]interface{}
 		json.Unmarshal(m.Payload(), &msgobj)
 		ParseWriteSensorMessage(rdb, dev, msgobj)
@@ -122,13 +123,11 @@ func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- []co
 
 	//get existing devices on network
 
-	cb_ch := make(chan []byte)
-
 	cb_f := func(_ mqtt.Client, m mqtt.Message) {
+		log.Println("Recvd dev msg")
 		var dev_msg []interface{}
-		cb_ch <- m.Payload()
 		if err := json.Unmarshal(m.Payload(), &dev_msg); err != nil {
-			log.Println(err)
+			log.Printf("%v\n", err)
 			ctrl.Child <- 1
 			return
 		}
@@ -138,13 +137,35 @@ func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- []co
 		for _, v := range dev_msg {
 			val := v.(map[string]interface{})
 
-			exposes := val["definition"].(map[string]interface{})["exposes"].([]interface{})
+			log.Printf("%v\n", val["definition"])
+
+			definition := val["definition"]
+
+			if definition == nil {
+				continue
+			}
+
+			exposes_uncast := definition.(map[string]interface{})["exposes"]
+
+			if exposes_uncast == nil {
+				continue
+			}
+
+			exposes := exposes_uncast.([]interface{})
 
 			sens, act := parseDevExposes(exposes)
 
+			var fr_name string
+
+			if val["friendly_name"] == nil {
+				fr_name = val["ieee_address"].(string)
+			} else {
+				fr_name = val["friendly_name"].(string)
+			}
+
 			dev_info := common.Device{
 				Ieee_addr:     val["ieee_address"].(string),
-				Friendly_name: val["friendly_name"].(string),
+				Friendly_name: fr_name,
 				Sensors:       sens,
 				Actuators:     act,
 			}
@@ -157,6 +178,8 @@ func Listener_routine(mbroker mqtt.Client, rdb *redis.Client, dev_ch chan<- []co
 			SubToDevice(mbroker, d, rdb)
 		}
 		dev_ch <- devices
+
+		log.Printf("Devices: %v\n", devices)
 	}
 
 	token := mbroker.Subscribe("zigbee2mqtt/bridge/devices", 2, cb_f)

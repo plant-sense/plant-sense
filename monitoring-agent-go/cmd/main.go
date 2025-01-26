@@ -32,6 +32,8 @@ func main() {
 
 	// Get env
 
+	log.Println("Starting Monitoring Agent")
+
 	m_addr := os.Getenv("MQTT_ADDRESS")
 	r_addr := os.Getenv("REDIS_ADDRESS")
 
@@ -74,7 +76,7 @@ func main() {
 	// Setup IPC
 
 	sig_chan := make(chan os.Signal, 1)
-	dev_chan := make(chan []common.Device)
+	dev_chan := make(chan []common.Device, 1000)
 	relay_ctrl := common.Control{
 		Parent: make(chan int, 1),
 		Child:  make(chan int, 1),
@@ -123,5 +125,4 @@ cleanup:
 	lis.Close()
 
 	log.Println("Goodbye")
-	return
 }
