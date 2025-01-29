@@ -1,4 +1,4 @@
-FROM ghcr.io/cirruslabs/flutter:3.24.4 AS builder
+FROM ghcr.io/cirruslabs/flutter:3.27.3 AS builder
 COPY . ./app
 WORKDIR /app
 RUN flutter clean
