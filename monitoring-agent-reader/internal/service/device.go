@@ -33,6 +33,8 @@ func (d *deviceService) ListDevices(context.Context, *pb.ListDevicesRequest) (*p
 			device.Type = &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_SOIL_HUMIDITY}}
 		} else if strings.HasSuffix(key, "_temp_comp") {
 			device.Type = &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_TEMPERATURE}}
+		} else if strings.HasSuffix(key, "_a_light") {
+			device.Type = &pb.DeviceType{Type: &pb.DeviceType_Actuator{Actuator: pb.ActuatorKind_ACTUATOR_KIND_LIGHT}}
 		}
 		devices = append(devices, &device)
 	}

@@ -10,10 +10,13 @@ services:
     working_dir: /app
     ports:
       - "50051:50051"
+    depends_on:
+      - redis
     volumes:
-      - ./monitoring-agent-reader/:/app/
+      # - ./mock-monitoring-agent/:/app/
+      - ./monitoring-agent-go/:/app/
     environment:
-      - REDIS_ADDRESS=host.docker.internal:6379
+      - REDIS_ADDRESS=redis:6379
   user-data:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
@@ -25,7 +28,7 @@ services:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     ports:
-      - "8080:8080"
+      - "8081:8080"
     volumes:
       - ./plants-db/:/app/
   app:
@@ -41,8 +44,18 @@ services:
       - plants-db
     environment:
       - USER_DATA_API_BASE_PATH = http://user-data:9090
-      - PLANTS_DB_API_BASE_PATH = http://plants-db:8080
+      - PLANTS_DB_API_BASE_PATH = http://plants-db:8081
       - DEVICE_GRPC_HOST = envoy
       - DEVICE_GRPC_PORT = 50052
-  
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: redis-stack-server
+    ports:
+      - "6379:6379"
+      - "8001:8001" # RedisInsight UI
+    volumes:
+      - redis_data:/data
+volumes:
+  redis_data:
+    driver: local 
     
