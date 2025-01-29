@@ -61,18 +61,19 @@ func main() {
 	}
 
 	m_opts := mqtt.NewClientOptions().
-		AddBroker("tcp://" + m_addr).
+	AddBroker("mqtt://172.17.0.1:1883").
 		SetClientID("monitoring-agent").
 		SetCleanSession(true).
 		SetAutoReconnect(true).
 		SetConnectTimeout(time.Second)
 
 	mbroker := mqtt.NewClient(m_opts)
-
+	log.Println(m_addr)
 	if token := mbroker.Connect(); token.Wait() && token.Error() != nil {
-		log.Fatalf("failed to connec to to mqtt broker")
+		log.Printf("%w", token.Error())
+		log.Fatalf("failed to connect to to mqtt broker")
 	}
-
+	
 	// Setup IPC
 
 	sig_chan := make(chan os.Signal, 1)

@@ -1,6 +1,6 @@
 module monitoring-agent
 
-go 1.23.4
+go 1.23.2
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0
