@@ -17,5 +17,4 @@ RUN flutter build web --dart-define=USER_DATA_API_BASE_PATH=$USER_DATA_API_BASE_
 
 FROM nginx:1.27.3-alpine
 COPY --from=builder /app/build/web /usr/share/nginx/html
-# COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
