@@ -12,7 +12,7 @@ part of openapi.api;
 
 class ApiClient {
   ApiClient({
-    this.basePath = 'http://plants-db:8080',
+    this.basePath = 'http://localhost/plants-db',
     this.authentication,
   });
 

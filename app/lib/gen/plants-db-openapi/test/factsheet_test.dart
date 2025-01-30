@@ -30,5 +30,10 @@ void main() {
     test('to test the property `requirements`', () async {
       // TODO
     });
+
+    // Assets assets
+    test('to test the property `assets`', () async {
+      // TODO
+    });
   });
 }

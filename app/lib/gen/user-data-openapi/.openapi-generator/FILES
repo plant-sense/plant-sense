@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 analysis_options.yaml
@@ -23,3 +24,8 @@ lib/model/garden_create.dart
 lib/model/plant.dart
 lib/model/plant_create.dart
 pubspec.yaml
+test/default_api_test.dart
+test/garden_create_test.dart
+test/garden_test.dart
+test/plant_create_test.dart
+test/plant_test.dart

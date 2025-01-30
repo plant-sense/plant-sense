@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/plant-sense/mock-monitoring-agent/internal/gen/pb"
 )
@@ -49,6 +50,7 @@ func (d *deviceService) GetDevice(ctx context.Context, req *pb.GetDeviceRequest)
 
 // ListDevices implements pb.DeviceServiceServer.
 func (d *deviceService) ListDevices(context.Context, *pb.ListDevicesRequest) (*pb.ListDevicesResponse, error) {
+	fmt.Printf("ListDevices called, %d\n", len(devices))
 	return &pb.ListDevicesResponse{Devices: devices}, nil
 }
 

@@ -1,52 +1,76 @@
 services:
-  envoy:
-    image: envoyproxy/envoy:v1.31-latest
+  traefik: 
+    image: traefik:v3.3.2
+    depends_on:
+      - user-data
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
     ports:
-      - "50052:50052"
+      - "80:80"
+      - "8080:8080"
     volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
   monitoring-agent-reader:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
-    ports:
-      - "50051:50051"
     depends_on:
       - redis
     volumes:
-      # - ./mock-monitoring-agent/:/app/
-      - ./monitoring-agent-go/:/app/
+      - ./mock-monitoring-agent/:/app/
     environment:
       - REDIS_ADDRESS=redis:6379
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.monitoring-agent-reader.rule=Host(`grpc.localhost`)"
+      - "traefik.http.services.monitoring-agent-reader.loadbalancer.server.scheme=h2c"
+      - "traefik.http.services.monitoring-agent-reader.loadbalancer.server.port=50051"
+      - "traefik.http.middlewares.mar-grpcweb.grpcweb.allowOrigins=*"
+      - "traefik.http.routers.monitoring-agent-reader.middlewares=mar-grpcweb"
   user-data:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
-    ports:
-      - "9090:9090"
     volumes:
       - ./user-data/:/app/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.user-data.rule=Host(`localhost`)"
+      - "traefik.http.routers.user-data.rule=PathPrefix(`/user-data`)"
+      - "traefik.http.services.user-data.loadbalancer.server.port=9090"
+      - "traefik.http.routers.user-data.entrypoints=web"
   plants-db:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
-    ports:
-      - "8081:8080"
     volumes:
       - ./plants-db/:/app/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plants-db.rule=Host(`localhost`)"
+      - "traefik.http.routers.plants-db.rule=PathPrefix(`/plants-db`)"
+      - "traefik.http.services.plants-db.loadbalancer.server.port=8080"
+      - "traefik.http.routers.plants-db.entrypoints=web"
   app:
     build:
       context: ./app
       dockerfile: Dockerfile
-    ports:
-      - "1234:80"
+      args:
+        - USER_DATA_API_BASE_PATH=/user-data
+        - PLANTS_DB_API_BASE_PATH=/plants-db
+        - DEVICE_GRPC_HOST=grpc.localhost
+        - DEVICE_GRPC_PORT=80
     depends_on:
-      - envoy
       - monitoring-agent-reader
       - user-data
       - plants-db
-    environment:
-      - USER_DATA_API_BASE_PATH = http://user-data:9090
-      - PLANTS_DB_API_BASE_PATH = http://plants-db:8081
-      - DEVICE_GRPC_HOST = envoy
-      - DEVICE_GRPC_PORT = 50052
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`localhost`)"
+      - "traefik.http.routers.app.rule=PathPrefix(`/`)"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
+      - "traefik.http.routers.app.entrypoints=web"
   redis:
     image: redis/redis-stack-server:latest
     container_name: redis-stack-server
@@ -55,8 +79,6 @@ services:
       - "8001:8001" # RedisInsight UI
     volumes:
       - redis_data:/data
-
 volumes:
   redis_data:
-    driver: local 
-    
+    driver: local

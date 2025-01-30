@@ -21,6 +21,16 @@ void main() {
       // TODO
     });
 
+    //Future<Map<String, String>> gardensIdDevicesGet(String id) async
+    test('test gardensIdDevicesGet', () async {
+      // TODO
+    });
+
+    //Future<Map<String, String>> gardensIdDevicesPatch(String id, { Map<String, String> requestBody }) async
+    test('test gardensIdDevicesPatch', () async {
+      // TODO
+    });
+
     //Future<List<Plant>> gardensIdPlantsGet(String id) async
     test('test gardensIdPlantsGet', () async {
       // TODO
@@ -28,16 +38,6 @@ void main() {
 
     //Future<List<Plant>> gardensIdPlantsPost(String id, { PlantCreate plantCreate }) async
     test('test gardensIdPlantsPost', () async {
-      // TODO
-    });
-
-    //Future<Map<String, String>> gardensIdSensorsGet(String id) async
-    test('test gardensIdSensorsGet', () async {
-      // TODO
-    });
-
-    //Future<Map<String, String>> gardensIdSensorsPatch(String id, { Map<String, String> requestBody }) async
-    test('test gardensIdSensorsPatch', () async {
       // TODO
     });
 

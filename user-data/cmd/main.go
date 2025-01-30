@@ -109,7 +109,7 @@ func main() {
 	handler := handler.NewHandler(gardenService, plantService, deviceService)
 
 	sh := api.NewStrictHandler(handler, nil)
-	r.Mount("/", api.Handler(sh))
+	r.Mount("/user-data", api.Handler(sh))
 
 	log.Info().Msg("Starting server on :9090")
 	server := &http.Server{
