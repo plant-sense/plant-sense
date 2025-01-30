@@ -46,7 +46,7 @@ void main() {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    debugPrint(details.toString());
+    print(details.toString());
   };
 
   var userDataApi = UserDataApi.withBasePath(basePath: userDataApiBasePath);
