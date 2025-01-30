@@ -16,6 +16,11 @@ void main() {
   // final instance = PlantCreate();
 
   group('test PlantCreate', () {
+    // String gardenId
+    test('to test the property `gardenId`', () async {
+      // TODO
+    });
+
     // String factsheetId
     test('to test the property `factsheetId`', () async {
       // TODO

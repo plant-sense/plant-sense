@@ -21,6 +21,11 @@ void main() {
       // TODO
     });
 
+    // String gardenId
+    test('to test the property `gardenId`', () async {
+      // TODO
+    });
+
     // String factsheetId
     test('to test the property `factsheetId`', () async {
       // TODO

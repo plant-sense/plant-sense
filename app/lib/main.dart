@@ -1,4 +1,6 @@
-// Openapi Generator last run: : 2025-01-19T23:34:25.070384
+// Openapi Generator last run: : 2025-01-30T02:59:11.218070
+import 'dart:html';
+
 import 'package:app/apis.dart';
 import 'package:app/app_scaffold.dart';
 import 'package:app/components/dialog_page.dart';
@@ -29,16 +31,24 @@ import 'package:provider/provider.dart';
 
 const String userDataApiBasePath = String.fromEnvironment(
     "USER_DATA_API_BASE_PATH",
-    defaultValue: "http://localhost:9090");
+    defaultValue: "http://localhost:80/user-data");
 const String plantsDbApiBasePath = String.fromEnvironment(
     "PLANTS_DB_API_BASE_PATH",
-    defaultValue: "http://localhost:8080");
+    defaultValue: "http://localhost:80/plants-db");
 const String deviceGrpcHost =
-    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "localhost");
+    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "grpc.localhost");
 const String deviceGrpcPort =
-    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "50052");
+    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "80");
 
 void main() {
+  print("UserDataApiBasePath: $userDataApiBasePath");
+  print("PlantsDbApiBasePath: $plantsDbApiBasePath");
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint(details.toString());
+  };
+
   var userDataApi = UserDataApi.withBasePath(basePath: userDataApiBasePath);
   var plantDbApi = PlantsDBApi.withBasePath(basePath: plantsDbApiBasePath);
 

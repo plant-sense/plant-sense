@@ -25,5 +25,10 @@ void main() {
     test('to test the property `taxonomy`', () async {
       // TODO
     });
+
+    // Assets assets
+    test('to test the property `assets`', () async {
+      // TODO
+    });
   });
 }

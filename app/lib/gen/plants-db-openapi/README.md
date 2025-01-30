@@ -54,7 +54,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://plants-db:8080*
+All URIs are relative to *http://localhost/plants-db*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

@@ -4,6 +4,8 @@ import 'package:app/gen/grpc/sensor_data.pbgrpc.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:grpc/grpc_web.dart';
+import 'package:grpc/service_api.dart';
 
 import '../models/time_series.dart';
 import '../models/data_point.dart';
@@ -14,7 +16,7 @@ class GrpcMetricsProvider extends MetricsProvider {
   final TimeSeries<double> timeSeries = TimeSeries<double>();
 
   final String deviceId;
-  final GrpcOrGrpcWebClientChannel channel;
+  late final GrpcWebClientChannel channel;
   final DateTime from;
   late final SensorServiceClient client;
   StreamSubscription<SensorReading>? _subscription;
@@ -23,12 +25,23 @@ class GrpcMetricsProvider extends MetricsProvider {
     required this.deviceId,
     required String host,
     DateTime? from,
-    int port = 50051,
-  })  : channel = GrpcOrGrpcWebClientChannel.toSingleEndpoint(
-            host: host, port: port, transportSecure: false),
-        from = from ?? DateTime.now().subtract(Duration(hours: 24)) {
+    int port = 80,
+  }) : from = from ?? DateTime.now().subtract(Duration(hours: 24)) {
+    print("Metrics: GRPC host $host, port $port");
+    var uri = getUri(host, port);
+    print("Metrics: GRPC base path ${uri.toString()}");
+    channel = GrpcWebClientChannel.xhr(uri);
     client = SensorServiceClient(channel);
     debugPrint(from.toString());
+  }
+
+  Uri getUri(String host, int port) {
+    if (!kIsWeb) {
+      return Uri(host: host, port: port);
+    }
+
+    var base = Uri.base;
+    return base.replace(host: "grpc.${base.host}");
   }
 
   @override

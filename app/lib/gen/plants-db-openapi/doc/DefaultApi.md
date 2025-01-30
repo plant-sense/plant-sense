@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *http://plants-db:8080*
+All URIs are relative to *http://localhost/plants-db*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
