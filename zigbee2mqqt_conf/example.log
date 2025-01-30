@@ -1,0 +1,228 @@
+[2025-01-27 00:47:12] info: 	z2m: Logging to console, file (filename: log.log)
+[2025-01-27 00:47:12] info: 	z2m: Starting Zigbee2MQTT version 1.41.0 (commit #69f7282)
+[2025-01-27 00:47:12] info: 	z2m: Starting zigbee-herdsman (2.1.7)
+[2025-01-27 00:47:12] info: 	zh:ember: Using default stack config.
+[2025-01-27 00:47:12] info: 	zh:ember: ======== Ember Adapter Starting ========
+[2025-01-27 00:47:12] info: 	zh:ember:ezsp: ======== EZSP starting ========
+[2025-01-27 00:47:12] info: 	zh:ember:uart:ash: ======== ASH Adapter reset ========
+[2025-01-27 00:47:12] info: 	zh:ember:uart:ash: RTS/CTS config is off, enabling software flow control.
+[2025-01-27 00:47:12] info: 	zh:ember:uart:ash: Serial port opened
+[2025-01-27 00:47:12] info: 	zh:ember:uart:ash: ======== ASH starting ========
+[2025-01-27 00:47:13] info: 	zh:ember:uart:ash: ======== ASH connected ========
+[2025-01-27 00:47:13] info: 	zh:ember:uart:ash: ======== ASH started ========
+[2025-01-27 00:47:13] info: 	zh:ember:ezsp: ======== EZSP started ========
+[2025-01-27 00:47:13] info: 	zh:ember: Adapter EZSP protocol version (13) lower than Host. Switched.
+[2025-01-27 00:47:13] info: 	zh:ember: Adapter version info: {"ezsp":13,"revision":"7.4.3 [GA]","build":0,"major":7,"minor":4,"patch":3,"special":0,"type":170}
+[2025-01-27 00:47:14] info: 	zh:ember: [STACK STATUS] Network up.
+[2025-01-27 00:47:14] info: 	zh:ember: [INIT TC] Adapter network matches config.
+[2025-01-27 00:47:14] info: 	zh:ember: [CONCENTRATOR] Started source route discovery. 1248ms until next broadcast.
+[2025-01-27 00:47:14] info: 	z2m: zigbee-herdsman started (resumed)
+[2025-01-27 00:47:14] info: 	z2m: Coordinator firmware version: '{"meta":{"build":0,"ezsp":13,"major":7,"minor":4,"patch":3,"revision":"7.4.3 [GA]","special":0,"type":170},"type":"EmberZNet"}'
+[2025-01-27 00:47:14] info: 	z2m: 0xa4c138814dc68814 (0xa4c138814dc68814): TS0601_soil - Tuya Soil sensor (EndDevice)
+[2025-01-27 00:47:14] info: 	z2m: Currently 1 devices are joined.
+[2025-01-27 00:47:14] info: 	z2m: Zigbee: disabling joining new devices.
+[2025-01-27 00:47:14] info: 	z2m: Connecting to MQTT server at mqtt://localhost:1883
+[2025-01-27 00:47:14] info: 	z2m: Connected to MQTT server
+[2025-01-27 00:47:14] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/state', payload '{"state":"online"}'
+[2025-01-27 00:47:15] info: 	z2m: Started frontend on port 8080
+[2025-01-27 00:47:15] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":216,"soil_moisture":100,"temperature":23}'
+[2025-01-27 00:47:15] info: 	z2m: Zigbee2MQTT started!
+[2025-01-27 00:50:14] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814"},"type":"device_announce"}'
+[2025-01-27 01:04:30] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:04:30] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:04:30] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:04:30] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:05:59] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/health_check', payload '{"data":{"healthy":true},"status":"ok"}'
+[2025-01-27 01:06:32] info: 	z2m: Successfully changed options
+[2025-01-27 01:06:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/options', payload '{"data":{"restart_required":false},"status":"ok","transaction":"rgek1-3"}'
+[2025-01-27 01:06:37] info: 	z2m: Successfully changed options
+[2025-01-27 01:06:37] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/options', payload '{"data":{"restart_required":false},"status":"ok","transaction":"rgek1-6"}'
+[2025-01-27 01:06:43] info: 	z2m: Configuring '0xa4c138814dc68814'
+[2025-01-27 01:06:46] info: 	z2m: Successfully configured '0xa4c138814dc68814'
+[2025-01-27 01:06:46] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/device/configure', payload '{"data":{"id":"0xa4c138814dc68814"},"status":"ok","transaction":"rgek1-7"}'
+[2025-01-27 01:07:27] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/health_check', payload '{"data":{"healthy":true},"status":"ok"}'
+[2025-01-27 01:07:57] info: 	z2m: Configuring '0xa4c138814dc68814'
+[2025-01-27 01:07:59] info: 	z2m: Zigbee: allowing new devices to join.
+[2025-01-27 01:07:59] info: 	zh:ember: [STACK STATUS] Network opened.
+[2025-01-27 01:08:00] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/permit_join', payload '{"data":{"time":254,"value":true},"status":"ok","transaction":"03h8b-2"}'
+[2025-01-27 01:08:01] info: 	z2m: Successfully configured '0xa4c138814dc68814'
+[2025-01-27 01:08:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/device/configure', payload '{"data":{"id":"0xa4c138814dc68814"},"status":"ok","transaction":"03h8b-1"}'
+[2025-01-27 01:09:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/response/health_check', payload '{"data":{"healthy":true},"status":"ok"}'
+[2025-01-27 01:10:19] warning: 	z2m: Device '0xa4c138814dc68814' left the network
+[2025-01-27 01:10:20] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814"},"type":"device_leave"}'
+[2025-01-27 01:10:23] info: 	zh:controller: Interview for '0xa4c138814dc68814' started
+[2025-01-27 01:10:23] info: 	z2m: Device '0xa4c138814dc68814' joined
+[2025-01-27 01:10:23] info: 	z2m: Starting interview of '0xa4c138814dc68814'
+[2025-01-27 01:10:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814"},"type":"device_joined"}'
+[2025-01-27 01:10:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814","status":"started"},"type":"device_interview"}'
+[2025-01-27 01:10:24] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814"},"type":"device_announce"}'
+[2025-01-27 01:10:24] info: 	zh:controller: Succesfully interviewed '0xa4c138814dc68814'
+[2025-01-27 01:10:24] info: 	z2m: Successfully interviewed '0xa4c138814dc68814', device has successfully been paired
+[2025-01-27 01:10:24] info: 	z2m: Device '0xa4c138814dc68814' is supported, identified as: Tuya Soil sensor (TS0601_soil)
+[2025-01-27 01:10:24] info: 	z2m: Configuring '0xa4c138814dc68814'
+[2025-01-27 01:10:24] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/bridge/event', payload '{"data":{"definition":{"description":"Soil sensor","exposes":[{"access":1,"description":"Measured temperature value","label":"Temperature","name":"temperature","property":"temperature","type":"numeric","unit":"°C"},{"access":1,"description":"Measured soil moisture value","label":"Soil moisture","name":"soil_moisture","property":"soil_moisture","type":"numeric","unit":"%"},{"access":3,"description":"Temperature unit","label":"Temperature unit","name":"temperature_unit","property":"temperature_unit","type":"enum","values":["celsius","fahrenheit"]},{"access":1,"category":"diagnostic","description":"Remaining battery in %, can take up to 24 hours before reported","label":"Battery","name":"battery","property":"battery","type":"numeric","unit":"%","value_max":100,"value_min":0},{"access":1,"description":"State of the battery","label":"Battery state","name":"battery_state","property":"battery_state","type":"enum","values":["low","medium","high"]},{"access":1,"category":"diagnostic","description":"Link quality (signal strength)","label":"Linkquality","name":"linkquality","property":"linkquality","type":"numeric","unit":"lqi","value_max":255,"value_min":0}],"model":"TS0601_soil","options":[{"access":2,"description":"Calibrates the temperature value (absolute offset), takes into effect on next report of device.","label":"Temperature calibration","name":"temperature_calibration","property":"temperature_calibration","type":"numeric"},{"access":2,"description":"Number of digits after decimal point for temperature, takes into effect on next report of device. This option can only decrease the precision, not increase it.","label":"Temperature precision","name":"temperature_precision","property":"temperature_precision","type":"numeric","value_max":3,"value_min":0},{"access":2,"description":"Calibrates the soil_moisture value (absolute offset), takes into effect on next report of device.","label":"Soil moisture calibration","name":"soil_moisture_calibration","property":"soil_moisture_calibration","type":"numeric"},{"access":2,"description":"Number of digits after decimal point for soil_moisture, takes into effect on next report of device. This option can only decrease the precision, not increase it.","label":"Soil moisture precision","name":"soil_moisture_precision","property":"soil_moisture_precision","type":"numeric","value_max":3,"value_min":0}],"supports_ota":false,"vendor":"Tuya"},"friendly_name":"0xa4c138814dc68814","ieee_address":"0xa4c138814dc68814","status":"successful","supported":true},"type":"device_interview"}'
+[2025-01-27 01:10:24] info: 	z2m: Successfully configured '0xa4c138814dc68814'
+[2025-01-27 01:10:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:27] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:27] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:28] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":100,"temperature":23}'
+[2025-01-27 01:10:28] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:10:28] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:10:28] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:10:52] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:10:52] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:12:15] info: 	zh:ember: [STACK STATUS] Network closed.
+[2025-01-27 01:36:19] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:19] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:19] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:19] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:20] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:20] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:41] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:36:41] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 01:47:14] info: 	zh:ember: [NCP COUNTERS] 0,503,826,56,0,0,12,12,41,40,0,0,61,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 01:47:14] info: 	zh:ember: [ASH COUNTERS] 1753,302,95,206,0,0,0,0,3892,206,205,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 02:02:07] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:09] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:09] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:29] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:02:30] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:27:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:27:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:27:57] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:27:57] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:47:14] info: 	zh:ember: [NCP COUNTERS] 0,471,749,12,0,0,0,0,12,12,0,0,61,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 02:47:14] info: 	zh:ember: [ASH COUNTERS] 317,50,13,37,0,0,0,0,879,37,37,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 02:53:44] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:53:44] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:53:44] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:53:44] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:53:46] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:53:46] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:54:06] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 02:54:06] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:19:33] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:19:33] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:19:33] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:19:33] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:45:20] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:45:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:45:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:45:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 03:47:14] info: 	zh:ember: [NCP COUNTERS] 0,466,758,16,0,0,0,0,16,16,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 03:47:14] info: 	zh:ember: [ASH COUNTERS] 421,66,17,49,0,0,0,0,1144,49,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 04:11:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:11:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:11:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:11:08] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:36:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:36:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:36:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:36:56] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 04:47:14] info: 	zh:ember: [NCP COUNTERS] 0,467,739,8,0,0,0,0,8,8,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 04:47:14] info: 	zh:ember: [ASH COUNTERS] 213,34,9,25,0,0,0,0,617,25,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 05:02:43] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:02:43] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:02:43] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:02:44] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:02:45] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:02:45] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:03:05] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:03:06] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:33] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:34] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:34] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:54] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:28:54] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:47:14] info: 	zh:ember: [NCP COUNTERS] 0,466,764,18,0,0,0,0,18,18,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 05:47:14] info: 	zh:ember: [ASH COUNTERS] 479,74,19,55,0,0,0,0,1269,55,55,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 05:54:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:43] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 05:54:43] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:10] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:10] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:10] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:10] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:20:32] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:45:59] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:45:59] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:45:59] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:45:59] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:46:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:46:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:46:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:46:21] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 06:47:14] info: 	zh:ember: [NCP COUNTERS] 0,467,778,24,0,0,0,0,24,24,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 06:47:14] info: 	zh:ember: [ASH COUNTERS] 629,98,25,73,0,0,0,0,1668,73,73,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 07:11:48] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 07:11:48] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 07:11:48] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 07:11:48] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 07:37:35] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":22}'
+[2025-01-27 07:37:35] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":22}'
+[2025-01-27 07:37:36] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":22}'
+[2025-01-27 07:37:36] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":22}'
+[2025-01-27 07:47:14] info: 	zh:ember: [NCP COUNTERS] 0,472,739,8,0,0,0,0,8,8,0,0,61,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 07:47:14] info: 	zh:ember: [ASH COUNTERS] 213,34,9,25,0,0,0,0,617,25,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 08:03:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:25] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:25] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:45] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:03:45] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:14] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:14] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:34] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:29:34] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:47:14] info: 	zh:ember: [NCP COUNTERS] 0,468,759,16,0,0,0,0,16,16,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 08:47:14] info: 	zh:ember: [ASH COUNTERS] 421,66,17,49,0,0,0,0,1141,49,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 08:55:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:01] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:02] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:03] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 08:55:23] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:50] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:50] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:50] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:50] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:51] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:20:51] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":70,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:21:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:21:12] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:46:39] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:46:39] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:46:39] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:46:39] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 09:47:14] info: 	zh:ember: [NCP COUNTERS] 0,464,777,22,0,0,0,0,22,22,0,0,60,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 09:47:14] info: 	zh:ember: [ASH COUNTERS] 583,90,23,67,0,0,0,0,1534,67,67,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2025-01-27 10:12:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 10:12:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 10:12:26] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+[2025-01-27 10:12:27] info: 	z2m:mqtt: MQTT publish: topic 'zigbee2mqtt/0xa4c138814dc68814', payload '{"battery":80,"battery_state":"high","linkquality":255,"soil_moisture":97,"temperature":23}'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               

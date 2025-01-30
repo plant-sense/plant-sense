@@ -1,0 +1,48 @@
+homeassistant: false
+frontend: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://localhost:1883
+serial:
+  port: /dev/ttyUSB0
+  disable_led: false
+  baudrate: 115200
+  rtscts: false
+  adapter: ember
+advanced:
+  network_key:
+    - 32
+    - 2
+    - 209
+    - 204
+    - 232
+    - 255
+    - 226
+    - 37
+    - 159
+    - 190
+    - 253
+    - 21
+    - 52
+    - 10
+    - 56
+    - 14
+  pan_id: 1870
+  ext_pan_id:
+    - 134
+    - 128
+    - 34
+    - 106
+    - 18
+    - 212
+    - 217
+    - 221
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+  log_level: info
+device_options:
+  legacy: false
+devices:
+  '0xa4c138814dc68814':
+    friendly_name: '0xa4c138814dc68814'
