@@ -85,9 +85,5 @@ class ApiPlantProvider extends PlantProvider {
   }
 
   @override
-  Future<void> removePlant(String plantId) async {
-    // Note: API doesn't seem to have a delete endpoint
-    // When it's added, implement the deletion here
-    debugPrint('Plant deletion not implemented in API');
-  }
+  Future<void> removePlant(String plantId) async {}
 }

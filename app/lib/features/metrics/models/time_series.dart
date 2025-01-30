@@ -47,7 +47,6 @@ class TimeSeries<T extends num> {
       }
     }
 
-    // Always include the last point for up-to-date values
     if (result.isNotEmpty && result.last != data.last) {
       result.add(data.last);
     }

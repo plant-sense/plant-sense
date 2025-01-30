@@ -29,26 +29,21 @@ import (
 	"github.com/plant-sense/user-data/internal/service"
 )
 
-// RequestLogger is a middleware that logs the request body
 func RequestLogger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Don't log bodies for GET, HEAD, DELETE requests
 		if r.Method == "GET" || r.Method == "HEAD" || r.Method == "DELETE" {
 			log.Printf("REQUEST: %s %s", r.Method, r.URL.Path)
 			next.ServeHTTP(w, r)
 			return
 		}
 
-		// Read the request body
 		var bodyBytes []byte
 		if r.Body != nil {
 			bodyBytes, _ = io.ReadAll(r.Body)
 		}
 
-		// Restore the request body for later use
 		r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
-		// Log the request details
 		log.Printf("REQUEST: %s %s\nBody: %s",
 			r.Method,
 			r.URL.Path,

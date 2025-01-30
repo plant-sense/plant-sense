@@ -81,7 +81,7 @@ class _GardenEditDevicesState extends State<GardenEditDevices> {
               children: [
                 DeviceDropdown(
                   key: ValueKey(
-                      widget.gardenId), // Force recreation when garden changes
+                      widget.gardenId), // Forces rebuild when garden changes
                   current: _deviceController.value,
                   predicate: (p) =>
                       !deviceIds.contains(p.id) &&

@@ -61,7 +61,6 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
   //   final apiPlants = await api.plantsGet();
   //   if (apiPlants == null) return;
 
-  //   // For each plant, fetch its full factsheet
   //   final factSheets = <PlantFactSheet>[];
   //   for (final plant in apiPlants) {
   //     if (plant.id != null) {
