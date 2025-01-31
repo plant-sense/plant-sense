@@ -50,12 +50,12 @@ func (s *sensorService) GetHistoricalReadings(_ context.Context, req *pb.GetHist
 		startTime = *req.StartTime
 	} else {
 		// Default to an hour ago if start time not specified
-		startTime = time.Now().Add(-1 * time.Hour).Unix()
+		startTime = time.Now().Add(-1 * time.Hour).UnixMilli()
 	}
 	if req.EndTime != nil {
 		endTime = *req.EndTime
 	} else {
-		endTime = time.Now().Unix()
+		endTime = time.Now().UnixMilli()
 	}
 
 	ts := s.redisClient.TSRangeWithArgs(context.Background(), req.DeviceId, int(startTime), int(endTime), &redis.TSRangeOptions{
