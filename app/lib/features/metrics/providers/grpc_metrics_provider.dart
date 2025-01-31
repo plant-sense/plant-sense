@@ -41,7 +41,7 @@ class GrpcMetricsProvider extends MetricsProvider {
     }
 
     var base = Uri.base;
-    return base.replace(host: "grpc.${base.host}", path: "");
+    return Uri(scheme: base.scheme, host: base.host, port: port);
   }
 
   @override

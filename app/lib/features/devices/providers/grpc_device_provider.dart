@@ -26,7 +26,7 @@ class GrpcDeviceProvider extends DeviceProvider {
     }
 
     var base = Uri.base;
-    return base.replace(host: "grpc.${base.host}", path: "");
+    return Uri(scheme: base.scheme, host: base.host, port: port);
   }
 
   List<model.Device> _devices = [];
