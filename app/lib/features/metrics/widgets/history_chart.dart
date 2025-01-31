@@ -104,9 +104,8 @@ class _HistoryChartState extends State<HistoryChart> {
       ),
       trackballBehavior: _trackballBehavior,
       series: [
-        SplineSeries(
+        LineSeries(
           color: colorForDeviceType(widget.deviceType),
-          // TODO maybe splineSeries
           dataSource: _metricsProvider.timeSeries.points,
           xValueMapper: (p, _) => p.timestamp,
           yValueMapper: (p, _) => p.value,
