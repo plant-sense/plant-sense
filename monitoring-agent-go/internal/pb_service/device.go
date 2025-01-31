@@ -58,7 +58,7 @@ func (d *deviceService) ListDevices(context.Context, *pb.ListDevicesRequest) (*p
 		if sens := constructPbSensor(common.SENSOR_SOIL_MOIST, dev, common.RBD_SOIL_SUFFIX, pb.SensorKind_SENSOR_KIND_SOIL_HUMIDITY); sens != nil {
 			dev_resp = append(dev_resp, sens)
 		}
-		if sens := constructPbSensor(common.SENSOR_TEMP, dev, common.RBD_TEMP_SUFFIX+common.RBD_AGGR_SUFFIX, pb.SensorKind_SENSOR_KIND_TEMPERATURE); sens != nil {
+		if sens := constructPbSensor(common.SENSOR_TEMP, dev, common.RBD_TEMP_SUFFIX, pb.SensorKind_SENSOR_KIND_TEMPERATURE); sens != nil {
 			dev_resp = append(dev_resp, sens)
 		}
 		if act := constructPbActuator(common.ACT_LIGHT, dev, common.RBD_ACT_SUFFIX, pb.ActuatorKind_ACTUATOR_KIND_LIGHT); act != nil {

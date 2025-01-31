@@ -33,7 +33,6 @@ func (s *sensorService) GetHistoricalReadings(_ context.Context, req *pb.GetHist
 	}
 
 	ts := s.redisClient.TSRange(context.Background(), req.DeviceId, int(startTime), int(endTime))
-
 	var readings []*pb.SensorReading
 	for _, r := range ts.Val() {
 		reading := pb.SensorReading{
