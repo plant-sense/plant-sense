@@ -4,7 +4,7 @@ import (
 	"context"
 	"monitoring-agent/internal/gen/pb"
 	"time"
-
+	"log"
 	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 )
@@ -32,10 +32,7 @@ func (s *sensorService) GetHistoricalReadings(_ context.Context, req *pb.GetHist
 		endTime = time.Now().UnixMilli()
 	}
 
-	ts := s.redisClient.TSRangeWithArgs(context.Background(), req.DeviceId, int(startTime), int(endTime), &redis.TSRangeOptions{
-		Count:      100,
-		Aggregator: redis.Avg,
-	})
+	ts := s.redisClient.TSRange(context.Background(), req.DeviceId, int(startTime), int(endTime))
 
 	var readings []*pb.SensorReading
 	for _, r := range ts.Val() {
@@ -48,6 +45,7 @@ func (s *sensorService) GetHistoricalReadings(_ context.Context, req *pb.GetHist
 			},
 		}
 		readings = append(readings, &reading)
+		log.Printf("%v",reading)
 	}
 
 	return &pb.SensorReadingStream{
@@ -75,6 +73,7 @@ func (s *sensorService) StreamDeviceReadings(req *pb.GetReadingRequest, stream g
 					Unit:  "",
 				},
 			}
+			log.Printf("%v", reading)
 			if err := stream.Send(&reading); err != nil {
 				return err
 			}

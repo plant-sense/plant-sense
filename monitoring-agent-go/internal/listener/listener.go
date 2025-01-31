@@ -54,6 +54,7 @@ func CreateAggregation(rdb *redis.Client, basename string) bool {
 }
 
 func CreateDeviceSeries(device common.Device, rdb *redis.Client) {
+	log.Println(device)
 	if device.Sensors&common.SENSOR_TEMP != 0 {
 		common.RedisCreateObject(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
 		CreateAggregation(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
@@ -63,8 +64,8 @@ func CreateDeviceSeries(device common.Device, rdb *redis.Client) {
 		CreateAggregation(rdb, device.Ieee_addr+common.RBD_LIGHT_SUFFIX)
 	}
 	if device.Sensors&common.SENSOR_SOIL_MOIST != 0 {
-		common.RedisCreateObject(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
-		CreateAggregation(rdb, device.Ieee_addr+common.RBD_TEMP_SUFFIX)
+		common.RedisCreateObject(rdb, device.Ieee_addr+common.RBD_SOIL_SUFFIX)
+		CreateAggregation(rdb, device.Ieee_addr+common.RBD_SOIL_SUFFIX)
 	}
 }
 
