@@ -15,6 +15,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   monitoring-agent-reader:
+    ports: 
+      - "50051:50051"
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     depends_on:
