@@ -84,6 +84,7 @@ services:
       - "8001:8001" # RedisInsight UI
     volumes:
       - redis_data:/data
+      - ./redis.conf:/redis-stack.conf
 volumes:
   redis_data:
     driver: local
