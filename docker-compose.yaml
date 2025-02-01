@@ -9,22 +9,23 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.web.address=:80"
-      - "--entryPoints.grpcweb.address=:50051"
+      - "--entryPoints.grpcweb.address=:50052"
     ports:
       - "80:80"
-      - "50051:50051"
-      # - "8080:8080"
+      - "50052:50052"
+      # - "8888:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   monitoring-agent-reader:
-    # ports: 
-      # - "50051:50051"
+    ports: 
+      - "50051:50051"
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     depends_on:
       - redis
     volumes:
       - ./monitoring-agent-go/:/app/
+      # - ./mock-monitoring-agent/:/app/
     environment:
       - REDIS_ADDRESS=redis:6379
     labels:
@@ -65,7 +66,7 @@ services:
         - USER_DATA_API_BASE_PATH=/user-data
         - PLANTS_DB_API_BASE_PATH=/plants-db
         - DEVICE_GRPC_HOST=localhost
-        - DEVICE_GRPC_PORT=50051
+        - DEVICE_GRPC_PORT=50052
     depends_on:
       - monitoring-agent-reader
       - user-data
