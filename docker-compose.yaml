@@ -13,10 +13,10 @@ services:
     ports:
       - "80:80"
       - "50052:50052"
-      # - "8888:8080"
+      # - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  monitoring-agent-reader:
+  monitoring-agent:
     ports: 
       - "50051:50051"
     image: cosmtrek/air:v1.61.1
@@ -30,12 +30,12 @@ services:
       - REDIS_ADDRESS=redis:6379
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.monitoring-agent-reader.rule=HostRegexp(`.*`)"
-      - "traefik.http.services.monitoring-agent-reader.loadbalancer.server.scheme=h2c"
-      - "traefik.http.services.monitoring-agent-reader.loadbalancer.server.port=50051"
-      - "traefik.http.routers.monitoring-agent-reader.entrypoints=grpcweb"
+      - "traefik.http.routers.monitoring-agent.rule=HostRegexp(`.*`)"
+      - "traefik.http.services.monitoring-agent.loadbalancer.server.scheme=h2c"
+      - "traefik.http.services.monitoring-agent.loadbalancer.server.port=50051"
+      - "traefik.http.routers.monitoring-agent.entrypoints=grpcweb"
       - "traefik.http.middlewares.mar-grpcweb.grpcweb.allowOrigins=*"
-      - "traefik.http.routers.monitoring-agent-reader.middlewares=mar-grpcweb"
+      - "traefik.http.routers.monitoring-agent.middlewares=mar-grpcweb"
   user-data:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
@@ -68,7 +68,7 @@ services:
         - DEVICE_GRPC_HOST=localhost
         - DEVICE_GRPC_PORT=50052
     depends_on:
-      - monitoring-agent-reader
+      - monitoring-agent
       - user-data
       - plants-db
     labels:
