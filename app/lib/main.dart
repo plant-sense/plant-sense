@@ -1,12 +1,11 @@
 // Openapi Generator last run: : 2025-02-02T18:46:24.170993
-import 'dart:html';
 
 import 'package:app/apis.dart';
-import 'package:app/app_scaffold.dart';
 import 'package:app/components/dialog_page.dart';
+import 'package:app/features/actuators/providers/actuator_provider.dart';
+import 'package:app/features/actuators/providers/grpc_actuator_provider.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/grpc_device_provider.dart';
-import 'package:app/components/modal_bottom_sheet_page.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
 import 'package:app/features/devices/screens/garden_edit_devices.dart';
 import 'package:app/features/facts/providers/api_plant_fact_sheet_provider.dart';
@@ -16,7 +15,6 @@ import 'package:app/features/garden/providers/api_garden_images_provider.dart';
 import 'package:app/features/garden/providers/garden_images_provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/screens/garden_form_dialog.dart';
-import 'package:app/features/metrics/screens/history.dart';
 import 'package:app/features/plant/providers/api_plant_provider.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
 import 'package:app/features/plant/screens/plant_form_dialog.dart';
@@ -83,6 +81,12 @@ void main() {
             plantsDbApi: plantDbApi,
           ),
         ),
+        ChangeNotifierProvider<ActuatorProvider>(
+          create: (_) => GrpcActuatorProvider(
+            host: deviceGrpcHost,
+            port: int.parse(deviceGrpcPort),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -112,7 +116,7 @@ class MyApp extends StatelessWidget {
         routes: [
           ShellRoute(
             builder: (context, state, child) {
-              return AppScaffold(child: child);
+              return child;
             },
             routes: [
               GoRoute(

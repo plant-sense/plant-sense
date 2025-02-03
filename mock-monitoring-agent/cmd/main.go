@@ -23,6 +23,7 @@ func main() {
 
 	pb.RegisterSensorServiceServer(server, service.NewSensorService())
 	pb.RegisterDeviceServiceServer(server, service.NewDeviceService())
+	pb.RegisterActuatorServiceServer(server, service.NewActuatorService())
 	reflection.Register(server)
 
 	log.Println("Starting server on port :50051")

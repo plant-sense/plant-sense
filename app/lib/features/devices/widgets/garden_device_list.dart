@@ -1,4 +1,5 @@
 import 'package:app/features/devices/models/device.dart';
+import 'package:app/features/actuators/widgets/actuator_button.dart';
 import 'package:app/features/devices/widgets/device_icon.dart';
 import 'package:app/features/devices/widgets/device_list.dart';
 import 'package:app/features/garden/models/garden.dart';
@@ -51,6 +52,8 @@ class GardenDeviceList extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 8.0,
           children: [
+            if (device.deviceType.isActuator)
+              ActuatorButton(actuatorId: device.id),
             DeviceDropdown(
               predicate: (d) => d.deviceType == device.deviceType,
               current: device,

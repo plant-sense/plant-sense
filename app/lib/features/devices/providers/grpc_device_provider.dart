@@ -3,10 +3,11 @@ import 'package:app/features/devices/models/device_type.dart' as model;
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/gen/grpc/devices.pbgrpc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:grpc/grpc_web.dart';
+import 'package:app/services/grpc_channel.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 
 class GrpcDeviceProvider extends DeviceProvider {
-  late final GrpcWebClientChannel channel;
+  late final GrpcOrGrpcWebClientChannel channel;
   late final DeviceServiceClient client;
 
   GrpcDeviceProvider({
@@ -14,19 +15,8 @@ class GrpcDeviceProvider extends DeviceProvider {
     int port = 80,
   }) {
     print("Device: GRPC host $host, port $port");
-    var uri = getUri(host, port);
-    print("Device: GRPC base path ${uri.toString()}");
-    channel = GrpcWebClientChannel.xhr(uri);
+    channel = GrpcChannelService.createChannel(host: host, port: port);
     client = DeviceServiceClient(channel);
-  }
-
-  Uri getUri(String host, int port) {
-    if (!kIsWeb) {
-      return Uri(host: host, port: port);
-    }
-
-    var base = Uri.base;
-    return Uri(scheme: base.scheme, host: base.host, port: port);
   }
 
   List<model.Device> _devices = [];

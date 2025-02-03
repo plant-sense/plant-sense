@@ -23,7 +23,7 @@ class _GardenStatusBottomSheetState extends State<GardenStatusBottomSheet> {
 
   double _sheetPosition = 0.15;
   final double _dragSensitivity = 1000;
-  final double _maxChildSize = 0.3;
+  final double _maxChildSize = 0.8;
   final double _minChildSize = 0.05;
 
   late Future<dynamic> futures;
