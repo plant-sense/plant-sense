@@ -145,6 +145,7 @@ class _GardenPageState extends State<GardenPage> with TickerProviderStateMixin {
                   backgroundColor: Theme.of(context).colorScheme.surface,
                   elevation: 2.0,
                 ),
+                onPressed: () => context.go("/"),
               ),
               actions: [
                 IconButton.filled(

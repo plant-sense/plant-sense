@@ -106,6 +106,15 @@ class PlantPage extends StatelessWidget {
     debugPrint(factSheet.requirements.toString());
 
     return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        leading: BackButton(
+          onPressed: () {
+            context.go("/gardens/${plant.gardenId}");
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: BreakpointContainer(
           child: Column(

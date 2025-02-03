@@ -16,6 +16,10 @@ const (
 
 var _ pb.DeviceServiceServer = &deviceService{}
 
+type deviceService struct {
+	pb.UnimplementedDeviceServiceServer
+}
+
 var devices = []*pb.Device{
 	{
 		Id:   smID,
@@ -37,10 +41,6 @@ var devices = []*pb.Device{
 		Id:   lightbulbID,
 		Type: &pb.DeviceType{Type: &pb.DeviceType_Actuator{Actuator: pb.ActuatorKind_ACTUATOR_KIND_LIGHT}},
 	},
-}
-
-type deviceService struct {
-	pb.UnimplementedDeviceServiceServer
 }
 
 // GetDevice implements pb.DeviceServiceServer.
