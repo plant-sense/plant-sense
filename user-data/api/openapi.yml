@@ -33,6 +33,52 @@ paths:
                 $ref: "#/components/schemas/garden"
         "500":
           description: "Internal server error"
+  /gardens/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Garden ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/garden"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/garden_create"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/garden"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+    delete:
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
   /gardens/{id}/devices:
     parameters:
       - name: id
@@ -67,6 +113,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/devices"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
+  /gardens/{id}/devices/{device_id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Garden ID
+      schema:
+        type: string
+        format: uuid
+    - name: device_id
+      in: path
+      required: true
+      description: Device ID
+      schema:
+        type: string
+    delete:
+      responses:
+        "200":
+          description: "OK"
         "404":
           description: "Not found"
         "500":
@@ -151,6 +220,14 @@ paths:
           description: "Not found"
         "500":
           description: "Internal server error"
+    delete:
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal server error"
 
 components:
   schemas:
@@ -197,9 +274,6 @@ components:
         - name
     plant_create:
       properties:
-        garden_id:
-          type: string
-          format: uuid
         factsheet_id:
           type: string
         name:
@@ -207,6 +281,5 @@ components:
         image_url:
           type: string
       required:
-        - garden_id
         - factsheet_id
         - name

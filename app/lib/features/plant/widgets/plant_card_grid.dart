@@ -58,7 +58,7 @@ class _PlantCardGridState extends State<PlantCardGrid> {
               },
             );
           default:
-            return CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
         }
       },
     );

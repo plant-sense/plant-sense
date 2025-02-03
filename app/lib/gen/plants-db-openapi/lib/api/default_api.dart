@@ -60,6 +60,63 @@ class DefaultApi {
     return null;
   }
 
+  /// Performs an HTTP 'DELETE /plants/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   plant ID
+  Future<Response> plantsIdDeleteWithHttpInfo(
+    String id,
+  ) async {
+    // ignore: prefer_const_declarations
+    final path = r'/plants/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   plant ID
+  Future<Factsheet?> plantsIdDelete(
+    String id,
+  ) async {
+    final response = await plantsIdDeleteWithHttpInfo(
+      id,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'Factsheet',
+      ) as Factsheet;
+    }
+    return null;
+  }
+
   /// Performs an HTTP 'GET /plants/{id}' operation and returns the [Response].
   /// Parameters:
   ///
@@ -113,6 +170,70 @@ class DefaultApi {
         await _decodeBodyBytes(response),
         'Factsheet',
       ) as Factsheet;
+    }
+    return null;
+  }
+
+  /// Performs an HTTP 'PUT /plants/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   plant ID
+  ///
+  /// * [Plant] plant:
+  Future<Response> plantsIdPutWithHttpInfo(
+    String id, {
+    Plant? plant,
+  }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/plants/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody = plant;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   plant ID
+  ///
+  /// * [Plant] plant:
+  Future<Plant?> plantsIdPut(
+    String id, {
+    Plant? plant,
+  }) async {
+    final response = await plantsIdPutWithHttpInfo(
+      id,
+      plant: plant,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'Plant',
+      ) as Plant;
     }
     return null;
   }
@@ -223,6 +344,61 @@ class DefaultApi {
         await _decodeBodyBytes(response),
         'Taxonomy',
       ) as Taxonomy;
+    }
+    return null;
+  }
+
+  /// Performs an HTTP 'POST /plants' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [Plant] plant:
+  Future<Response> plantsPostWithHttpInfo({
+    Plant? plant,
+  }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/plants';
+
+    // ignore: prefer_final_locals
+    Object? postBody = plant;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [Plant] plant:
+  Future<Plant?> plantsPost({
+    Plant? plant,
+  }) async {
+    final response = await plantsPostWithHttpInfo(
+      plant: plant,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'Plant',
+      ) as Plant;
     }
     return null;
   }

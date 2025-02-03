@@ -169,6 +169,14 @@ class _GardenCardContentState extends State<GardenCardContent> {
           QuiltedGridTile(1, 1),
           QuiltedGridTile(1, 1)
         ];
+      case 4:
+        crossAxisCount = 2;
+        pattern = [
+          QuiltedGridTile(1, 1),
+          QuiltedGridTile(1, 1),
+          QuiltedGridTile(1, 1),
+          QuiltedGridTile(1, 1),
+        ];
       case 5:
         crossAxisCount = 4;
         pattern = [

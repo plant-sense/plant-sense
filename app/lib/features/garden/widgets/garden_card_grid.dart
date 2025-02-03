@@ -1,4 +1,3 @@
-import 'package:app/components/card.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
 import 'package:app/features/garden/widgets/garden_card.dart';
 import 'package:flutter/material.dart';

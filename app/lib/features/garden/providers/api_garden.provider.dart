@@ -44,6 +44,13 @@ class ApiGardenProvider extends GardenProvider {
       gardenId,
       requestBody: {deviceId: getAPIType(deviceType)},
     );
+    notifyListeners();
+  }
+
+  @override
+  Future<void> removeDevice(String gardenId, String deviceId) async {
+    await api.gardensIdDevicesDeviceIdDelete(gardenId, deviceId);
+    notifyListeners();
   }
 
   String getAPIType(DeviceType deviceType) {
@@ -61,8 +68,17 @@ class ApiGardenProvider extends GardenProvider {
   }
 
   @override
-  Future<void> addGarden(String name) async {
-    await api.gardensPost(gardenCreate: GardenCreate(name: name));
+  Future<void> addGarden(model.Garden garden) async {
+    await api.gardensPost(gardenCreate: GardenCreate(name: garden.name));
+    await _reloadGardens();
+  }
+
+  @override
+  Future<void> updateGarden(model.Garden garden) async {
+    await api.gardensIdPut(
+      garden.id,
+      gardenCreate: GardenCreate(name: garden.name),
+    );
     await _reloadGardens();
   }
 
@@ -86,5 +102,11 @@ class ApiGardenProvider extends GardenProvider {
       )),
     );
     return dd.keys.toList();
+  }
+
+  @override
+  void deleteGarden(String gardenId) async {
+    await api.gardensIdDelete(gardenId);
+    await _reloadGardens();
   }
 }

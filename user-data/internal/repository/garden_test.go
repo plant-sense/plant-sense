@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/plant-sense/user-data/internal/model"
 	"github.com/plant-sense/user-data/internal/repository"
+	"github.com/plant-sense/user-data/internal/repository/schema"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -24,7 +25,7 @@ func TestGardenRepository(t *testing.T) {
 	repo := repository.NewGardenRepository(db)
 
 	t.Run("CreateGarden", func(t *testing.T) {
-		garden := model.Garden{
+		garden := schema.Garden{
 			ID:   uuid.New(),
 			Name: "My Garden",
 		}
@@ -34,8 +35,8 @@ func TestGardenRepository(t *testing.T) {
 	})
 
 	t.Run("GetGardens", func(t *testing.T) {
-		garden1 := model.Garden{ID: uuid.New(), Name: "Garden 1"}
-		garden2 := model.Garden{ID: uuid.New(), Name: "Garden 2"}
+		garden1 := schema.Garden{ID: uuid.New(), Name: "Garden 1"}
+		garden2 := schema.Garden{ID: uuid.New(), Name: "Garden 2"}
 		_, _ = repo.CreateGarden(garden1)
 		_, _ = repo.CreateGarden(garden2)
 
@@ -44,7 +45,7 @@ func TestGardenRepository(t *testing.T) {
 	})
 
 	t.Run("GetGardenByID", func(t *testing.T) {
-		garden := model.Garden{
+		garden := schema.Garden{
 			ID:   uuid.New(),
 			Name: "Special Garden",
 		}

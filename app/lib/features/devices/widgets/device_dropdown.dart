@@ -10,6 +10,7 @@ class DeviceDropdown extends StatefulWidget {
   final bool additionalFormatting;
   final List<Device> devices;
   final bool keyboardEnabled;
+  final EdgeInsetsGeometry? expandedInsets;
 
   const DeviceDropdown({
     super.key,
@@ -19,6 +20,7 @@ class DeviceDropdown extends StatefulWidget {
     this.additionalFormatting = false,
     this.keyboardEnabled = true,
     this.controller,
+    this.expandedInsets,
     required this.devices,
   });
 
@@ -53,17 +55,19 @@ class _DeviceDropdownState extends State<DeviceDropdown> {
     var filteredDevices = widget.devices.where(widget.predicate).toList();
 
     return DropdownMenu<Device>(
+      expandedInsets: widget.expandedInsets,
       inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Theme.of(context).cardTheme.color,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: EdgeInsets.all(8)
-          // outlineBorder: Border.all(),
-          // outlineBorder: BorderSide.none,
-          ),
+        filled: true,
+        fillColor: Theme.of(context).cardTheme.color,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: EdgeInsets.all(8),
+        // outlineBorder: Border.all(),
+        // outlineBorder: BorderSide.none,
+      ),
+      textStyle: TextStyle(overflow: TextOverflow.ellipsis),
       initialSelection: selectedDevice,
       requestFocusOnTap: widget.keyboardEnabled,
       leadingIcon: widget.additionalFormatting && selectedDevice != null

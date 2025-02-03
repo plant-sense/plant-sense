@@ -1,3 +1,4 @@
+import 'package:app/components/confirm_delete_dialog.dart';
 import 'package:app/components/network_loading_image.dart';
 import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/devices/models/device_type.dart';
@@ -21,6 +22,7 @@ import 'package:app/layout/breakpoint_container.dart';
 import 'package:app/layout/breakpoints.dart';
 import 'package:app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class PlantPage extends StatelessWidget {
@@ -59,27 +61,30 @@ class PlantPage extends StatelessWidget {
     final devicesFuture = Provider.of<DeviceProvider>(context).getDevices();
 
     return FutureBuilder(
-        future: Future.wait(
-            [factSheetFuture, gardenDeviceReferences_Future, devicesFuture]),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            default:
-              final factSheet = snapshot.data![0] as PlantFactSheet?;
-              final gardenDeviceReferences =
-                  snapshot.data![1] as List<DeviceReference>;
-              final devices = snapshot.data![2] as List<Device>;
+      future: Future.wait(
+          [factSheetFuture, gardenDeviceReferences_Future, devicesFuture]),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(child: CircularProgressIndicator());
+          default:
+            final factSheet = snapshot.data![0] as PlantFactSheet?;
+            final gardenDeviceReferences =
+                snapshot.data![1] as List<DeviceReference>;
+            final devices = snapshot.data![2] as List<Device>;
+            final sensors =
+                devices.where((d) => d.deviceType.isSensor).toList();
 
-              return _buildLoadedFactSheet(
-                context,
-                plant,
-                factSheet,
-                gardenDeviceReferences,
-                devices,
-              );
-          }
-        });
+            return _buildLoadedFactSheet(
+              context,
+              plant,
+              factSheet,
+              gardenDeviceReferences,
+              sensors,
+            );
+        }
+      },
+    );
   }
 
   Widget _buildLoadedFactSheet(
@@ -100,113 +105,164 @@ class PlantPage extends StatelessWidget {
 
     debugPrint(factSheet.requirements.toString());
 
-    return SingleChildScrollView(
-      child: BreakpointContainer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Card(
-                      clipBehavior: Clip.hardEdge,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width > lgBreakpoint
-                            ? 300
-                            : 200,
-                        height: MediaQuery.of(context).size.width > lgBreakpoint
-                            ? 300
-                            : 200,
-                        child: NetworkLoadingImage(url: factSheet.imageUrl),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      plant.name,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                        fontSize:
-                            MediaQuery.of(context).size.width > lgBreakpoint
-                                ? 40
-                                : 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      factSheet.taxonomy.scientificName,
-                      style: TextStyle(
-                        fontSize:
-                            MediaQuery.of(context).size.width > lgBreakpoint
-                                ? 30
-                                : 15,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Text(factSheet.taxonomy.commonName),
-                    SizedBox(height: 10),
-                    Row(
-                      spacing: 8,
-                      children: [
-                        FilledButton.tonalIcon(
-                          icon: Icon(Icons.edit_outlined),
-                          onPressed: () {
-                            // TODO
-                          },
-                          label: Text(
-                            "Edit",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: BreakpointContainer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      Card(
+                        clipBehavior: Clip.hardEdge,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        SizedBox(width: 5),
-                        // FilledButton.tonalIcon(
-                        //   icon: Icon(Icons.line_axis_rounded),
-                        //   onPressed: () {
-                        //     showDialog<void>(
-                        //       context: context,
-                        //       builder: (context) {
-                        //         return HistoryPage(
-                        //           devices: devices_in_garden,
-                        //         );
-                        //       },
-                        //     );
-                        //   },
-                        //   label: Text(
-                        //     "History",
-                        //     style: TextStyle(fontWeight: FontWeight.bold),
-                        //   ),
-                        // ),
-                        // SizedBox(width: 5),
-                        // FilledButton.tonalIcon(
-                        //   icon: Icon(Icons.notifications_active_outlined),
-                        //   onPressed: () {
-                        //     // TODO
-                        //   },
-                        //   label: Text(
-                        //     "Alerts",
-                        //     style: TextStyle(fontWeight: FontWeight.bold),
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Readings(devices: devices_in_garden, factsheet: factSheet),
-          ],
+                        child: SizedBox(
+                          width:
+                              MediaQuery.of(context).size.width > lgBreakpoint
+                                  ? 300
+                                  : 200,
+                          height:
+                              MediaQuery.of(context).size.width > lgBreakpoint
+                                  ? 300
+                                  : 200,
+                          child: NetworkLoadingImage(url: factSheet.imageUrl),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(width: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        plant.name,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize:
+                              MediaQuery.of(context).size.width > lgBreakpoint
+                                  ? 40
+                                  : 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        factSheet.taxonomy.scientificName,
+                        style: TextStyle(
+                          fontSize:
+                              MediaQuery.of(context).size.width > lgBreakpoint
+                                  ? 30
+                                  : 15,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      Text(factSheet.taxonomy.commonName),
+                      SizedBox(height: 10),
+                      Row(
+                        spacing: 8,
+                        children: [
+                          FilledButton.tonalIcon(
+                            icon: Icon(Icons.edit_rounded),
+                            onPressed: () {
+                              context.go("/plant/${plant.id}/edit");
+                            },
+                            label: Text(
+                              "Edit",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          FilledButton.tonalIcon(
+                            icon: Icon(Icons.delete_rounded),
+                            onPressed: () {
+                              ConfirmDeleteDialog.show(
+                                  context, "plant ${plant.name}", () {
+                                context
+                                    .read<PlantProvider>()
+                                    .deletePlant(plant);
+                                context.go("/gardens/${plant.gardenId}");
+                              });
+                            },
+                            label: Text(
+                              "Delete",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          // FilledButton.tonalIcon(
+                          //   icon: Icon(Icons.line_axis_rounded),
+                          //   onPressed: () {
+                          //     showDialog<void>(
+                          //       context: context,
+                          //       builder: (context) {
+                          //         return HistoryPage(
+                          //           devices: devices_in_garden,
+                          //         );
+                          //       },
+                          //     );
+                          //   },
+                          //   label: Text(
+                          //     "History",
+                          //     style: TextStyle(fontWeight: FontWeight.bold),
+                          //   ),
+                          // ),
+                          // SizedBox(width: 5),
+                          // FilledButton.tonalIcon(
+                          //   icon: Icon(Icons.notifications_active_outlined),
+                          //   onPressed: () {
+                          //     // TODO
+                          //   },
+                          //   label: Text(
+                          //     "Alerts",
+                          //     style: TextStyle(fontWeight: FontWeight.bold),
+                          //   ),
+                          // )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Readings(devices: devices_in_garden, factsheet: factSheet),
+            ],
+          ),
         ),
       ),
+      // body: Column(
+      //   children: [
+      //     SingleChildScrollView(
+      //       scrollDirection: Axis.horizontal,
+      //       child: Row(
+      //         children: [
+      //           Container(
+      //             width: 400,
+      //             height: 100,
+      //             color: Colors.red,
+      //             child: Text('Item 1'),
+      //           ),
+      //           Container(
+      //             width: 400,
+      //             height: 100,
+      //             color: Colors.blue,
+      //             child: Text('Item 2'),
+      //           ),
+      //           Container(
+      //             width: 400,
+      //             height: 100,
+      //             color: Colors.green,
+      //             child: Text('Item 3'),
+      //           ),
+      //           // Add more widgets as needed
+      //         ],
+      //       ),
+      //     ),
+      //     SizedBox(height: 10),
+      //     Container(height: 100, color: Colors.amber)
+      //   ],
+      // ),
     );
   }
 }
@@ -225,18 +281,37 @@ class _ReadingsState extends State<Readings> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.devices.isEmpty) {
+      // todo this checks devices in general, not sensors!
+      return const Center(child: Text('No sensors connected'));
+    }
+
     return Column(
       key: ValueKey(_timeRange),
-      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 16,
       children: [
-        TimeRangeSegmentedButton(
-          initialTimeRange: _timeRange,
-          onSelectionChanged: (timeRange) {
-            setState(() {
-              _timeRange = timeRange;
-            });
-          },
+        ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                Icon(Icons.update),
+                TimeRangeSegmentedButton(
+                  initialTimeRange: _timeRange,
+                  onSelectionChanged: (timeRange) {
+                    setState(() {
+                      _timeRange = timeRange;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
         ...sensorCharts(widget.devices, widget.factsheet, _timeRange),
       ],
@@ -288,15 +363,6 @@ class _ReadingsState extends State<Readings> {
                   SizedBox(height: 10),
                   Text(
                       "ideal: (${idealMinimum.toStringAsFixed(1)} - ${idealMaximum.toStringAsFixed(1)})"),
-                  // LinearGauge(
-                  //   name: device.deviceType.toString(),
-                  //   value: metrics.timeSeries.latest?.value.toDouble() ?? 0,
-                  //   minimum: 0,
-                  //   maximum: maximumForDeviceType(device.deviceType),
-                  //   idealMinimum: r?.min ?? 0,
-                  //   idealMaximum: r?.max ?? maximumForDeviceType(device.deviceType),
-                  //   deviceType: device.deviceType,
-                  // ),
                   Container(
                     height: 200,
                     padding: EdgeInsets.only(top: 16),

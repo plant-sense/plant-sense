@@ -31,6 +31,27 @@ func (h *handler) PostGardens(ctx context.Context, request api.PostGardensReques
 	}, nil
 }
 
+// PutGardensId implements api.StrictServerInterface.
+func (h *handler) PutGardensId(ctx context.Context, request api.PutGardensIdRequestObject) (api.PutGardensIdResponseObject, error) {
+	garden, err := h.gardenService.UpdateGarden(model.Garden{ID: request.Id, Name: request.Body.Name})
+	if err != nil {
+		return api.PutGardensId500Response{}, err
+	}
+	return api.PutGardensId200JSONResponse{
+		Id:   garden.ID,
+		Name: garden.Name,
+	}, nil
+}
+
+// DeleteGardensId implements api.StrictServerInterface.
+func (h *handler) DeleteGardensId(ctx context.Context, request api.DeleteGardensIdRequestObject) (api.DeleteGardensIdResponseObject, error) {
+	err := h.gardenService.DeleteGarden(request.Id)
+	if err != nil {
+		return api.DeleteGardensId500Response{}, err
+	}
+	return api.DeleteGardensId200Response{}, nil
+}
+
 func (h *handler) PostGardensIdPlants(ctx context.Context, request api.PostGardensIdPlantsRequestObject) (api.PostGardensIdPlantsResponseObject, error) {
 	plant, err := h.gardenService.AddPlantToGarden(request.Id, request.Body.Name, request.Body.FactsheetId)
 	if err != nil {

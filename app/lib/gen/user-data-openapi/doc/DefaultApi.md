@@ -10,11 +10,16 @@ All URIs are relative to *http://localhost/user-data*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**gardensGet**](DefaultApi.md#gardensget) | **GET** /gardens | 
+[**gardensIdDelete**](DefaultApi.md#gardensiddelete) | **DELETE** /gardens/{id} | 
+[**gardensIdDevicesDeviceIdDelete**](DefaultApi.md#gardensiddevicesdeviceiddelete) | **DELETE** /gardens/{id}/devices/{device_id} | 
 [**gardensIdDevicesGet**](DefaultApi.md#gardensiddevicesget) | **GET** /gardens/{id}/devices | 
 [**gardensIdDevicesPatch**](DefaultApi.md#gardensiddevicespatch) | **PATCH** /gardens/{id}/devices | 
+[**gardensIdGet**](DefaultApi.md#gardensidget) | **GET** /gardens/{id} | 
 [**gardensIdPlantsGet**](DefaultApi.md#gardensidplantsget) | **GET** /gardens/{id}/plants | 
 [**gardensIdPlantsPost**](DefaultApi.md#gardensidplantspost) | **POST** /gardens/{id}/plants | 
+[**gardensIdPut**](DefaultApi.md#gardensidput) | **PUT** /gardens/{id} | 
 [**gardensPost**](DefaultApi.md#gardenspost) | **POST** /gardens | 
+[**plantsIdDelete**](DefaultApi.md#plantsiddelete) | **DELETE** /plants/{id} | 
 [**plantsIdGet**](DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
 [**plantsIdPut**](DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 
 
@@ -53,6 +58,88 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gardensIdDelete**
+> gardensIdDelete(id)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+
+try {
+    api_instance.gardensIdDelete(id);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gardensIdDevicesDeviceIdDelete**
+> gardensIdDevicesDeviceIdDelete(id, deviceId)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+final deviceId = deviceId_example; // String | Device ID
+
+try {
+    api_instance.gardensIdDevicesDeviceIdDelete(id, deviceId);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdDevicesDeviceIdDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+ **deviceId** | **String**| Device ID | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -136,6 +223,47 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gardensIdGet**
+> Garden gardensIdGet(id)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+
+try {
+    final result = api_instance.gardensIdGet(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+
+### Return type
+
+[**Garden**](Garden.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -224,6 +352,49 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **gardensIdPut**
+> Garden gardensIdPut(id, gardenCreate)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Garden ID
+final gardenCreate = GardenCreate(); // GardenCreate | 
+
+try {
+    final result = api_instance.gardensIdPut(id, gardenCreate);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->gardensIdPut: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Garden ID | 
+ **gardenCreate** | [**GardenCreate**](GardenCreate.md)|  | [optional] 
+
+### Return type
+
+[**Garden**](Garden.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **gardensPost**
 > Garden gardensPost(gardenCreate)
 
@@ -262,6 +433,46 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **plantsIdDelete**
+> plantsIdDelete(id)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | Plant ID
+
+try {
+    api_instance.plantsIdDelete(id);
+} catch (e) {
+    print('Exception when calling DefaultApi->plantsIdDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| Plant ID | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

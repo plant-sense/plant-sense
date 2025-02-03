@@ -59,11 +59,16 @@ All URIs are relative to *http://localhost/user-data*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**gardensGet**](doc//DefaultApi.md#gardensget) | **GET** /gardens | 
+*DefaultApi* | [**gardensIdDelete**](doc//DefaultApi.md#gardensiddelete) | **DELETE** /gardens/{id} | 
+*DefaultApi* | [**gardensIdDevicesDeviceIdDelete**](doc//DefaultApi.md#gardensiddevicesdeviceiddelete) | **DELETE** /gardens/{id}/devices/{device_id} | 
 *DefaultApi* | [**gardensIdDevicesGet**](doc//DefaultApi.md#gardensiddevicesget) | **GET** /gardens/{id}/devices | 
 *DefaultApi* | [**gardensIdDevicesPatch**](doc//DefaultApi.md#gardensiddevicespatch) | **PATCH** /gardens/{id}/devices | 
+*DefaultApi* | [**gardensIdGet**](doc//DefaultApi.md#gardensidget) | **GET** /gardens/{id} | 
 *DefaultApi* | [**gardensIdPlantsGet**](doc//DefaultApi.md#gardensidplantsget) | **GET** /gardens/{id}/plants | 
 *DefaultApi* | [**gardensIdPlantsPost**](doc//DefaultApi.md#gardensidplantspost) | **POST** /gardens/{id}/plants | 
+*DefaultApi* | [**gardensIdPut**](doc//DefaultApi.md#gardensidput) | **PUT** /gardens/{id} | 
 *DefaultApi* | [**gardensPost**](doc//DefaultApi.md#gardenspost) | **POST** /gardens | 
+*DefaultApi* | [**plantsIdDelete**](doc//DefaultApi.md#plantsiddelete) | **DELETE** /plants/{id} | 
 *DefaultApi* | [**plantsIdGet**](doc//DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
 *DefaultApi* | [**plantsIdPut**](doc//DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 
 

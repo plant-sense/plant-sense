@@ -8,9 +8,10 @@ import (
 )
 
 const (
-	tempID  = "temperature_id"
-	smID    = "soil_moisture_id"
-	lightID = "light_intensity_id"
+	tempID      = "temperature_id"
+	smID        = "soil_moisture_id"
+	lightID     = "light_intensity_id"
+	lightbulbID = "light_bulb_id"
 )
 
 var _ pb.DeviceServiceServer = &deviceService{}
@@ -24,10 +25,18 @@ var devices = []*pb.Device{
 		Id:   tempID,
 		Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_TEMPERATURE}},
 	},
-	// {
-	// 	Id:   lightID,
-	// 	Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_LIGHT}},
-	// },
+	{
+		Id:   tempID + tempID,
+		Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_TEMPERATURE}},
+	},
+	{
+		Id:   lightID,
+		Type: &pb.DeviceType{Type: &pb.DeviceType_Sensor{Sensor: pb.SensorKind_SENSOR_KIND_LIGHT}},
+	},
+	{
+		Id:   lightbulbID,
+		Type: &pb.DeviceType{Type: &pb.DeviceType_Actuator{Actuator: pb.ActuatorKind_ACTUATOR_KIND_LIGHT}},
+	},
 }
 
 type deviceService struct {
@@ -36,14 +45,10 @@ type deviceService struct {
 
 // GetDevice implements pb.DeviceServiceServer.
 func (d *deviceService) GetDevice(ctx context.Context, req *pb.GetDeviceRequest) (*pb.Device, error) {
-	if req.DeviceId == tempID {
-		return devices[1], nil
-	}
-	if req.DeviceId == smID {
-		return devices[0], nil
-	}
-	if req.DeviceId == lightID {
-		return devices[2], nil
+	for _, device := range devices {
+		if device.Id == req.DeviceId {
+			return device, nil
+		}
 	}
 	return nil, nil
 }

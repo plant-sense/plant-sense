@@ -60,6 +60,109 @@ class DefaultApi {
     return null;
   }
 
+  /// Performs an HTTP 'DELETE /gardens/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  Future<Response> gardensIdDeleteWithHttpInfo(
+    String id,
+  ) async {
+    // ignore: prefer_const_declarations
+    final path = r'/gardens/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  Future<void> gardensIdDelete(
+    String id,
+  ) async {
+    final response = await gardensIdDeleteWithHttpInfo(
+      id,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Performs an HTTP 'DELETE /gardens/{id}/devices/{device_id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  ///
+  /// * [String] deviceId (required):
+  ///   Device ID
+  Future<Response> gardensIdDevicesDeviceIdDeleteWithHttpInfo(
+    String id,
+    String deviceId,
+  ) async {
+    // ignore: prefer_const_declarations
+    final path = r'/gardens/{id}/devices/{device_id}'
+        .replaceAll('{id}', id)
+        .replaceAll('{device_id}', deviceId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  ///
+  /// * [String] deviceId (required):
+  ///   Device ID
+  Future<void> gardensIdDevicesDeviceIdDelete(
+    String id,
+    String deviceId,
+  ) async {
+    final response = await gardensIdDevicesDeviceIdDeleteWithHttpInfo(
+      id,
+      deviceId,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// Performs an HTTP 'GET /gardens/{id}/devices' operation and returns the [Response].
   /// Parameters:
   ///
@@ -177,6 +280,63 @@ class DefaultApi {
         await apiClient.deserializeAsync(
             await _decodeBodyBytes(response), 'Map<String, String>'),
       );
+    }
+    return null;
+  }
+
+  /// Performs an HTTP 'GET /gardens/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  Future<Response> gardensIdGetWithHttpInfo(
+    String id,
+  ) async {
+    // ignore: prefer_const_declarations
+    final path = r'/gardens/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  Future<Garden?> gardensIdGet(
+    String id,
+  ) async {
+    final response = await gardensIdGetWithHttpInfo(
+      id,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'Garden',
+      ) as Garden;
     }
     return null;
   }
@@ -304,6 +464,70 @@ class DefaultApi {
     return null;
   }
 
+  /// Performs an HTTP 'PUT /gardens/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  ///
+  /// * [GardenCreate] gardenCreate:
+  Future<Response> gardensIdPutWithHttpInfo(
+    String id, {
+    GardenCreate? gardenCreate,
+  }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/gardens/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody = gardenCreate;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Garden ID
+  ///
+  /// * [GardenCreate] gardenCreate:
+  Future<Garden?> gardensIdPut(
+    String id, {
+    GardenCreate? gardenCreate,
+  }) async {
+    final response = await gardensIdPutWithHttpInfo(
+      id,
+      gardenCreate: gardenCreate,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'Garden',
+      ) as Garden;
+    }
+    return null;
+  }
+
   /// Performs an HTTP 'POST /gardens' operation and returns the [Response].
   /// Parameters:
   ///
@@ -357,6 +581,52 @@ class DefaultApi {
       ) as Garden;
     }
     return null;
+  }
+
+  /// Performs an HTTP 'DELETE /plants/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Plant ID
+  Future<Response> plantsIdDeleteWithHttpInfo(
+    String id,
+  ) async {
+    // ignore: prefer_const_declarations
+    final path = r'/plants/{id}'.replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   Plant ID
+  Future<void> plantsIdDelete(
+    String id,
+  ) async {
+    final response = await plantsIdDeleteWithHttpInfo(
+      id,
+    );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
   }
 
   /// Performs an HTTP 'GET /plants/{id}' operation and returns the [Response].

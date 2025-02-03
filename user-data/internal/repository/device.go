@@ -10,6 +10,7 @@ import (
 type DeviceRepository interface {
 	GetDevices(gardenID uuid.UUID) []model.Device
 	AddDevice(gardenID uuid.UUID, device model.Device) (model.Device, error)
+	DeleteDevice(gardenID uuid.UUID, deviceID string) error
 }
 
 var _ DeviceRepository = &deviceRepository{}
@@ -44,6 +45,11 @@ func (d *deviceRepository) AddDevice(gardenID uuid.UUID, device model.Device) (m
 		ID:   schemaDevice.DeviceID,
 		Type: schemaDevice.Type,
 	}, result.Error
+}
+
+func (d *deviceRepository) DeleteDevice(gardenID uuid.UUID, deviceID string) error {
+	result := d.db.Where("garden_id = ? AND device_id = ?", gardenID, deviceID).Delete(&schema.Device{})
+	return result.Error
 }
 
 func NewDeviceRepository(db *gorm.DB) DeviceRepository {

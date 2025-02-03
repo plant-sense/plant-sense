@@ -10,15 +10,27 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: TextButton(
           onPressed: () => context.go("/"),
-          child: Text(
-            "Plant Sense",
-            style: TextStyle(
-              color: Colors.green.shade900,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.eco,
+                color: Colors.green.shade900,
+                size: 26,
+              ),
+              Text(
+                "Plant Sense",
+                style: TextStyle(
+                  color: Colors.green.shade900,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
         actions: [

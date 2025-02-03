@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class BreakpointContainer extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
   const BreakpointContainer({
     super.key,
     required this.child,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16.0),
   });
 
   @override
@@ -18,7 +20,7 @@ class BreakpointContainer extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: xlBreakpoint - 20),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: padding,
             child: child,
           ),
         ),

@@ -48,14 +48,16 @@ type Plant struct {
 
 // PlantCreate defines model for plant_create.
 type PlantCreate struct {
-	FactsheetId string             `json:"factsheet_id"`
-	GardenId    openapi_types.UUID `json:"garden_id"`
-	ImageUrl    *string            `json:"image_url,omitempty"`
-	Name        string             `json:"name"`
+	FactsheetId string  `json:"factsheet_id"`
+	ImageUrl    *string `json:"image_url,omitempty"`
+	Name        string  `json:"name"`
 }
 
 // PostGardensJSONRequestBody defines body for PostGardens for application/json ContentType.
 type PostGardensJSONRequestBody = GardenCreate
+
+// PutGardensIdJSONRequestBody defines body for PutGardensId for application/json ContentType.
+type PutGardensIdJSONRequestBody = GardenCreate
 
 // PatchGardensIdDevicesJSONRequestBody defines body for PatchGardensIdDevices for application/json ContentType.
 type PatchGardensIdDevicesJSONRequestBody = Devices
@@ -75,17 +77,32 @@ type ServerInterface interface {
 	// (POST /gardens)
 	PostGardens(w http.ResponseWriter, r *http.Request)
 
+	// (DELETE /gardens/{id})
+	DeleteGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
+	// (GET /gardens/{id})
+	GetGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
+	// (PUT /gardens/{id})
+	PutGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
 	// (GET /gardens/{id}/devices)
 	GetGardensIdDevices(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
 
 	// (PATCH /gardens/{id}/devices)
 	PatchGardensIdDevices(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
 
+	// (DELETE /gardens/{id}/devices/{device_id})
+	DeleteGardensIdDevicesDeviceId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID, deviceId string)
+
 	// (GET /gardens/{id}/plants)
 	GetGardensIdPlants(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
 
 	// (POST /gardens/{id}/plants)
 	PostGardensIdPlants(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
+	// (DELETE /plants/{id})
+	DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
 
 	// (GET /plants/{id})
 	GetPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
@@ -108,6 +125,21 @@ func (_ Unimplemented) PostGardens(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// (DELETE /gardens/{id})
+func (_ Unimplemented) DeleteGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (GET /gardens/{id})
+func (_ Unimplemented) GetGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (PUT /gardens/{id})
+func (_ Unimplemented) PutGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // (GET /gardens/{id}/devices)
 func (_ Unimplemented) GetGardensIdDevices(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
@@ -118,6 +150,11 @@ func (_ Unimplemented) PatchGardensIdDevices(w http.ResponseWriter, r *http.Requ
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// (DELETE /gardens/{id}/devices/{device_id})
+func (_ Unimplemented) DeleteGardensIdDevicesDeviceId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID, deviceId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // (GET /gardens/{id}/plants)
 func (_ Unimplemented) GetGardensIdPlants(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
@@ -125,6 +162,11 @@ func (_ Unimplemented) GetGardensIdPlants(w http.ResponseWriter, r *http.Request
 
 // (POST /gardens/{id}/plants)
 func (_ Unimplemented) PostGardensIdPlants(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (DELETE /plants/{id})
+func (_ Unimplemented) DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -168,6 +210,84 @@ func (siw *ServerInterfaceWrapper) PostGardens(w http.ResponseWriter, r *http.Re
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.PostGardens(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// DeleteGardensId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGardensId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteGardensId(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// GetGardensId operation middleware
+func (siw *ServerInterfaceWrapper) GetGardensId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetGardensId(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// PutGardensId operation middleware
+func (siw *ServerInterfaceWrapper) PutGardensId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutGardensId(w, r, id)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -229,6 +349,41 @@ func (siw *ServerInterfaceWrapper) PatchGardensIdDevices(w http.ResponseWriter, 
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
+// DeleteGardensIdDevicesDeviceId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGardensIdDevicesDeviceId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "device_id" -------------
+	var deviceId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "device_id", chi.URLParam(r, "device_id"), &deviceId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "device_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteGardensIdDevicesDeviceId(w, r, id, deviceId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
 // GetGardensIdPlants operation middleware
 func (siw *ServerInterfaceWrapper) GetGardensIdPlants(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -272,6 +427,32 @@ func (siw *ServerInterfaceWrapper) PostGardensIdPlants(w http.ResponseWriter, r 
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.PostGardensIdPlants(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// DeletePlantsId operation middleware
+func (siw *ServerInterfaceWrapper) DeletePlantsId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeletePlantsId(w, r, id)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -453,16 +634,31 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/gardens", wrapper.PostGardens)
 	})
 	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/gardens/{id}", wrapper.DeleteGardensId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/gardens/{id}", wrapper.GetGardensId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/gardens/{id}", wrapper.PutGardensId)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/gardens/{id}/devices", wrapper.GetGardensIdDevices)
 	})
 	r.Group(func(r chi.Router) {
 		r.Patch(options.BaseURL+"/gardens/{id}/devices", wrapper.PatchGardensIdDevices)
 	})
 	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/gardens/{id}/devices/{device_id}", wrapper.DeleteGardensIdDevicesDeviceId)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/gardens/{id}/plants", wrapper.GetGardensIdPlants)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/gardens/{id}/plants", wrapper.PostGardensIdPlants)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/plants/{id}", wrapper.DeletePlantsId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/plants/{id}", wrapper.GetPlantsId)
@@ -519,6 +715,105 @@ type PostGardens500Response struct {
 }
 
 func (response PostGardens500Response) VisitPostGardensResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type DeleteGardensIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type DeleteGardensIdResponseObject interface {
+	VisitDeleteGardensIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteGardensId200Response struct {
+}
+
+func (response DeleteGardensId200Response) VisitDeleteGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type DeleteGardensId404Response struct {
+}
+
+func (response DeleteGardensId404Response) VisitDeleteGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type DeleteGardensId500Response struct {
+}
+
+func (response DeleteGardensId500Response) VisitDeleteGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type GetGardensIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type GetGardensIdResponseObject interface {
+	VisitGetGardensIdResponse(w http.ResponseWriter) error
+}
+
+type GetGardensId200JSONResponse Garden
+
+func (response GetGardensId200JSONResponse) VisitGetGardensIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetGardensId404Response struct {
+}
+
+func (response GetGardensId404Response) VisitGetGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type GetGardensId500Response struct {
+}
+
+func (response GetGardensId500Response) VisitGetGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type PutGardensIdRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PutGardensIdJSONRequestBody
+}
+
+type PutGardensIdResponseObject interface {
+	VisitPutGardensIdResponse(w http.ResponseWriter) error
+}
+
+type PutGardensId200JSONResponse Garden
+
+func (response PutGardensId200JSONResponse) VisitPutGardensIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutGardensId404Response struct {
+}
+
+func (response PutGardensId404Response) VisitPutGardensIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type PutGardensId500Response struct {
+}
+
+func (response PutGardensId500Response) VisitPutGardensIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(500)
 	return nil
 }
@@ -590,6 +885,39 @@ func (response PatchGardensIdDevices500Response) VisitPatchGardensIdDevicesRespo
 	return nil
 }
 
+type DeleteGardensIdDevicesDeviceIdRequestObject struct {
+	Id       openapi_types.UUID `json:"id"`
+	DeviceId string             `json:"device_id"`
+}
+
+type DeleteGardensIdDevicesDeviceIdResponseObject interface {
+	VisitDeleteGardensIdDevicesDeviceIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteGardensIdDevicesDeviceId200Response struct {
+}
+
+func (response DeleteGardensIdDevicesDeviceId200Response) VisitDeleteGardensIdDevicesDeviceIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type DeleteGardensIdDevicesDeviceId404Response struct {
+}
+
+func (response DeleteGardensIdDevicesDeviceId404Response) VisitDeleteGardensIdDevicesDeviceIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type DeleteGardensIdDevicesDeviceId500Response struct {
+}
+
+func (response DeleteGardensIdDevicesDeviceId500Response) VisitDeleteGardensIdDevicesDeviceIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
 type GetGardensIdPlantsRequestObject struct {
 	Id openapi_types.UUID `json:"id"`
 }
@@ -653,6 +981,38 @@ type PostGardensIdPlants500Response struct {
 }
 
 func (response PostGardensIdPlants500Response) VisitPostGardensIdPlantsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type DeletePlantsIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type DeletePlantsIdResponseObject interface {
+	VisitDeletePlantsIdResponse(w http.ResponseWriter) error
+}
+
+type DeletePlantsId200Response struct {
+}
+
+func (response DeletePlantsId200Response) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type DeletePlantsId404Response struct {
+}
+
+func (response DeletePlantsId404Response) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type DeletePlantsId500Response struct {
+}
+
+func (response DeletePlantsId500Response) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(500)
 	return nil
 }
@@ -733,17 +1093,32 @@ type StrictServerInterface interface {
 	// (POST /gardens)
 	PostGardens(ctx context.Context, request PostGardensRequestObject) (PostGardensResponseObject, error)
 
+	// (DELETE /gardens/{id})
+	DeleteGardensId(ctx context.Context, request DeleteGardensIdRequestObject) (DeleteGardensIdResponseObject, error)
+
+	// (GET /gardens/{id})
+	GetGardensId(ctx context.Context, request GetGardensIdRequestObject) (GetGardensIdResponseObject, error)
+
+	// (PUT /gardens/{id})
+	PutGardensId(ctx context.Context, request PutGardensIdRequestObject) (PutGardensIdResponseObject, error)
+
 	// (GET /gardens/{id}/devices)
 	GetGardensIdDevices(ctx context.Context, request GetGardensIdDevicesRequestObject) (GetGardensIdDevicesResponseObject, error)
 
 	// (PATCH /gardens/{id}/devices)
 	PatchGardensIdDevices(ctx context.Context, request PatchGardensIdDevicesRequestObject) (PatchGardensIdDevicesResponseObject, error)
 
+	// (DELETE /gardens/{id}/devices/{device_id})
+	DeleteGardensIdDevicesDeviceId(ctx context.Context, request DeleteGardensIdDevicesDeviceIdRequestObject) (DeleteGardensIdDevicesDeviceIdResponseObject, error)
+
 	// (GET /gardens/{id}/plants)
 	GetGardensIdPlants(ctx context.Context, request GetGardensIdPlantsRequestObject) (GetGardensIdPlantsResponseObject, error)
 
 	// (POST /gardens/{id}/plants)
 	PostGardensIdPlants(ctx context.Context, request PostGardensIdPlantsRequestObject) (PostGardensIdPlantsResponseObject, error)
+
+	// (DELETE /plants/{id})
+	DeletePlantsId(ctx context.Context, request DeletePlantsIdRequestObject) (DeletePlantsIdResponseObject, error)
 
 	// (GET /plants/{id})
 	GetPlantsId(ctx context.Context, request GetPlantsIdRequestObject) (GetPlantsIdResponseObject, error)
@@ -836,6 +1211,91 @@ func (sh *strictHandler) PostGardens(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// DeleteGardensId operation middleware
+func (sh *strictHandler) DeleteGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request DeleteGardensIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteGardensId(ctx, request.(DeleteGardensIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteGardensId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(DeleteGardensIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGardensIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGardensId operation middleware
+func (sh *strictHandler) GetGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request GetGardensIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGardensId(ctx, request.(GetGardensIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGardensId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(GetGardensIdResponseObject); ok {
+		if err := validResponse.VisitGetGardensIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutGardensId operation middleware
+func (sh *strictHandler) PutGardensId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request PutGardensIdRequestObject
+
+	request.Id = id
+
+	var body PutGardensIdJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PutGardensId(ctx, request.(PutGardensIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutGardensId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PutGardensIdResponseObject); ok {
+		if err := validResponse.VisitPutGardensIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
 // GetGardensIdDevices operation middleware
 func (sh *strictHandler) GetGardensIdDevices(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	var request GetGardensIdDevicesRequestObject
@@ -895,6 +1355,33 @@ func (sh *strictHandler) PatchGardensIdDevices(w http.ResponseWriter, r *http.Re
 	}
 }
 
+// DeleteGardensIdDevicesDeviceId operation middleware
+func (sh *strictHandler) DeleteGardensIdDevicesDeviceId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID, deviceId string) {
+	var request DeleteGardensIdDevicesDeviceIdRequestObject
+
+	request.Id = id
+	request.DeviceId = deviceId
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteGardensIdDevicesDeviceId(ctx, request.(DeleteGardensIdDevicesDeviceIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteGardensIdDevicesDeviceId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(DeleteGardensIdDevicesDeviceIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGardensIdDevicesDeviceIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
 // GetGardensIdPlants operation middleware
 func (sh *strictHandler) GetGardensIdPlants(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	var request GetGardensIdPlantsRequestObject
@@ -947,6 +1434,32 @@ func (sh *strictHandler) PostGardensIdPlants(w http.ResponseWriter, r *http.Requ
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
 	} else if validResponse, ok := response.(PostGardensIdPlantsResponseObject); ok {
 		if err := validResponse.VisitPostGardensIdPlantsResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeletePlantsId operation middleware
+func (sh *strictHandler) DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request DeletePlantsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.DeletePlantsId(ctx, request.(DeletePlantsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeletePlantsId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(DeletePlantsIdResponseObject); ok {
+		if err := validResponse.VisitDeletePlantsIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -1016,17 +1529,18 @@ func (sh *strictHandler) PutPlantsId(w http.ResponseWriter, r *http.Request, id 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9xWT2/bPgz9KgF/v6MXe1t38XEoUAQDtl52KopAs5hEhS2pFF0gCPzdB0nOH9fukm1O",
-	"kfWSGDJF8T2+R2sDhams0ajZQb4BV6ywEuFR4pMqMDwKKRUro0V5S8YisYrrvLYIOTgmpZfQJNsF8+MB",
-	"C/YLS0EStY+1nZ1K+t+FoUow5FDXSkLSz6cqscR5TeXgaVpUOPCiSYDwsVaEEvI7CJlD6P2uoHlBKBj7",
-	"dZ2WcpfNlkJzP8tCFOxWiDyPOHuVt1WcysIrk7WvLulCSZ4hf5HGsQkYAdlxUH6H0gsTcikufbLvDmki",
-	"BYuJQ/J+gASekJwyGnLIpu+nmS/BWNTCKsjh4zSbZpCAFbwKVKTx4PC8xCAWz5TwfppJyOEG+aYN8RU7",
-	"a7SLLH7IMv9XGM0YZSasLVUR9qYPzui9ZYOpGKuw8X/CBeTwX7o3d9o6uy3nwKyCSKwhoJfoClKWI7pv",
-	"X3zUp1hE99VMM5IWZWAFaYJEhmIOa9wAyFvjOigfa3T82cj1bwE8jmuryKaJ/f8LNk8hcRzSmmSnknSj",
-	"ZJMejN4jkpnJ6zb2jGi35bwI9yq76sP9aniyMLWWf6QiQaJCRnKQ3z3fF7FPZtfgDQt5MNvWx3mcYXvr",
-	"M9WYHCA9Mm2a+2DeYjUgYr88SPz4cj7gvHlLre1pPXxITpP6bQx9jSkZP+wnD8k3Z4BjQ7zTjPHV37ld",
-	"jGCBf6Hn3hnRDMEYv3JE5H4mzzn0WzYuRPEB8TkFXw/pve4yffk6v6CG+nPiWuxnuL1DWjukd/5CDc19",
-	"8zMAAP//3/oAW34OAAA=",
+	"H4sIAAAAAAAC/+RYy27bMBD8FWPbo2qpbXrRsQgQGAXaXHoKAoMV1zYDiWTIVYDA0L8XJOWHLLlSWjV2",
+	"3UtMUHzMzO6sVllDpgqtJEqykK7BZissmB9yfBIZ+iHjXJBQkuW3Rmk0JMI8PWuEFCwZIZdQRZsJ9eMB",
+	"M3ITS2Y4SrdWN3YK7v4ulCkYQQplKThE7fNEwZY4L03eeZtkBXY8qCIw+FgKgxzSO/An+6X3W0DzzCAj",
+	"bOMaduT2NJ0zSe1TFiwju0KkeeDZQl6jGKrCK4u1Qxc1qUQHzI/K2CvAGFi7oblVQi6U3y8odwd8t2gm",
+	"nBGbWDQuqyGCJzRWKAkpJNP308RdqzRKpgWk8HGaTBOIQDNaeUJx0MSPl+hD7vgy54oZhxRukG7qJQ6l",
+	"1UraoMWHJHE/mZKEIVmY1rnI/N74wSq5M563BmHhN741uIAU3sQ7i8a1P2s4e5ZjxrBn8Ow52swITYHd",
+	"ty9u1acAovloJgmNZLlXBc0EjVEmnKGV7SB5q2yD5WOJlj4r/vwigv28NnlVVSHmf6DmEBHHEa2KtlkS",
+	"rwWvwtYcgz+aQl77+VrKGT+SMl2YrpKr9qOviiYLVUr+O6HuSeej6F4lBOPT1cywAgmNhfTucF/gPJld",
+	"gysikPoCsKktaaiOuxJEpsRoj2hPha7uI9Bll63KA7Ev3FdjB/XQefFe69Kb3df12r+oxwbO/5PljLJV",
+	"R5676U7hx0/4Pc2rSwrtsVyP12Ewf9mbpw5C+Dnxi+iEORsdXhcEOXrdVutf3tpyRit4voseVqduw9LX",
+	"aC7DV83g3vLiqldf79sIxvilq/FpNUL9+hdi7pwRzDCwdw4RONPWuQfceFlyNqb0jE/QNzeUPn8rnlFA",
+	"3T1hLsTT/y8G4tKieccZMajuq58BAAD//7XFpGQeFAAA",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
