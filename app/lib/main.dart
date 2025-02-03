@@ -1,4 +1,4 @@
-// Openapi Generator last run: : 2025-01-30T02:59:11.218070
+// Openapi Generator last run: : 2025-02-02T18:46:24.170993
 import 'dart:html';
 
 import 'package:app/apis.dart';
@@ -8,21 +8,22 @@ import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/grpc_device_provider.dart';
 import 'package:app/components/modal_bottom_sheet_page.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
-import 'package:app/features/devices/screens/garden_edit_devices_sheet.dart';
+import 'package:app/features/devices/screens/garden_edit_devices.dart';
 import 'package:app/features/facts/providers/api_plant_fact_sheet_provider.dart';
 import 'package:app/features/facts/providers/plant_fact_sheet_provider.dart';
 import 'package:app/features/garden/providers/api_garden.provider.dart';
 import 'package:app/features/garden/providers/api_garden_images_provider.dart';
 import 'package:app/features/garden/providers/garden_images_provider.dart';
 import 'package:app/features/garden/providers/garden_provider.dart';
-import 'package:app/features/garden/widgets/garden_add_sheet.dart';
+import 'package:app/features/garden/screens/garden_form_dialog.dart';
 import 'package:app/features/metrics/screens/history.dart';
 import 'package:app/features/plant/providers/api_plant_provider.dart';
 import 'package:app/features/plant/providers/plant_provider.dart';
-import 'package:app/features/plant/widgets/plant_add_sheet.dart';
+import 'package:app/features/plant/screens/plant_form_dialog.dart';
 import 'package:app/features/garden/screens/garden.dart';
 import 'package:app/pages/home.dart';
 import 'package:app/features/plant/screens/plant.dart';
+import 'package:app/scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,9 +37,9 @@ const String plantsDbApiBasePath = String.fromEnvironment(
     "PLANTS_DB_API_BASE_PATH",
     defaultValue: "http://localhost:80/plants-db");
 const String deviceGrpcHost =
-    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "grpc.localhost");
+    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "localhost");
 const String deviceGrpcPort =
-    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "80");
+    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "50052");
 
 void main() {
   print("UserDataApiBasePath: $userDataApiBasePath");
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      scrollBehavior: WebWorkingScrollBehavior(),
       title: 'Plant Sense',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
@@ -121,8 +123,13 @@ class MyApp extends StatelessWidget {
                   routes: [
                     GoRoute(
                       path: "/gardens/add",
-                      pageBuilder: (context, state) => ModalBottomSheetPage(
-                          builder: (context) => GardenAddSheet()),
+                      pageBuilder: (context, state) => DialogPage(
+                        builder: (context) => GardenFormDialog(
+                          onGardenSubmitted: (garden) {
+                            context.read<GardenProvider>().addGarden(garden);
+                          },
+                        ),
+                      ),
                     ),
                     GoRoute(
                       path: "/devices",
@@ -141,6 +148,19 @@ class MyApp extends StatelessWidget {
                 },
                 routes: [
                   GoRoute(
+                    path: "/edit",
+                    pageBuilder: (context, state) {
+                      return DialogPage(
+                        builder: (context) => GardenFormDialog(
+                          gardenId: state.pathParameters['id']!,
+                          onGardenSubmitted: (garden) {
+                            context.read<GardenProvider>().updateGarden(garden);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  GoRoute(
                     path: "/devices",
                     pageBuilder: (context, state) => NoTransitionPage(
                       child: GardenEditDevices(
@@ -150,10 +170,15 @@ class MyApp extends StatelessWidget {
                   ),
                   GoRoute(
                     path: "/plants/add",
-                    pageBuilder: (context, state) => ModalBottomSheetPage(
-                        builder: (context) => PlantAddSheet(
-                              gardenId: state.pathParameters['id']!,
-                            )),
+                    pageBuilder: (context, state) => DialogPage(
+                      builder: (context) => PlantFormDialog(
+                        onPlantSubmitted: (plant) {
+                          context
+                              .read<PlantProvider>()
+                              .addPlant(state.pathParameters['id']!, plant);
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -165,6 +190,20 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                   routes: [
+                    GoRoute(
+                      path: "/edit",
+                      pageBuilder: (context, state) {
+                        return DialogPage(
+                          builder: (context) => PlantFormDialog(
+                            // gardenId: state.pathParameters['id']!,
+                            plantId: state.pathParameters['id']!,
+                            onPlantSubmitted: (plant) {
+                              context.read<PlantProvider>().updatePlant(plant);
+                            },
+                          ),
+                        );
+                      },
+                    ),
                     // GoRoute(
                     //     path: "/history",
                     //     pageBuilder: (context, state) {

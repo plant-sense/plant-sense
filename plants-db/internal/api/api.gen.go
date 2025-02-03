@@ -67,6 +67,12 @@ type Taxonomy struct {
 	ScientificName string `json:"scientific_name"`
 }
 
+// PostPlantsJSONRequestBody defines body for PostPlants for application/json ContentType.
+type PostPlantsJSONRequestBody = Plant
+
+// PutPlantsIdJSONRequestBody defines body for PutPlantsId for application/json ContentType.
+type PutPlantsIdJSONRequestBody = Plant
+
 // PostSearchJSONRequestBody defines body for PostSearch for application/json ContentType.
 type PostSearchJSONRequestBody = SearchRequest
 
@@ -76,8 +82,17 @@ type ServerInterface interface {
 	// (GET /plants)
 	GetPlants(w http.ResponseWriter, r *http.Request)
 
+	// (POST /plants)
+	PostPlants(w http.ResponseWriter, r *http.Request)
+
+	// (DELETE /plants/{id})
+	DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
 	// (GET /plants/{id})
 	GetPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
+
+	// (PUT /plants/{id})
+	PutPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
 
 	// (GET /plants/{id}/requirements)
 	GetPlantsIdRequirements(w http.ResponseWriter, r *http.Request, id openapi_types.UUID)
@@ -98,8 +113,23 @@ func (_ Unimplemented) GetPlants(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// (POST /plants)
+func (_ Unimplemented) PostPlants(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (DELETE /plants/{id})
+func (_ Unimplemented) DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // (GET /plants/{id})
 func (_ Unimplemented) GetPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (PUT /plants/{id})
+func (_ Unimplemented) PutPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -142,6 +172,47 @@ func (siw *ServerInterfaceWrapper) GetPlants(w http.ResponseWriter, r *http.Requ
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
+// PostPlants operation middleware
+func (siw *ServerInterfaceWrapper) PostPlants(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostPlants(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// DeletePlantsId operation middleware
+func (siw *ServerInterfaceWrapper) DeletePlantsId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeletePlantsId(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
 // GetPlantsId operation middleware
 func (siw *ServerInterfaceWrapper) GetPlantsId(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -159,6 +230,32 @@ func (siw *ServerInterfaceWrapper) GetPlantsId(w http.ResponseWriter, r *http.Re
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetPlantsId(w, r, id)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// PutPlantsId operation middleware
+func (siw *ServerInterfaceWrapper) PutPlantsId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", chi.URLParam(r, "id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutPlantsId(w, r, id)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -352,7 +449,16 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Get(options.BaseURL+"/plants", wrapper.GetPlants)
 	})
 	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/plants", wrapper.PostPlants)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/plants/{id}", wrapper.DeletePlantsId)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/plants/{id}", wrapper.GetPlantsId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/plants/{id}", wrapper.PutPlantsId)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/plants/{id}/requirements", wrapper.GetPlantsIdRequirements)
@@ -391,6 +497,64 @@ func (response GetPlants500Response) VisitGetPlantsResponse(w http.ResponseWrite
 	return nil
 }
 
+type PostPlantsRequestObject struct {
+	Body *PostPlantsJSONRequestBody
+}
+
+type PostPlantsResponseObject interface {
+	VisitPostPlantsResponse(w http.ResponseWriter) error
+}
+
+type PostPlants200JSONResponse Plant
+
+func (response PostPlants200JSONResponse) VisitPostPlantsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostPlants500Response struct {
+}
+
+func (response PostPlants500Response) VisitPostPlantsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type DeletePlantsIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type DeletePlantsIdResponseObject interface {
+	VisitDeletePlantsIdResponse(w http.ResponseWriter) error
+}
+
+type DeletePlantsId200JSONResponse Factsheet
+
+func (response DeletePlantsId200JSONResponse) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeletePlantsId404Response struct {
+}
+
+func (response DeletePlantsId404Response) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type DeletePlantsId500Response struct {
+}
+
+func (response DeletePlantsId500Response) VisitDeletePlantsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
 type GetPlantsIdRequestObject struct {
 	Id openapi_types.UUID `json:"id"`
 }
@@ -420,6 +584,32 @@ type GetPlantsId500Response struct {
 }
 
 func (response GetPlantsId500Response) VisitGetPlantsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(500)
+	return nil
+}
+
+type PutPlantsIdRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PutPlantsIdJSONRequestBody
+}
+
+type PutPlantsIdResponseObject interface {
+	VisitPutPlantsIdResponse(w http.ResponseWriter) error
+}
+
+type PutPlantsId200JSONResponse Plant
+
+func (response PutPlantsId200JSONResponse) VisitPutPlantsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutPlantsId500Response struct {
+}
+
+func (response PutPlantsId500Response) VisitPutPlantsIdResponse(w http.ResponseWriter) error {
 	w.WriteHeader(500)
 	return nil
 }
@@ -529,8 +719,17 @@ type StrictServerInterface interface {
 	// (GET /plants)
 	GetPlants(ctx context.Context, request GetPlantsRequestObject) (GetPlantsResponseObject, error)
 
+	// (POST /plants)
+	PostPlants(ctx context.Context, request PostPlantsRequestObject) (PostPlantsResponseObject, error)
+
+	// (DELETE /plants/{id})
+	DeletePlantsId(ctx context.Context, request DeletePlantsIdRequestObject) (DeletePlantsIdResponseObject, error)
+
 	// (GET /plants/{id})
 	GetPlantsId(ctx context.Context, request GetPlantsIdRequestObject) (GetPlantsIdResponseObject, error)
+
+	// (PUT /plants/{id})
+	PutPlantsId(ctx context.Context, request PutPlantsIdRequestObject) (PutPlantsIdResponseObject, error)
 
 	// (GET /plants/{id}/requirements)
 	GetPlantsIdRequirements(ctx context.Context, request GetPlantsIdRequirementsRequestObject) (GetPlantsIdRequirementsResponseObject, error)
@@ -595,6 +794,63 @@ func (sh *strictHandler) GetPlants(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// PostPlants operation middleware
+func (sh *strictHandler) PostPlants(w http.ResponseWriter, r *http.Request) {
+	var request PostPlantsRequestObject
+
+	var body PostPlantsJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PostPlants(ctx, request.(PostPlantsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostPlants")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PostPlantsResponseObject); ok {
+		if err := validResponse.VisitPostPlantsResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeletePlantsId operation middleware
+func (sh *strictHandler) DeletePlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request DeletePlantsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.DeletePlantsId(ctx, request.(DeletePlantsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeletePlantsId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(DeletePlantsIdResponseObject); ok {
+		if err := validResponse.VisitDeletePlantsIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
 // GetPlantsId operation middleware
 func (sh *strictHandler) GetPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
 	var request GetPlantsIdRequestObject
@@ -614,6 +870,39 @@ func (sh *strictHandler) GetPlantsId(w http.ResponseWriter, r *http.Request, id 
 		sh.options.ResponseErrorHandlerFunc(w, r, err)
 	} else if validResponse, ok := response.(GetPlantsIdResponseObject); ok {
 		if err := validResponse.VisitGetPlantsIdResponse(w); err != nil {
+			sh.options.ResponseErrorHandlerFunc(w, r, err)
+		}
+	} else if response != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutPlantsId operation middleware
+func (sh *strictHandler) PutPlantsId(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+	var request PutPlantsIdRequestObject
+
+	request.Id = id
+
+	var body PutPlantsIdJSONRequestBody
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		sh.options.RequestErrorHandlerFunc(w, r, fmt.Errorf("can't decode JSON body: %w", err))
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx context.Context, w http.ResponseWriter, r *http.Request, request interface{}) (interface{}, error) {
+		return sh.ssi.PutPlantsId(ctx, request.(PutPlantsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutPlantsId")
+	}
+
+	response, err := handler(r.Context(), w, r, request)
+
+	if err != nil {
+		sh.options.ResponseErrorHandlerFunc(w, r, err)
+	} else if validResponse, ok := response.(PutPlantsIdResponseObject); ok {
+		if err := validResponse.VisitPutPlantsIdResponse(w); err != nil {
 			sh.options.ResponseErrorHandlerFunc(w, r, err)
 		}
 	} else if response != nil {
@@ -707,18 +996,19 @@ func (sh *strictHandler) PostSearch(w http.ResponseWriter, r *http.Request) {
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9RWTW/bOBD9K8LsHhnbu00vOgYFCqNAG7S9BYbBiCN7CpFUyFEQI9B/L0ja0YftuGmC",
-	"tLlJ1MzwvTdfuofC6toaNOwhvwdfrFHL+Ci9x3RYO1ujY8L4prCUTcVL0nKFy8ZV4ZA3NUIOnh2ZFbRt",
-	"K6CUBfs1Iu+H6EL/67CEHP6ZdjCmWwzTrVUrgFSwLa3TkiGHpiEFYnynAIc3DTnUOzKPBR/YtgJY3llj",
-	"9eaU34Nd212oIL+CBGn3dQRG7CgvWgF1Jc3rifLixHpMehz3+Wh5NwCobHNdYQfRNPoaXYCoyfyiZWOI",
-	"D5XbEHGIJ+L9W4/FgeIYgq1oteYlGUbjiTdPqJ4Ay1uqltqS58bhE30ZdY1OPtlzxLkfZgxI7NELgniU",
-	"rlgvQxD0B/JnpMYjrd2vqaFTYbW2ZnnEV4AvCA1TScUxmxGvfsB990WEQ6a0MRJxFUJdhgbL4vzJPLpb",
-	"KoLvLTpP1kAOs8l/k1lAY2s0sibI4d1kNpmBgFryOhKZxi6Nj6s0wmzUl6yZK8jhI/Jlsgh4fW2NTwr8",
-	"P5slIYLY0VHWdUVFdJ3+8NZ0czY8EaM+2fVpZLQPHSGdk5uUC4W+cFRzovblU7B6nzAMP80NozOyipKg",
-	"y9A560KMVuzYTu9Jtacpz1VUykmNjM5DfjW+K4bL5h8gJCe8S16D2JZUmihdktk1KHqKnBhp7eKZij8m",
-	"dLe0jop7PjvfF/ez5ay0jVHPln86HlSncvF1uGhGeXlb8g+38p/KQH+8nVL/e7cY37TyvfX/iqqnHRTX",
-	"iPUHhL60nr8lmyQcer6wavNitEdLMMH66+b5+SFhL6TKtrizs4zMraxIZTcNus1vJCP+EISzVLzxt37X",
-	"FWfqGtpF+zMAAP//SgFUECwMAAA=",
+	"H4sIAAAAAAAC/+xXTW8aPRD+K6t536MDtE0ve4wiVahSG7W9RQg5uwNMtf6IP6KgyP+9sg1hd4EQ0tBK",
+	"UW/GOzN+nscz4+EBKiW0kiidhfIBbLVAwdOSW4t5Uxul0TjC9KvGGfeNm5Lgc5x608RNt9QIJVhnSM4h",
+	"hMBgxitnF4huO8Qm9P8GZ1DCf8MNjOEKw3BlFRhQHW1nygjuoATvqQbWP5OBwVtPBsWazFPBO7aBgeP3",
+	"SiqxPOT3aBc2B9ZQXkOGtP7aA8PWlCeBgW64/HOivDqxFpMWx20+gt93ANbK3zS4gSi9uEETIQqSz7T0",
+	"ktyudOsijvFYOn/lMdmRHF2wDc0XbkrSobTklkdkT4RlFTVTocg6b/BIX4dCo+FHe/Y4t8P0AbEtelEQ",
+	"i9xUi2kMgnbH/UkucE9pt3Oq61QpIZSc7vFlYCtC6WhG1T6bHq92wG33SYJDcqZSJHJNDHUVC6xI/aew",
+	"aO6oir53aCwpCSWMBu8Go4hGaZRcE5TwYTAajICB5m6RiAxTlablPLcwlfQlJcc1lPAJ3VW2iHitVtJm",
+	"Bd6PRlmIKHZy5Fo3VCXX4U+r5KbPxhU5FAerPreM8FgR3Bi+zHdRo60MaZepff0crT5mDN1PY+nQSN4k",
+	"SdAUaIwyOYZWdgfFK2XbHFOaXKh6eRS9Z7AK+c5/Q8NnHfIaUgW2TozhA9UhezbocFu9y7Sf9RvXcEKG",
+	"m4d2L8vz0fk2yy/KFTPlZf2SlHm6KN4gYc0NF+jQWCiv+34pJ4rxJcRmFH9ztwC2aqH5Bd00NWc8shbV",
+	"A094mDDQfld9+q7a/wp0q0CH/Vf/UNp+605tJyPdHT//WhafIFn7N9CeFQ6p/6M9Pp9I+dac+8ZUzwNd",
+	"msn2vuffs81p2kVvonyFvnGK4eh81+Vd8LpY4S7OCpJ3vKG6uPVoli9oQmm6jnv5vtN/5HVVnNU3ECbh",
+	"VwAAAP//0h//WHkPAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

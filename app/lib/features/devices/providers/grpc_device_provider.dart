@@ -61,13 +61,47 @@ class GrpcDeviceProvider extends DeviceProvider {
   }
 
   model.DeviceType? convertDeviceTypes(DeviceType pdt) {
-    if (pdt.sensor == SensorKind.SENSOR_KIND_SOIL_HUMIDITY) {
-      return model.SensorType(model.SensorKind.soilMoisture);
-    } else if (pdt.sensor == SensorKind.SENSOR_KIND_TEMPERATURE) {
-      return model.SensorType(model.SensorKind.temperature);
-    } else if (pdt.sensor == SensorKind.SENSOR_KIND_LIGHT) {
-      return model.SensorType(model.SensorKind.lightIntensity);
+    switch (pdt.whichType()) {
+      case DeviceType_Type.actuator:
+        return convertActuatorType(pdt.actuator);
+      case DeviceType_Type.sensor:
+        return convertSensorType(pdt.sensor);
+      case DeviceType_Type.notSet:
+        return null;
     }
-    return model.SensorType(model.SensorKind.soilMoisture);
+    // if (pdt.sensor == SensorKind.SENSOR_KIND_SOIL_HUMIDITY) {
+    //   return model.SensorType(model.SensorKind.soilMoisture);
+    // } else if (pdt.sensor == SensorKind.SENSOR_KIND_TEMPERATURE) {
+    //   return model.SensorType(model.SensorKind.temperature);
+    // } else if (pdt.sensor == SensorKind.SENSOR_KIND_LIGHT) {
+    //   return model.SensorType(model.SensorKind.lightIntensity);
+    // } else
+    //   return null;
+  }
+
+  model.ActuatorType? convertActuatorType(ActuatorKind kind) {
+    switch (kind) {
+      case ActuatorKind.ACTUATOR_KIND_LIGHT:
+        return model.ActuatorType(model.ActuatorKind.light);
+      case ActuatorKind.ACTUATOR_KIND_OUTLET:
+        return model.ActuatorType(model.ActuatorKind.outlet);
+      case ActuatorKind.ACTUATOR_KIND_IRRIGATION:
+        return model.ActuatorType(model.ActuatorKind.irrigation);
+      case ActuatorKind.ACTUATOR_KIND_UNSPECIFIED:
+        return null;
+    }
+  }
+
+  model.SensorType? convertSensorType(SensorKind kind) {
+    switch (kind) {
+      case SensorKind.SENSOR_KIND_SOIL_HUMIDITY:
+        return model.SensorType(model.SensorKind.soilMoisture);
+      case SensorKind.SENSOR_KIND_TEMPERATURE:
+        return model.SensorType(model.SensorKind.temperature);
+      case SensorKind.SENSOR_KIND_LIGHT:
+        return model.SensorType(model.SensorKind.lightIntensity);
+      case SensorKind.SENSOR_KIND_UNSPECIFIED:
+        return null;
+    }
   }
 }

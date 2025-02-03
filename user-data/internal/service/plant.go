@@ -11,6 +11,7 @@ type PlantService interface {
 	UpdatePlant(plant model.Plant) (model.Plant, error)
 	GetPlantsByGardenID(gardenID uuid.UUID) ([]model.Plant, error)
 	AddPlant(plant model.Plant) (model.Plant, error)
+	DeletePlant(id uuid.UUID) error
 }
 
 type plantService struct {
@@ -31,6 +32,10 @@ func (s *plantService) GetPlantsByGardenID(gardenID uuid.UUID) ([]model.Plant, e
 
 func (s *plantService) AddPlant(plant model.Plant) (model.Plant, error) {
 	return s.plantRepo.AddPlant(plant)
+}
+
+func (s *plantService) DeletePlant(id uuid.UUID) error {
+	return s.plantRepo.DeletePlant(id)
 }
 
 func NewPlantService(plantRepo repository.PlantRepository) PlantService {

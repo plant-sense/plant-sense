@@ -1,3 +1,4 @@
+import 'package:app/components/title.dart';
 import 'package:app/features/devices/models/device.dart';
 import 'package:app/features/metrics/widgets/live_spark_chart.dart';
 import 'package:app/layout/breakpoints.dart';
@@ -41,21 +42,29 @@ class GardenStatusBar extends StatelessWidget {
       // ),
       ...sensorCharts(devices_in_garden)
     ];
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final crossAxisCount = constraints.maxWidth > lgBreakpoint ? 4 : 2;
-        return GridView(
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            childAspectRatio: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-          ),
-          padding: EdgeInsets.all(8),
-          children: children,
-        );
-      },
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TitleText(title: "Status"),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final crossAxisCount = constraints.maxWidth > lgBreakpoint ? 4 : 2;
+            return GridView(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                childAspectRatio: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+              // padding: EdgeInsets.all(8),
+              children: children,
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -66,7 +75,7 @@ class GardenStatusBar extends StatelessWidget {
         deviceId: device.id,
         title: device.deviceType.toString(),
         minValue: 0,
-        maxValue: 1000,
+        maxValue: 1000, // TODO replace.
       );
     }
   }

@@ -32,6 +32,7 @@ class DeviceList extends StatelessWidget {
 
   Widget _buildHeader(String title, [double fontSize = 16.0]) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       titleAlignment: ListTileTitleAlignment.center,
       title: Text(
         title,
@@ -55,25 +56,28 @@ class DeviceList extends StatelessWidget {
     final sensors = _getSensors(devices);
     final actuators = _getActuators(devices);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(title, 20),
-        ListView(
-          shrinkWrap: true,
-          children: [
-            if (sensors.isNotEmpty) ...[
-              _buildHeader('Sensors'),
-              ...sensors.map(builder),
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(title, 20),
+          ListView(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            children: [
+              if (sensors.isNotEmpty) ...[
+                _buildHeader('Sensors'),
+                ...sensors.map(builder),
+              ],
+              Divider(),
+              if (actuators.isNotEmpty) ...[
+                _buildHeader('Actuators'),
+                ...actuators.map(builder),
+              ],
             ],
-            Divider(),
-            if (actuators.isNotEmpty) ...[
-              _buildHeader('Actuators'),
-              ...actuators.map(builder),
-            ],
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

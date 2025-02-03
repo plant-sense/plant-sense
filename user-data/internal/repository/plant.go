@@ -11,6 +11,7 @@ type PlantRepository interface {
 	AddPlant(plant model.Plant) (model.Plant, error)
 	GetPlantByID(id uuid.UUID) (model.Plant, error)
 	UpdatePlant(plant model.Plant) (model.Plant, error)
+	DeletePlant(id uuid.UUID) error
 }
 
 type plantRepository struct {
@@ -37,6 +38,11 @@ func (p *plantRepository) GetPlantByID(id uuid.UUID) (model.Plant, error) {
 func (p *plantRepository) UpdatePlant(plant model.Plant) (model.Plant, error) {
 	result := p.db.Save(&plant)
 	return plant, result.Error
+}
+
+func (p *plantRepository) DeletePlant(id uuid.UUID) error {
+	result := p.db.Delete(&model.Plant{}, id)
+	return result.Error
 }
 
 func NewPlantRepository(db *gorm.DB) PlantRepository {

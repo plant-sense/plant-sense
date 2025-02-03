@@ -13,13 +13,10 @@ part of openapi.api;
 class PlantCreate {
   /// Returns a new [PlantCreate] instance.
   PlantCreate({
-    required this.gardenId,
     required this.factsheetId,
     required this.name,
     this.imageUrl,
   });
-
-  String gardenId;
 
   String factsheetId;
 
@@ -37,7 +34,6 @@ class PlantCreate {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PlantCreate &&
-          other.gardenId == gardenId &&
           other.factsheetId == factsheetId &&
           other.name == name &&
           other.imageUrl == imageUrl;
@@ -45,18 +41,16 @@ class PlantCreate {
   @override
   int get hashCode =>
       // ignore: unnecessary_parenthesis
-      (gardenId.hashCode) +
       (factsheetId.hashCode) +
       (name.hashCode) +
       (imageUrl == null ? 0 : imageUrl!.hashCode);
 
   @override
   String toString() =>
-      'PlantCreate[gardenId=$gardenId, factsheetId=$factsheetId, name=$name, imageUrl=$imageUrl]';
+      'PlantCreate[factsheetId=$factsheetId, name=$name, imageUrl=$imageUrl]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'garden_id'] = this.gardenId;
     json[r'factsheet_id'] = this.factsheetId;
     json[r'name'] = this.name;
     if (this.imageUrl != null) {
@@ -88,7 +82,6 @@ class PlantCreate {
       }());
 
       return PlantCreate(
-        gardenId: mapValueOfType<String>(json, r'garden_id')!,
         factsheetId: mapValueOfType<String>(json, r'factsheet_id')!,
         name: mapValueOfType<String>(json, r'name')!,
         imageUrl: mapValueOfType<String>(json, r'image_url'),
@@ -148,7 +141,6 @@ class PlantCreate {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'garden_id',
     'factsheet_id',
     'name',
   };

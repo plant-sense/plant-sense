@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"context"
+
 	"github.com/plant-sense/user-data/internal/api"
 	"github.com/plant-sense/user-data/internal/model"
 	"github.com/plant-sense/user-data/internal/service"
@@ -12,6 +14,11 @@ type handler struct {
 	gardenService service.GardenService
 	plantService  service.PlantService
 	deviceService service.DeviceService
+}
+
+// GetGardensId implements api.StrictServerInterface.
+func (h *handler) GetGardensId(ctx context.Context, request api.GetGardensIdRequestObject) (api.GetGardensIdResponseObject, error) {
+	panic("unimplemented")
 }
 
 func convertGardens(gardens_models []model.Garden) []api.Garden {

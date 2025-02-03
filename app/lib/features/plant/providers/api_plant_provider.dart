@@ -58,12 +58,10 @@ class ApiPlantProvider extends PlantProvider {
   }
 
   @override
-  Future<void> addPlant(
-      String gardenId, String name, String factsheetId) async {
+  Future<void> addPlant(String gardenId, Plant plant) async {
     final plantCreate = api_model.PlantCreate(
-      name: name,
-      gardenId: gardenId,
-      factsheetId: factsheetId,
+      name: plant.name,
+      factsheetId: plant.factsheetId,
     );
 
     debugPrint("Adding plant ${plantCreate.toString()}");
@@ -85,5 +83,19 @@ class ApiPlantProvider extends PlantProvider {
   }
 
   @override
-  Future<void> removePlant(String plantId) async {}
+  Future<void> deletePlant(Plant plant) async {
+    await api.plantsIdDelete(plant.id);
+    await _reloadPlants(plant.gardenId);
+  }
+
+  @override
+  void updatePlant(Plant plant) async {
+    final plantCreate = api_model.PlantCreate(
+      name: plant.name,
+      factsheetId: plant.factsheetId,
+    );
+
+    await api.plantsIdPut(plant.id, plantCreate: plantCreate);
+    // await _reloadPlants(plant.gardenId);
+  }
 }

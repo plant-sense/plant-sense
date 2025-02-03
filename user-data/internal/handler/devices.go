@@ -42,3 +42,12 @@ func (h *handler) PatchGardensIdDevices(ctx context.Context, request api.PatchGa
 	}
 	return api.PatchGardensIdDevices200JSONResponse(convertDevices(devices_created)), nil
 }
+
+// DeleteGardensIdDevicesDeviceId implements api.StrictServerInterface.
+func (h *handler) DeleteGardensIdDevicesDeviceId(ctx context.Context, request api.DeleteGardensIdDevicesDeviceIdRequestObject) (api.DeleteGardensIdDevicesDeviceIdResponseObject, error) {
+	err := h.deviceService.DeleteDevice(request.Id, request.DeviceId)
+	if err != nil {
+		return api.DeleteGardensIdDevicesDeviceId500Response{}, err
+	}
+	return api.DeleteGardensIdDevicesDeviceId200Response{}, nil
+}

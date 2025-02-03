@@ -139,3 +139,18 @@ func (h *handler) PostSearch(ctx context.Context, request api.PostSearchRequestO
 
 	return api.PostSearch200JSONResponse(plantResponses), nil
 }
+
+// DeletePlantsId implements api.StrictServerInterface.
+func (h *handler) DeletePlantsId(ctx context.Context, request api.DeletePlantsIdRequestObject) (api.DeletePlantsIdResponseObject, error) {
+	panic("unimplemented")
+}
+
+// PostPlants implements api.StrictServerInterface.
+func (h *handler) PostPlants(ctx context.Context, request api.PostPlantsRequestObject) (api.PostPlantsResponseObject, error) {
+	panic("unimplemented")
+}
+
+// PutPlantsId implements api.StrictServerInterface.
+func (h *handler) PutPlantsId(ctx context.Context, request api.PutPlantsIdRequestObject) (api.PutPlantsIdResponseObject, error) {
+	panic("unimplemented")
+}

@@ -104,6 +104,7 @@ class _HistoryPageState extends State<HistoryPage> {
               SizedBox(height: 8),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Row(
                   children: [
                     Icon(Icons.update),

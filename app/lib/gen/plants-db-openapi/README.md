@@ -59,9 +59,12 @@ All URIs are relative to *http://localhost/plants-db*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**plantsGet**](doc//DefaultApi.md#plantsget) | **GET** /plants | 
+*DefaultApi* | [**plantsIdDelete**](doc//DefaultApi.md#plantsiddelete) | **DELETE** /plants/{id} | 
 *DefaultApi* | [**plantsIdGet**](doc//DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
+*DefaultApi* | [**plantsIdPut**](doc//DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 
 *DefaultApi* | [**plantsIdRequirementsGet**](doc//DefaultApi.md#plantsidrequirementsget) | **GET** /plants/{id}/requirements | 
 *DefaultApi* | [**plantsIdTaxonomyGet**](doc//DefaultApi.md#plantsidtaxonomyget) | **GET** /plants/{id}/taxonomy | 
+*DefaultApi* | [**plantsPost**](doc//DefaultApi.md#plantspost) | **POST** /plants | 
 *DefaultApi* | [**searchPost**](doc//DefaultApi.md#searchpost) | **POST** /search | 
 
 

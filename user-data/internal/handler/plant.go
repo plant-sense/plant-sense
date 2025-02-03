@@ -28,11 +28,11 @@ func (h *handler) PutPlantsId(ctx context.Context, request api.PutPlantsIdReques
 
 	plant.Name = request.Body.Name
 	plant.FactsheetID = request.Body.FactsheetId
-	plant.GardenID = request.Body.GardenId
+	// plant.GardenID = request.bo
 
 	updatedPlant, err := h.plantService.UpdatePlant(plant)
 	if err != nil {
-		return api.PutPlantsId500Response{}, nil
+		return api.PutPlantsId500Response{}, err
 	}
 
 	return api.PutPlantsId200JSONResponse{
@@ -41,4 +41,13 @@ func (h *handler) PutPlantsId(ctx context.Context, request api.PutPlantsIdReques
 		Id:          updatedPlant.ID,
 		Name:        updatedPlant.Name,
 	}, nil
+}
+
+func (h *handler) DeletePlantsId(ctx context.Context, request api.DeletePlantsIdRequestObject) (api.DeletePlantsIdResponseObject, error) {
+	err := h.plantService.DeletePlant(request.Id)
+	if err != nil {
+		return api.DeletePlantsId500Response{}, err
+	}
+
+	return api.DeletePlantsId200Response{}, nil
 }
