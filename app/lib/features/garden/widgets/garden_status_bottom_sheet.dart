@@ -96,9 +96,13 @@ class _GardenStatusBottomSheetState extends State<GardenStatusBottomSheet> {
                                   .any((deviceRef) => d.id == deviceRef.id))
                               .toList();
 
+                          final sensors_in_garden = devices_in_garden
+                              .where((d) => d.deviceType.isSensor)
+                              .toList();
+
                           return SingleChildScrollView(
                             child: GardenStatusBar(
-                              devices_in_garden: devices_in_garden,
+                              devices_in_garden: sensors_in_garden,
                             ),
                           );
                         default:

@@ -2,7 +2,7 @@ services:
   traefik: 
     image: traefik:v3.3.2
     depends_on:
-      - user-data
+      - user-data-store
     command:
       - "--log.level=INFO"
       - "--api.insecure=true"
@@ -69,7 +69,7 @@ services:
         - MONITORING_AGENT_GRPC_PORT=50052
     depends_on:
       - monitoring-agent
-      - user-data
+      - user-data-store
       - species-catalog
     labels:
       - "traefik.enable=true"
