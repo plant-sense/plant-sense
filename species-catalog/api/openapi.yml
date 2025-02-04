@@ -3,9 +3,9 @@ info:
   title: Plant facts service
   version: 0.1.0
 servers:
-  - url: /plants-db
+  - url: /species-catalog
 paths:
-  /plants:
+  /species:
     get:
       responses:
         "200":
@@ -18,22 +18,7 @@ paths:
                   $ref: "#/components/schemas/plant"
         "500":
           description: "Internal server error"
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/plant"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/plant"
-        "500":
-          description: "Internal server error"
-  /plants/{id}:
+  /species/{id}:
     parameters:
         - name: id
           in: path
@@ -54,34 +39,7 @@ paths:
           description: "Not found"
         "500":
           description: "Internal server error"
-    put: 
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/plant"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/plant"
-        "500":
-          description: "Internal server error"
-    delete:
-      responses:
-        "200":
-          description: "OK"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/factsheet"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal server error"
-  /plants/{id}/taxonomy:
+  /species/{id}/taxonomy:
     parameters:
       - name: id
         in: path
@@ -101,7 +59,7 @@ paths:
           description: "Not found"
         "500":
           description: "Internal server error"
-  /plants/{id}/requirements:
+  /species/{id}/requirements:
     parameters:
     - name: id
       in: path

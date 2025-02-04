@@ -19,7 +19,7 @@ class ApiGardenImagesProvider extends GardenImagesProvider {
     }
     List<Future<plantsDb.Factsheet?>> futures = [];
     for (var plant in plants) {
-      futures.add(plantsDbApi.plantsIdGet(plant.factsheetId));
+      futures.add(plantsDbApi.speciesIdGet(plant.factsheetId));
     }
     final results = await Future.wait(futures);
     return results

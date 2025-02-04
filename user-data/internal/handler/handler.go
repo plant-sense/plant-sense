@@ -18,7 +18,14 @@ type handler struct {
 
 // GetGardensId implements api.StrictServerInterface.
 func (h *handler) GetGardensId(ctx context.Context, request api.GetGardensIdRequestObject) (api.GetGardensIdResponseObject, error) {
-	panic("unimplemented")
+	garden, err := h.gardenService.GetGardenByID(request.Id)
+	if err != nil {
+		return api.GetGardensId500Response{}, err
+	}
+	return api.GetGardensId200JSONResponse{
+		Id:   garden.ID,
+		Name: garden.Name,
+	}, nil
 }
 
 func convertGardens(gardens_models []model.Garden) []api.Garden {

@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.monitoring-agent.entrypoints=grpcweb"
       - "traefik.http.middlewares.mar-grpcweb.grpcweb.allowOrigins=*"
       - "traefik.http.routers.monitoring-agent.middlewares=mar-grpcweb"
-  user-data:
+  user-data-store:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     volumes:
@@ -47,30 +47,30 @@ services:
       - "traefik.http.routers.user-data.rule=PathPrefix(`/user-data`)"
       - "traefik.http.services.user-data.loadbalancer.server.port=9090"
       - "traefik.http.routers.user-data.entrypoints=web"
-  plants-db:
+  species-catalog:
     image: cosmtrek/air:v1.61.1
     working_dir: /app
     volumes:
-      - ./plants-db/:/app/
+      - ./species-catalog/:/app/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.plants-db.rule=Host(`localhost`)"
-      - "traefik.http.routers.plants-db.rule=PathPrefix(`/plants-db`)"
-      - "traefik.http.services.plants-db.loadbalancer.server.port=8080"
-      - "traefik.http.routers.plants-db.entrypoints=web"
+      - "traefik.http.routers.species-catalog.rule=Host(`localhost`)"
+      - "traefik.http.routers.species-catalog.rule=PathPrefix(`/species-catalog`)"
+      - "traefik.http.services.species-catalog.loadbalancer.server.port=8080"
+      - "traefik.http.routers.species-catalog.entrypoints=web"
   app:
     build:
       context: ./app
       dockerfile: Dockerfile
       args:
-        - USER_DATA_API_BASE_PATH=/user-data
-        - PLANTS_DB_API_BASE_PATH=/plants-db
-        - DEVICE_GRPC_HOST=localhost
-        - DEVICE_GRPC_PORT=50052
+        - USER_DATA_STORE_BASE_PATH=/user-data
+        - SPECIES_CATALOG_BASE_PATH=/species-catalog
+        - MONITORING_AGENT_GRPC_HOST=localhost
+        - MONITORING_AGENT_GRPC_PORT=50052
     depends_on:
       - monitoring-agent
       - user-data
-      - plants-db
+      - species-catalog
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`localhost`)"

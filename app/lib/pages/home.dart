@@ -48,10 +48,6 @@ class _HomePageState extends State<HomePage> {
           //   onPressed: () => {},
           //   icon: Icon(Icons.notifications),
           // ),
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.settings),
-          ),
           SizedBox(width: 16),
         ],
       ),

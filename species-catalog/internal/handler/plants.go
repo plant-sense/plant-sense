@@ -6,11 +6,11 @@ import (
 	"github.com/plant-sense/plants-db/internal/api"
 )
 
-// GetPlants implements api.StrictServerInterface.
-func (h *handler) GetPlants(ctx context.Context, request api.GetPlantsRequestObject) (api.GetPlantsResponseObject, error) {
+// GetSpecies implements api.StrictServerInterface.
+func (h *handler) GetSpecies(ctx context.Context, request api.GetSpeciesRequestObject) (api.GetSpeciesResponseObject, error) {
 	plants, err := h.plantRepo.GetPlants()
 	if err != nil {
-		return api.GetPlants500Response{}, err
+		return api.GetSpecies500Response{}, err
 	}
 
 	plantResponses := make([]api.Plant, 0, len(plants))
@@ -24,20 +24,20 @@ func (h *handler) GetPlants(ctx context.Context, request api.GetPlantsRequestObj
 		})
 	}
 
-	return api.GetPlants200JSONResponse(plantResponses), nil
+	return api.GetSpecies200JSONResponse(plantResponses), nil
 }
 
-// GetPlantsId implements api.StrictServerInterface.
-func (h *handler) GetPlantsId(ctx context.Context, request api.GetPlantsIdRequestObject) (api.GetPlantsIdResponseObject, error) {
+// GetSpeciesId implements api.StrictServerInterface.
+func (h *handler) GetSpeciesId(ctx context.Context, request api.GetSpeciesIdRequestObject) (api.GetSpeciesIdResponseObject, error) {
 	plant, err := h.plantRepo.GetPlantByID(request.Id)
 	if err != nil {
-		return api.GetPlantsId500Response{}, err
+		return api.GetSpeciesId500Response{}, err
 	}
 	if plant.ID == [16]byte{} { // checking for zero UUID
-		return api.GetPlantsId404Response{}, nil
+		return api.GetSpeciesId404Response{}, nil
 	}
 
-	return api.GetPlantsId200JSONResponse{
+	return api.GetSpeciesId200JSONResponse{
 		Id: plant.ID,
 		Taxonomy: api.Taxonomy{
 			CommonName:     plant.CommonName,
@@ -66,17 +66,17 @@ func (h *handler) GetPlantsId(ctx context.Context, request api.GetPlantsIdReques
 	}, nil
 }
 
-// GetPlantsIdRequirements implements api.StrictServerInterface.
-func (h *handler) GetPlantsIdRequirements(ctx context.Context, request api.GetPlantsIdRequirementsRequestObject) (api.GetPlantsIdRequirementsResponseObject, error) {
+// GetSpeciesIdRequirements implements api.StrictServerInterface.
+func (h *handler) GetSpeciesIdRequirements(ctx context.Context, request api.GetSpeciesIdRequirementsRequestObject) (api.GetSpeciesIdRequirementsResponseObject, error) {
 	plant, err := h.plantRepo.GetPlantByID(request.Id)
 	if err != nil {
-		return api.GetPlantsIdRequirements500Response{}, err
+		return api.GetSpeciesIdRequirements500Response{}, err
 	}
 	if plant.ID == [16]byte{} {
-		return api.GetPlantsIdRequirements404Response{}, nil
+		return api.GetSpeciesIdRequirements404Response{}, nil
 	}
 
-	return api.GetPlantsIdRequirements200JSONResponse{
+	return api.GetSpeciesIdRequirements200JSONResponse{
 		Temperature: api.Requirement{
 			Max:  plant.Temperature.Max,
 			Min:  plant.Temperature.Min,
@@ -95,17 +95,17 @@ func (h *handler) GetPlantsIdRequirements(ctx context.Context, request api.GetPl
 	}, nil
 }
 
-// GetPlantsIdTaxonomy implements api.StrictServerInterface.
-func (h *handler) GetPlantsIdTaxonomy(ctx context.Context, request api.GetPlantsIdTaxonomyRequestObject) (api.GetPlantsIdTaxonomyResponseObject, error) {
+// GetSpeciesIdTaxonomy implements api.StrictServerInterface.
+func (h *handler) GetSpeciesIdTaxonomy(ctx context.Context, request api.GetSpeciesIdTaxonomyRequestObject) (api.GetSpeciesIdTaxonomyResponseObject, error) {
 	plant, err := h.plantRepo.GetPlantByID(request.Id)
 	if err != nil {
-		return api.GetPlantsIdTaxonomy500Response{}, err
+		return api.GetSpeciesIdTaxonomy500Response{}, err
 	}
 	if plant.ID == [16]byte{} {
-		return api.GetPlantsIdTaxonomy404Response{}, nil
+		return api.GetSpeciesIdTaxonomy404Response{}, nil
 	}
 
-	return api.GetPlantsIdTaxonomy200JSONResponse{
+	return api.GetSpeciesIdTaxonomy200JSONResponse{
 		CommonName:     plant.CommonName,
 		ScientificName: plant.ScientificName,
 	}, nil
@@ -138,19 +138,4 @@ func (h *handler) PostSearch(ctx context.Context, request api.PostSearchRequestO
 	}
 
 	return api.PostSearch200JSONResponse(plantResponses), nil
-}
-
-// DeletePlantsId implements api.StrictServerInterface.
-func (h *handler) DeletePlantsId(ctx context.Context, request api.DeletePlantsIdRequestObject) (api.DeletePlantsIdResponseObject, error) {
-	panic("unimplemented")
-}
-
-// PostPlants implements api.StrictServerInterface.
-func (h *handler) PostPlants(ctx context.Context, request api.PostPlantsRequestObject) (api.PostPlantsResponseObject, error) {
-	panic("unimplemented")
-}
-
-// PutPlantsId implements api.StrictServerInterface.
-func (h *handler) PutPlantsId(ctx context.Context, request api.PutPlantsIdRequestObject) (api.PutPlantsIdResponseObject, error) {
-	panic("unimplemented")
 }

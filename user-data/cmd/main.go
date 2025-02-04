@@ -61,23 +61,13 @@ func main() {
 
 	r := chi.NewRouter()
 
-	logger := httplog.NewLogger("httplog-example", httplog.Options{
-		// JSON:             true,
+	logger := httplog.NewLogger("logger", httplog.Options{
 		LogLevel:         slog.LevelDebug,
 		Concise:          true,
 		RequestHeaders:   true,
 		MessageFieldName: "message",
-		// TimeFieldFormat: time.RFC850,
-		Tags: map[string]string{
-			"version": "v1.0-81aa4244d9fc8076a",
-			"env":     "dev",
-		},
-		QuietDownRoutes: []string{
-			"/",
-			"/ping",
-		},
+
 		QuietDownPeriod: 10 * time.Second,
-		// SourceFieldName: "source",
 	})
 
 	r.Use(httplog.RequestLogger(logger))

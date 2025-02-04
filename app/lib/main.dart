@@ -1,4 +1,4 @@
-// Openapi Generator last run: : 2025-02-02T18:46:24.170993
+// Openapi Generator last run: : 2025-02-04T07:13:46.217024
 
 import 'package:app/apis.dart';
 import 'package:app/components/dialog_page.dart';
@@ -31,15 +31,16 @@ import 'package:openapi_generator_annotations/openapi_generator_annotations.dart
 import 'package:provider/provider.dart';
 
 const String userDataApiBasePath = String.fromEnvironment(
-    "USER_DATA_API_BASE_PATH",
+    "USER_DATA_STORE_BASE_PATH",
     defaultValue: "http://localhost:80/user-data");
 const String plantsDbApiBasePath = String.fromEnvironment(
-    "PLANTS_DB_API_BASE_PATH",
-    defaultValue: "http://localhost:80/plants-db");
-const String deviceGrpcHost =
-    String.fromEnvironment("DEVICE_GRPC_HOST", defaultValue: "localhost");
+    "SPECIES_CATALOG_BASE_PATH",
+    defaultValue: "http://localhost:80/species-catalog");
+const String deviceGrpcHost = String.fromEnvironment(
+    "MONITORING_AGENT_GRPC_HOST",
+    defaultValue: "localhost");
 const String deviceGrpcPort =
-    String.fromEnvironment("DEVICE_GRPC_PORT", defaultValue: "50052");
+    String.fromEnvironment("MONITORING_AGENT_GRPC_PORT", defaultValue: "50052");
 
 void main() {
   print("UserDataApiBasePath: $userDataApiBasePath");
@@ -236,7 +237,7 @@ class MyApp extends StatelessWidget {
 }
 
 @Openapi(
-  inputSpec: InputSpec(path: "../plants-db/api/openapi.yml"),
+  inputSpec: InputSpec(path: "../species-catalog/api/openapi.yml"),
   generatorName: Generator.dart,
   outputDirectory: "lib/gen/plants-db-openapi",
 )

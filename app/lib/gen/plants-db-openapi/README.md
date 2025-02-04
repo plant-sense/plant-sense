@@ -42,30 +42,28 @@ import 'package:openapi/api.dart';
 
 
 final api_instance = DefaultApi();
+final searchRequest = SearchRequest(); // SearchRequest | 
 
 try {
-    final result = api_instance.plantsGet();
+    final result = api_instance.searchPost(searchRequest);
     print(result);
 } catch (e) {
-    print('Exception when calling DefaultApi->plantsGet: $e\n');
+    print('Exception when calling DefaultApi->searchPost: $e\n');
 }
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost/plants-db*
+All URIs are relative to *http://localhost/species-db*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**plantsGet**](doc//DefaultApi.md#plantsget) | **GET** /plants | 
-*DefaultApi* | [**plantsIdDelete**](doc//DefaultApi.md#plantsiddelete) | **DELETE** /plants/{id} | 
-*DefaultApi* | [**plantsIdGet**](doc//DefaultApi.md#plantsidget) | **GET** /plants/{id} | 
-*DefaultApi* | [**plantsIdPut**](doc//DefaultApi.md#plantsidput) | **PUT** /plants/{id} | 
-*DefaultApi* | [**plantsIdRequirementsGet**](doc//DefaultApi.md#plantsidrequirementsget) | **GET** /plants/{id}/requirements | 
-*DefaultApi* | [**plantsIdTaxonomyGet**](doc//DefaultApi.md#plantsidtaxonomyget) | **GET** /plants/{id}/taxonomy | 
-*DefaultApi* | [**plantsPost**](doc//DefaultApi.md#plantspost) | **POST** /plants | 
 *DefaultApi* | [**searchPost**](doc//DefaultApi.md#searchpost) | **POST** /search | 
+*DefaultApi* | [**speciesGet**](doc//DefaultApi.md#speciesget) | **GET** /species | 
+*DefaultApi* | [**speciesIdGet**](doc//DefaultApi.md#speciesidget) | **GET** /species/{id} | 
+*DefaultApi* | [**speciesIdRequirementsGet**](doc//DefaultApi.md#speciesidrequirementsget) | **GET** /species/{id}/requirements | 
+*DefaultApi* | [**speciesIdTaxonomyGet**](doc//DefaultApi.md#speciesidtaxonomyget) | **GET** /species/{id}/taxonomy | 
 
 
 ## Documentation For Models

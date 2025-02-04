@@ -84,31 +84,12 @@ def get_plant_image_data(scientific_name: str) -> Tuple[str, Optional[Dict]]:
             if 'CC-BY-SA' in license_name or 'CC BY-SA' in license_name:
                 continue
             
-            # Get author information
-            author = metadata.get('Artist', {}).get('value', 'Unknown')
-            
-            # Clean up author field
-            if '<' in author:
-                # Try to extract user name from links like <a href="//commons.wikimedia.org/wiki/User:Username">Username</a>
-                user_match = re.search(r'User:([^"]+)"', author)
-                if user_match:
-                    author = user_match.group(1)
-                else:
-                    # Try to extract text between > and < for other HTML formats
-                    text_match = re.search(r'>([^<]+)<', author)
-                    if text_match:
-                        author = text_match.group(1)
-                    else:
-                        author = 'Unknown'
-            
-            # Remove any remaining extra characters and whitespace
-            author = re.sub(r'&[a-zA-Z0-9#]+;', '', author).strip()
             
             image_page_url = f"https://commons.wikimedia.org/wiki/{quote(title)}"
             
             return scientific_name, {
                 'license': license_name,
-                'author': author,
+                'author': '', # not needed for CC-0 or PD
                 'image_url': image_info['url'],
                 'wikimedia_page': image_page_url
             }

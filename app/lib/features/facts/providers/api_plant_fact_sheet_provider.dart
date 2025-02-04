@@ -40,7 +40,7 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
   }
 
   Future<PlantFactSheet?> getFactSheetById(String id) async {
-    final apiFactsheet = await api.plantsIdGet(id);
+    final apiFactsheet = await api.speciesIdGet(id);
     if (apiFactsheet == null) {
       return null;
     }
@@ -52,7 +52,7 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
 
   @override
   Future<List<Species>> get species async {
-    var apiPlants = await api.plantsGet();
+    var apiPlants = await api.speciesGet();
 
     return apiPlants!
         .map(

@@ -58,7 +58,7 @@ func main() {
 	seed.SeedPlantImages("./datasets/plant_images_manual_overrides.csv", db)
 
 	sh := api.NewStrictHandler(handler, nil)
-	r.Mount("/plants-db", api.Handler(sh))
+	r.Mount("/species-catalog", api.Handler(sh))
 
 	log.Info().Msg("Starting server on :8080")
 	server := &http.Server{

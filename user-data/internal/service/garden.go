@@ -8,6 +8,7 @@ import (
 )
 
 type GardenService interface {
+	GetGardenByID(id uuid.UUID) (model.Garden, error)
 	GetGardens() []model.Garden
 	CreateGarden(name string) (model.Garden, error)
 	UpdateGarden(garden model.Garden) (model.Garden, error)
@@ -41,6 +42,14 @@ func (s *gardenService) schemasToModels(gardens []schema.Garden) []model.Garden 
 		result = append(result, s.schemaToModel(garden))
 	}
 	return result
+}
+
+func (s *gardenService) GetGardenByID(id uuid.UUID) (model.Garden, error) {
+	garden, err := s.gardenRepo.GetGardenByID(id)
+	if err != nil {
+		return model.Garden{}, err
+	}
+	return s.schemaToModel(garden), nil
 }
 
 func (s *gardenService) GetGardens() []model.Garden {
