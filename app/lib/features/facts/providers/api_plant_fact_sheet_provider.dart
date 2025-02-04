@@ -4,11 +4,6 @@ import '../models/plant_fact_sheet.dart';
 import '../providers/plant_fact_sheet_provider.dart';
 
 class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
-  // static final ApiPlantFactSheetProvider _instance =
-  //     ApiPlantFactSheetProvider._internal();
-  // factory ApiPlantFactSheetProvider() => _instance;
-  // ApiPlantFactSheetProvider._internal();
-
   final PlantsDBApi api;
 
   ApiPlantFactSheetProvider({required this.api});
@@ -43,44 +38,6 @@ class ApiPlantFactSheetProvider extends PlantFactSheetProvider {
       imageUrl: apiFactsheet.assets.defaultImageUrl,
     );
   }
-
-  Future<void> _fetchFactSheetById(String id) async {
-    if (_factSheetsById.containsKey(id)) return;
-
-    final apiFactsheet = await api.plantsIdGet(id);
-    if (apiFactsheet == null) return;
-
-    final factSheet = _mapApiFactsheet(apiFactsheet);
-    _factSheetsById[id] = factSheet;
-    notifyListeners();
-  }
-
-  // Future<void> _fetchAllFactSheets() async {
-  //   if (_allFactSheets != null) return;
-
-  //   final apiPlants = await api.plantsGet();
-  //   if (apiPlants == null) return;
-
-  //   final factSheets = <PlantFactSheet>[];
-  //   for (final plant in apiPlants) {
-  //     if (plant.id != null) {
-  //       final factsheet = await api.plantsIdGet(plant.id);
-  //       if (factsheet != null) {
-  //         final mappedFactsheet = _mapApiFactsheet(factsheet);
-  //         factSheets.add(mappedFactsheet);
-  //         _factSheetsById[mappedFactsheet.id] = mappedFactsheet;
-  //       }
-  //     }
-  //   }
-
-  //   _allFactSheets = factSheets;
-  //   notifyListeners();
-  // }
-
-  // List<PlantFactSheet> get factSheets {
-  //   _fetchAllFactSheets();
-  //   return List.unmodifiable(_allFactSheets ?? []);
-  // }
 
   Future<PlantFactSheet?> getFactSheetById(String id) async {
     final apiFactsheet = await api.plantsIdGet(id);

@@ -9,22 +9,27 @@ class AllDevices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var devicesFuture = context.read<DeviceProvider>().getDevices();
-    return BreakpointContainer(
-      child: FutureBuilder(
-          future: devicesFuture,
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(child: CircularProgressIndicator());
-              default:
-                if (snapshot.hasError) {
-                  return const Center(child: Text('An error occurred'));
-                } else {
-                  final devices = snapshot.data as List<Device>;
-                  return _buildLoaded(context, devices);
-                }
-            }
-          }),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('All Devices'),
+      ),
+      body: BreakpointContainer(
+        child: FutureBuilder(
+            future: devicesFuture,
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const Center(child: CircularProgressIndicator());
+                default:
+                  if (snapshot.hasError) {
+                    return const Center(child: Text('An error occurred'));
+                  } else {
+                    final devices = snapshot.data as List<Device>;
+                    return _buildLoaded(context, devices);
+                  }
+              }
+            }),
+      ),
     );
   }
 

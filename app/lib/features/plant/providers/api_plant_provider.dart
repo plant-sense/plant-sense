@@ -96,6 +96,7 @@ class ApiPlantProvider extends PlantProvider {
     );
 
     await api.plantsIdPut(plant.id, plantCreate: plantCreate);
-    // await _reloadPlants(plant.gardenId);
+    await _reloadPlants(plant.gardenId);
+    // notifyListeners();
   }
 }
