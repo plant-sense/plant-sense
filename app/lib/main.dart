@@ -4,6 +4,8 @@ import 'package:app/apis.dart';
 import 'package:app/components/dialog_page.dart';
 import 'package:app/features/actuators/providers/actuator_provider.dart';
 import 'package:app/features/actuators/providers/grpc_actuator_provider.dart';
+import 'package:app/features/alerts/providers/alert_provider.dart';
+import 'package:app/features/alerts/providers/api_alert_provider.dart';
 import 'package:app/features/devices/providers/device_provider.dart';
 import 'package:app/features/devices/providers/grpc_device_provider.dart';
 import 'package:app/features/devices/screens/all_devices.dart';
@@ -50,6 +52,9 @@ void main() {
 
   var userDataApi = UserDataApi.withBasePath(basePath: userDataApiBasePath);
   var plantDbApi = PlantsDBApi.withBasePath(basePath: plantsDbApiBasePath);
+  var factsheetProvider = ApiPlantFactSheetProvider(
+    api: plantDbApi,
+  );
 
   runApp(
     MultiProvider(
@@ -65,9 +70,7 @@ void main() {
           ),
         ),
         ChangeNotifierProvider<PlantFactSheetProvider>(
-          create: (_) => ApiPlantFactSheetProvider(
-            api: plantDbApi,
-          ),
+          create: (_) => factsheetProvider,
         ),
         ChangeNotifierProvider<DeviceProvider>(
           create: (_) => GrpcDeviceProvider(
@@ -85,6 +88,13 @@ void main() {
           create: (_) => GrpcActuatorProvider(
             host: deviceGrpcHost,
             port: int.parse(deviceGrpcPort),
+          ),
+        ),
+        ChangeNotifierProvider<AlertProvider>(
+          create: (_) => ApiAlertProvider(
+            plantFactSheetProvider: factsheetProvider,
+            grpc_host: deviceGrpcHost,
+            grpc_port: int.parse(deviceGrpcPort),
           ),
         ),
       ],

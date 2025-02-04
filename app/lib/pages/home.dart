@@ -42,12 +42,12 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () => context.go("/devices"),
-            icon: Icon(Icons.hub_outlined),
+            icon: Icon(Icons.sensors_rounded),
           ),
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.notifications),
-          ),
+          // IconButton(
+          //   onPressed: () => {},
+          //   icon: Icon(Icons.notifications),
+          // ),
           IconButton(
             onPressed: () => {},
             icon: Icon(Icons.settings),

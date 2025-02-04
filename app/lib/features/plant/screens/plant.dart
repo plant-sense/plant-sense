@@ -200,34 +200,6 @@ class PlantPage extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
-                          // FilledButton.tonalIcon(
-                          //   icon: Icon(Icons.line_axis_rounded),
-                          //   onPressed: () {
-                          //     showDialog<void>(
-                          //       context: context,
-                          //       builder: (context) {
-                          //         return HistoryPage(
-                          //           devices: devices_in_garden,
-                          //         );
-                          //       },
-                          //     );
-                          //   },
-                          //   label: Text(
-                          //     "History",
-                          //     style: TextStyle(fontWeight: FontWeight.bold),
-                          //   ),
-                          // ),
-                          // SizedBox(width: 5),
-                          // FilledButton.tonalIcon(
-                          //   icon: Icon(Icons.notifications_active_outlined),
-                          //   onPressed: () {
-                          //     // TODO
-                          //   },
-                          //   label: Text(
-                          //     "Alerts",
-                          //     style: TextStyle(fontWeight: FontWeight.bold),
-                          //   ),
-                          // )
                         ],
                       ),
                     ],
@@ -240,38 +212,6 @@ class PlantPage extends StatelessWidget {
           ),
         ),
       ),
-      // body: Column(
-      //   children: [
-      //     SingleChildScrollView(
-      //       scrollDirection: Axis.horizontal,
-      //       child: Row(
-      //         children: [
-      //           Container(
-      //             width: 400,
-      //             height: 100,
-      //             color: Colors.red,
-      //             child: Text('Item 1'),
-      //           ),
-      //           Container(
-      //             width: 400,
-      //             height: 100,
-      //             color: Colors.blue,
-      //             child: Text('Item 2'),
-      //           ),
-      //           Container(
-      //             width: 400,
-      //             height: 100,
-      //             color: Colors.green,
-      //             child: Text('Item 3'),
-      //           ),
-      //           // Add more widgets as needed
-      //         ],
-      //       ),
-      //     ),
-      //     SizedBox(height: 10),
-      //     Container(height: 100, color: Colors.amber)
-      //   ],
-      // ),
     );
   }
 }

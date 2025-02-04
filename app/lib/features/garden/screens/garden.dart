@@ -7,13 +7,9 @@ import 'package:app/features/garden/screens/alerts_tab.dart';
 import 'package:app/features/garden/screens/devices_tab.dart';
 import 'package:app/features/garden/screens/plants_tab.dart';
 import 'package:app/features/garden/widgets/garden_page_header.dart';
-import 'package:app/components/title.dart';
-import 'package:app/features/garden/widgets/garden_status_bar.dart';
 import 'package:app/features/garden/widgets/garden_status_bottom_sheet.dart';
-import 'package:app/features/plant/widgets/plant_card_grid.dart';
 import 'package:app/layout/breakpoint_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +39,6 @@ class _GardenPageState extends State<GardenPage> with TickerProviderStateMixin {
     final gardenDeviceReferences =
         context.watch<GardenProvider>().getDevicesByGardenId(widget.id);
     final devicesFuture = context.watch<DeviceProvider>().getDevices();
-    // Future.delayed(Duration.zero, () => List<Device>.empty());
     futures = Future.wait([garden, gardenDeviceReferences, devicesFuture]);
   }
 
@@ -149,6 +144,15 @@ class _GardenPageState extends State<GardenPage> with TickerProviderStateMixin {
               ),
               actions: [
                 IconButton.filled(
+                  onPressed: () => context.go("/gardens/${garden.id}/edit"),
+                  icon: Icon(Icons.edit_rounded),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    elevation: 2.0,
+                  ),
+                ),
+                SizedBox(width: 8),
+                IconButton.filled(
                   onPressed: () {
                     ConfirmDeleteDialog.show(context, "garden ${garden.name}",
                         () {
@@ -157,15 +161,6 @@ class _GardenPageState extends State<GardenPage> with TickerProviderStateMixin {
                     });
                   },
                   icon: Icon(Icons.delete_rounded),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    elevation: 2.0,
-                  ),
-                ),
-                SizedBox(width: 8),
-                IconButton.filled(
-                  onPressed: () => context.go("/gardens/${garden.id}/edit"),
-                  icon: Icon(Icons.edit_rounded),
                   style: IconButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.surface,
                     elevation: 2.0,
@@ -190,16 +185,6 @@ class _GardenPageState extends State<GardenPage> with TickerProviderStateMixin {
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
                   ),
-                  // sliverFillRemaining
-                  // SliverAlignedGrid.count(
-                  //   itemBuilder: (context, i) => Container(
-                  //     color: Colors.red[100 * ((i % 9) + 1)],
-                  //     height: 200,
-                  //     child: Center(child: Text(i.toString())),
-                  //   ),
-                  //   crossAxisCount: 4,
-                  //   itemCount: 20,
-                  // ),
                   SliverFillRemaining(
                     child: child,
                   ),
